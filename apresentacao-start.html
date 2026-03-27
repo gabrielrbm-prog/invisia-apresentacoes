@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvisIA START — Apresentação</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & ROOT ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --preto: #0a0a0a;
+  --roxo-deep: #1E1B4B;
+  --roxo: #7C3AED;
+  --roxo-dark: #6D28D9;
+  --lilas: #C4B5FD;
+  --lilas-light: #EDE9FE;
+  --off-white: #F8F7FF;
+  --gray: #94A3B8;
+  --gray-dark: #334155;
+  --green: #059669;
+  --teal: #0D9488;
+  --blue: #3B82F6;
+}
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--preto); color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; }
+
+/* PROGRESS */
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; z-index: 200; background: linear-gradient(90deg, var(--roxo-dark), var(--roxo), var(--lilas)); transition: width 0.5s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 0 12px rgba(124,58,237,0.8), 0 0 24px rgba(196,181,253,0.4); width: 6.25%; }
+
+/* HEADER */
+#header { position: fixed; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; z-index: 150; pointer-events: none; }
+#header-logo { display: flex; align-items: center; gap: 10px; opacity: 0.7; }
+#header-logo img { width: 32px; height: 32px; object-fit: contain; }
+#confidential { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.18); font-family: 'Inter', sans-serif; font-weight: 500; }
+
+/* SLIDES */
+#slides-wrapper { position: relative; width: 100vw; height: 100vh; perspective: 1400px; }
+.slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 100px 90px; opacity: 0; pointer-events: none; transform: translateX(80px) rotateY(10deg) scale(0.96); transform-origin: center center; transform-style: preserve-3d; transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1), filter 0.65s cubic-bezier(0.4,0,0.2,1); will-change: transform, opacity, filter; overflow: hidden; }
+.slide.active { opacity: 1; pointer-events: all; transform: translateX(0) rotateY(0) scale(1); }
+.slide.exit-left { opacity: 0; transform: translateX(-80px) rotateY(-10deg) scale(0.96); pointer-events: none; }
+
+/* NAV */
+#nav { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; z-index: 200; background: rgba(10,10,10,0.8); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); padding: 10px 20px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.1); }
+.nav-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(255,255,255,0.08); color: #fff; font-size: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.nav-btn:hover { background: var(--roxo); box-shadow: 0 0 16px rgba(124,58,237,0.6); }
+#nav-counter { font-size: 13px; color: var(--gray); min-width: 48px; text-align: center; font-family: 'Inter', sans-serif; font-weight: 500; }
+#nav-dots { display: flex; align-items: center; gap: 5px; }
+.nav-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; border: none; }
+.nav-dot.active { background: var(--lilas); box-shadow: 0 0 8px rgba(196,181,253,0.8); transform: scale(1.5); }
+.nav-dot:hover:not(.active) { background: rgba(196,181,253,0.4); }
+
+/* NEURAL BG */
+.neural-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.neural-bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* MESH BG fallback */
+.mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(109,40,217,0.38) 0%, transparent 70%), radial-gradient(ellipse 50% 55% at 80% 70%, rgba(124,58,237,0.22) 0%, transparent 65%), radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.7) 0%, transparent 80%), var(--preto); animation: meshMove 14s ease-in-out infinite alternate; }
+@keyframes meshMove { 0% { background-position: 20% 30%, 80% 70%, 50% 50%; } 33% { background-position: 35% 20%, 65% 80%, 55% 45%; } 66% { background-position: 60% 40%, 30% 55%, 45% 55%; } 100% { background-position: 25% 65%, 75% 30%, 50% 30%; } }
+
+/* AMBIENT PARTICLES */
+#ambient-particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.amb-p { position: absolute; border-radius: 50%; will-change: transform; }
+
+/* PARTICLE GRID */
+.particle-grid { position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: radial-gradient(circle, rgba(124,58,237,0.18) 1px, transparent 1px); background-size: 52px 52px; animation: gridFloat 22s linear infinite; }
+@keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(52px); } }
+
+/* ORB */
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; animation: orbPulse 5s ease-in-out infinite; will-change: transform, opacity; }
+@keyframes orbPulse { 0%, 100% { opacity: 0.22; transform: scale(1); } 50% { opacity: 0.42; transform: scale(1.1); } }
+
+/* TAG */
+.tag { display: inline-flex; align-items: center; padding: 7px 20px; border-radius: 100px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--lilas); font-weight: 600; font-family: 'Inter', sans-serif; border: 1px solid rgba(196,181,253,0.25); background: rgba(124,58,237,0.1); margin-bottom: 22px; }
+
+/* CHROME TEXT */
+.chrome-text { font-family: 'Inter', sans-serif; font-weight: 900; background: linear-gradient(175deg, #ffffff 0%, #e8d5ff 15%, #C4B5FD 30%, #7C3AED 50%, #4c1d95 65%, #C4B5FD 82%, #ffffff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 20px rgba(124,58,237,0.55)) drop-shadow(0 0 40px rgba(124,58,237,0.25)); }
+
+/* ===== HOLOGRAPHIC CARDS ===== */
+.holo-card { position: relative; background: rgba(255,255,255,0.04); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; overflow: hidden; transform-style: preserve-3d; will-change: transform; cursor: default; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
+.holo-card::before { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit; background: linear-gradient(115deg, transparent 0%, rgba(124,58,237,0.08) 20%, rgba(196,181,253,0.15) 35%, rgba(167,139,250,0.1) 50%, rgba(124,58,237,0.08) 65%, transparent 100%); background-size: 300% 300%; background-position: var(--holo-x, 50%) var(--holo-y, 50%); pointer-events: none; mix-blend-mode: overlay; transition: background-position 0.08s ease; }
+.holo-card::after { content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(124,58,237,0.025) 3px, rgba(124,58,237,0.025) 4px); pointer-events: none; animation: scanMove 10s linear infinite; }
+@keyframes scanMove { from { background-position: 0 0; } to { background-position: 0 200px; } }
+.holo-shine { position: absolute; inset: 0; z-index: 3; border-radius: inherit; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.06) 46%, rgba(196,181,253,0.18) 50%, rgba(255,255,255,0.06) 54%, transparent 70%); background-size: 300% 100%; background-position: 200% 0; transition: background-position 0.7s ease; pointer-events: none; }
+.holo-card:hover .holo-shine { background-position: -100% 0; }
+.holo-edge-right { position: absolute; top: 6px; right: -4px; bottom: 6px; width: 4px; border-radius: 0 3px 3px 0; background: linear-gradient(90deg, rgba(124,58,237,0.35), rgba(124,58,237,0.06)); pointer-events: none; z-index: 0; }
+.holo-edge-bottom { position: absolute; bottom: -4px; left: 6px; right: 6px; height: 4px; border-radius: 0 0 3px 3px; background: linear-gradient(180deg, rgba(124,58,237,0.35), rgba(124,58,237,0.06)); pointer-events: none; z-index: 0; }
+.holo-card:hover { border-color: rgba(124,58,237,0.45); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.25), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 50px rgba(124,58,237,0.1); }
+
+/* GLASS CARD (legacy / simple) */
+.glass-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); transform-style: preserve-3d; will-change: transform; }
+.glass-card:hover { border-color: rgba(124,58,237,0.35); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.1); }
+
+@keyframes neonPulse { 0%,100% { text-shadow: 0 0 20px rgba(196,181,253,0.6), 0 0 40px rgba(124,58,237,0.4); } 50% { text-shadow: 0 0 30px rgba(196,181,253,1), 0 0 60px rgba(124,58,237,0.7), 0 0 100px rgba(124,58,237,0.3); } }
+
+/* GLOW RING */
+.glow-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(124,58,237,0.3); box-shadow: 0 0 30px rgba(124,58,237,0.25), inset 0 0 30px rgba(124,58,237,0.08); pointer-events: none; animation: ringPulse 3.5s ease-in-out infinite; }
+@keyframes ringPulse { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; } 50% { transform: translate(-50%,-50%) scale(1.04); opacity: 0.9; } }
+
+/* TYPOGRAPHY */
+h1 { font-family: 'Inter', sans-serif; font-size: 58px; font-weight: 800; line-height: 1.1; }
+h2 { font-family: 'Inter', sans-serif; font-size: 44px; font-weight: 700; line-height: 1.2; }
+h3 { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 600; line-height: 1.3; }
+.subtitle { font-size: 22px; color: var(--lilas); font-weight: 300; }
+.body-text { font-size: 18px; color: var(--gray); line-height: 1.7; max-width: 800px; text-align: center; }
+
+/* CARD GRID */
+.card-grid { display: grid; gap: 18px; width: 100%; }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.card-inner { padding: 26px 28px; position: relative; z-index: 4; }
+.card-icon { width: 44px; height: 44px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.2); box-shadow: 0 0 20px rgba(124,58,237,0.15); }
+.card-icon svg { width: 22px; height: 22px; stroke: var(--lilas); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.step-card .card-icon { margin: 0 auto 14px; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); box-shadow: 0 0 20px rgba(255,255,255,0.08); }
+.step-card .card-icon svg { stroke: #fff; }
+.card-title { font-family: 'Inter', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 7px; }
+.card-body { font-size: 14px; color: var(--gray); line-height: 1.55; }
+
+/* TABLE */
+.tbl-wrap { width: 100%; max-width: 900px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); }
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { background: rgba(124,58,237,0.2); padding: 14px 22px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lilas); font-family: 'Inter', sans-serif; border-bottom: 1px solid rgba(124,58,237,0.3); }
+.tbl td { padding: 14px 22px; font-size: 15px; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+.tbl .total-row td { color: #fff; font-weight: 700; font-size: 16px; background: rgba(124,58,237,0.12); border-top: 1px solid rgba(124,58,237,0.3); }
+.tbl .total-row td:last-child { color: var(--lilas); font-size: 20px; }
+
+/* TIMELINE */
+.timeline { width: 100%; max-width: 820px; position: relative; z-index: 1; }
+.tl-line { position: absolute; left: 79px; top: 18px; bottom: 18px; width: 2px; background: linear-gradient(180deg, transparent, rgba(124,58,237,0.5) 10%, rgba(124,58,237,0.5) 90%, transparent); }
+.tl-item { display: flex; gap: 0; margin-bottom: 10px; align-items: flex-start; }
+.tl-time { width: 64px; text-align: right; font-size: 13px; color: var(--gray); padding-top: 13px; flex-shrink: 0; font-family: 'Inter', sans-serif; }
+.tl-time .dur { font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 2px; }
+.tl-dot-wrap { width: 30px; flex-shrink: 0; display: flex; justify-content: center; padding-top: 14px; }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--roxo); flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.8); }
+.tl-dot.green { background: var(--green); box-shadow: 0 0 12px rgba(5,150,105,0.8); }
+.tl-content { flex: 1; padding: 10px 16px; background: rgba(124,58,237,0.08); border-radius: 10px; border-left: 2px solid rgba(124,58,237,0.35); margin-left: 10px; }
+.tl-content.green-accent { background: rgba(5,150,105,0.1); border-left-color: var(--green); }
+.tl-content h5 { font-size: 16px; font-weight: 700; font-family: 'Inter', sans-serif; }
+.tl-content p { font-size: 13px; color: var(--gray); margin-top: 2px; }
+
+/* QUOTE */
+.quote-mark { font-size: 100px; line-height: 0.4; color: rgba(124,58,237,0.45); font-family: Georgia, serif; margin-bottom: 24px; display: block; }
+.quote { font-size: 30px; font-weight: 300; font-style: italic; line-height: 1.65; max-width: 820px; text-align: center; color: var(--lilas-light); }
+.quote-author { margin-top: 28px; font-size: 16px; color: var(--roxo); font-weight: 600; font-style: normal; font-family: 'Inter', sans-serif; letter-spacing: 0.5px; }
+
+/* CHECKLIST */
+.check-list { text-align: left; max-width: 660px; width: 100%; }
+.check-item { display: flex; align-items: center; gap: 16px; padding: 12px 16px; font-size: 16px; border-radius: 10px; margin-bottom: 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); opacity: 0; transform: translateX(-20px); transition: opacity 0.4s ease, transform 0.4s ease; }
+.check-item.revealed { opacity: 1; transform: translateX(0); }
+.check-num { width: 28px; height: 28px; border-radius: 50%; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.4); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--lilas); flex-shrink: 0; font-family: 'Inter', sans-serif; }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.12s; }
+.reveal-d2 { transition-delay: 0.26s; }
+.reveal-d3 { transition-delay: 0.40s; }
+.reveal-d4 { transition-delay: 0.54s; }
+.reveal-d5 { transition-delay: 0.68s; }
+
+/* FLOAT ORB */
+.float-orb { position: absolute; border-radius: 50%; pointer-events: none; animation: floatOrb 7s ease-in-out infinite; will-change: transform; }
+@keyframes floatOrb { 0%,100% { transform: translateY(0) scale(1); } 40% { transform: translateY(-22px) scale(1.05); } 70% { transform: translateY(12px) scale(0.97); } }
+
+/* OMNIS CHROME */
+.omnis-chrome { font-family: 'Inter', sans-serif; font-size: 110px; font-weight: 900; letter-spacing: -2px; line-height: 1; background: linear-gradient(168deg, #fff 0%, #e8d5ff 18%, #C4B5FD 30%, #7C3AED 52%, #4c1d95 70%, #C4B5FD 88%, #fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 30px rgba(124,58,237,0.65)) drop-shadow(0 0 70px rgba(124,58,237,0.3)); position: relative; z-index: 1; }
+
+/* BIG COUNTER */
+.big-counter { font-family: 'Inter', sans-serif; font-size: 160px; font-weight: 900; line-height: 1; background: linear-gradient(155deg, #fff 0%, var(--lilas) 28%, var(--roxo) 58%, #4c1d95 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 30px rgba(124,58,237,0.5)) drop-shadow(0 4px 16px rgba(0,0,0,0.5)); }
+
+/* MOCKUP */
+.mockup-bg { position: absolute; inset: 0; z-index: 0; background-image: url('mockup2.jpeg'); background-size: cover; background-position: center; }
+.mockup-overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(5,0,20,0.65) 0%, rgba(5,0,20,0.78) 100%); }
+
+/* PILLAR */
+.pillar-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 26px 24px; border-left-width: 3px; border-left-style: solid; transition: all 0.3s ease; transform-style: preserve-3d; }
+.pillar-card:hover { transform: translateY(-5px) rotateX(3deg); box-shadow: 0 20px 50px rgba(0,0,0,0.35); }
+
+/* STEP CARD */
+.step-card { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15); border-radius: 18px; padding: 28px 22px; text-align: center; }
+.step-num { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; margin: 0 auto 12px; font-family: 'Inter', sans-serif; }
+
+/* SYMBOL GHOST */
+.symbol-ghost { position: absolute; width: 580px; height: 580px; opacity: 0.04; pointer-events: none; z-index: 0; animation: ghostSpin 35s linear infinite; filter: invert(1); }
+@keyframes ghostSpin { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.06); } to { transform: rotate(360deg) scale(1); } }
+
+/* ===================================================================
+   INVISIA 3D ANIMATED SYMBOL
+   =================================================================== */
+.invisia-symbol-wrap { width: 280px; height: 280px; perspective: 900px; flex-shrink: 0; cursor: pointer; }
+.invisia-symbol { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: rotateX(20deg) rotateZ(0deg); animation: symbolSpin 20s linear infinite; will-change: transform; }
+@keyframes symbolSpin { from { transform: rotateX(20deg) rotateZ(0deg); } to { transform: rotateX(20deg) rotateZ(360deg); } }
+.invisia-symbol-wrap:hover .invisia-symbol { animation: symbolSpinFast 6s linear infinite; }
+@keyframes symbolSpinFast { from { transform: rotateX(20deg) rotateZ(0deg); } to { transform: rotateX(20deg) rotateZ(360deg); } }
+
+/* Center void */
+.symbol-void { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle at center, rgba(0,0,0,1) 0%, rgba(20,0,50,0.98) 28%, rgba(109,40,217,0.7) 55%, rgba(124,58,237,0.35) 72%, transparent 100%); box-shadow: 0 0 24px rgba(109,40,217,0.9), 0 0 50px rgba(109,40,217,0.5), 0 0 100px rgba(109,40,217,0.25), inset 0 0 30px rgba(0,0,0,1); animation: voidPulse 3s ease-in-out infinite; z-index: 10; }
+@keyframes voidPulse { 0%,100% { box-shadow: 0 0 24px rgba(109,40,217,0.9), 0 0 50px rgba(109,40,217,0.5), 0 0 100px rgba(109,40,217,0.25), inset 0 0 30px rgba(0,0,0,1); transform: translate(-50%,-50%) scale(1); } 50% { box-shadow: 0 0 36px rgba(124,58,237,1), 0 0 72px rgba(124,58,237,0.7), 0 0 140px rgba(109,40,217,0.4), inset 0 0 30px rgba(0,0,0,1); transform: translate(-50%,-50%) scale(1.1); } }
+
+/* V arms */
+.v-arm { position: absolute; top: 50%; left: 50%; width: 38px; height: 30px; transform-origin: center center; will-change: transform; }
+.v-shape { width: 100%; height: 100%; background: linear-gradient(160deg, rgba(255,255,255,0.95) 0%, rgba(220,200,255,0.9) 15%, rgba(196,181,253,0.88) 28%, rgba(124,58,237,0.9) 45%, rgba(79,30,180,0.92) 60%, rgba(124,58,237,0.85) 74%, rgba(196,181,253,0.88) 88%, rgba(255,255,255,0.75) 100%); clip-path: polygon(50% 100%, 0% 0%, 16% 0%, 50% 66%, 84% 0%, 100% 0%); filter: drop-shadow(0 0 7px rgba(124,58,237,0.85)) drop-shadow(0 2px 5px rgba(0,0,0,0.6)); animation: vPulse 3s ease-in-out infinite; }
+.v-arm:nth-child(2)  .v-shape { animation-delay: 0.25s; }
+.v-arm:nth-child(3)  .v-shape { animation-delay: 0.5s; }
+.v-arm:nth-child(4)  .v-shape { animation-delay: 0.75s; }
+.v-arm:nth-child(5)  .v-shape { animation-delay: 1s; }
+.v-arm:nth-child(6)  .v-shape { animation-delay: 1.25s; }
+.v-arm:nth-child(7)  .v-shape { animation-delay: 1.5s; }
+.v-arm:nth-child(8)  .v-shape { animation-delay: 1.75s; }
+.v-arm:nth-child(9)  .v-shape { animation-delay: 2s; }
+.v-arm:nth-child(10) .v-shape { animation-delay: 2.25s; }
+.v-arm:nth-child(11) .v-shape { animation-delay: 2.5s; }
+.v-arm:nth-child(12) .v-shape { animation-delay: 2.75s; }
+@keyframes vPulse { 0%,100% { filter: drop-shadow(0 0 7px rgba(124,58,237,0.85)) drop-shadow(0 2px 5px rgba(0,0,0,0.6)); opacity: 0.88; } 50% { filter: drop-shadow(0 0 16px rgba(196,181,253,1)) drop-shadow(0 0 10px rgba(124,58,237,0.95)); opacity: 1; } }
+
+/* Hover explode */
+.invisia-symbol-wrap:hover .v-arm { animation: vExplode 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(2)  { animation-delay: 0.05s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(3)  { animation-delay: 0.1s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(4)  { animation-delay: 0.15s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(5)  { animation-delay: 0.2s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(6)  { animation-delay: 0.25s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(7)  { animation-delay: 0.3s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(8)  { animation-delay: 0.35s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(9)  { animation-delay: 0.4s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(10) { animation-delay: 0.45s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(11) { animation-delay: 0.5s; }
+.invisia-symbol-wrap:hover .v-arm:nth-child(12) { animation-delay: 0.55s; }
+@keyframes vExplode { 0% { --extra: 0px; } 40% { --extra: 28px; } 100% { --extra: 0px; } }
+
+/* ===================================================================
+   KINETIC TYPOGRAPHY
+   =================================================================== */
+.kinetic-word { display: inline-flex; flex-wrap: wrap; cursor: default; }
+.kinetic-word .k-letter { display: inline-block; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), color 0.3s ease; will-change: transform; }
+.kinetic-word:hover .k-letter { animation: letterRipple 0.65s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.kinetic-word .k-letter:nth-child(1)  { animation-delay: 0ms; }
+.kinetic-word .k-letter:nth-child(2)  { animation-delay: 40ms; }
+.kinetic-word .k-letter:nth-child(3)  { animation-delay: 80ms; }
+.kinetic-word .k-letter:nth-child(4)  { animation-delay: 120ms; }
+.kinetic-word .k-letter:nth-child(5)  { animation-delay: 160ms; }
+.kinetic-word .k-letter:nth-child(6)  { animation-delay: 200ms; }
+.kinetic-word .k-letter:nth-child(7)  { animation-delay: 240ms; }
+.kinetic-word .k-letter:nth-child(8)  { animation-delay: 280ms; }
+.kinetic-word .k-letter:nth-child(9)  { animation-delay: 320ms; }
+.kinetic-word .k-letter:nth-child(10) { animation-delay: 360ms; }
+@keyframes letterRipple { 0% { transform: translateY(0) scale(1); } 30% { transform: translateY(-14px) scale(1.18); color: var(--lilas); } 60% { transform: translateY(5px) scale(0.94); } 100% { transform: translateY(0) scale(1); } }
+
+/* Glitch */
+.glitch-text { position: relative; display: inline-block; }
+.glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.glitch-text.glitching::before { animation: glitchR 0.42s steps(1) forwards; color: #ff0055; mix-blend-mode: screen; }
+.glitch-text.glitching::after { animation: glitchB 0.42s steps(1) forwards; color: #00eeff; mix-blend-mode: screen; }
+@keyframes glitchR { 0% { clip-path: inset(0 0 95% 0); transform: translateX(-4px); } 15% { clip-path: inset(40% 0 45% 0); transform: translateX(4px); } 30% { clip-path: inset(70% 0 10% 0); transform: translateX(-3px); } 45% { clip-path: inset(20% 0 65% 0); transform: translateX(5px); } 60% { clip-path: inset(55% 0 30% 0); transform: translateX(-2px); } 75% { clip-path: inset(85% 0 5% 0); transform: translateX(3px); } 100% { clip-path: inset(0 0 100% 0); transform: translateX(0); } }
+@keyframes glitchB { 0% { clip-path: inset(90% 0 0% 0); transform: translateX(4px); } 15% { clip-path: inset(55% 0 30% 0); transform: translateX(-4px); } 30% { clip-path: inset(20% 0 60% 0); transform: translateX(3px); } 45% { clip-path: inset(75% 0 15% 0); transform: translateX(-5px); } 60% { clip-path: inset(35% 0 50% 0); transform: translateX(2px); } 75% { clip-path: inset(5% 0 80% 0); transform: translateX(-3px); } 100% { clip-path: inset(100% 0 0% 0); transform: translateX(0); } }
+
+/* Typewriter */
+.typewriter { display: inline-block; overflow: hidden; white-space: nowrap; border-right: 2px solid var(--lilas); animation: typing 2.8s steps(40, end) forwards, blinkCursor 0.75s step-end infinite; width: 0; }
+@keyframes typing { from { width: 0; } to { width: 100%; } }
+@keyframes blinkCursor { from, to { border-color: transparent; } 50% { border-color: var(--lilas); } }
+
+/* 3D text */
+.text-3d { text-shadow: 1px 1px 0px rgba(109,40,217,0.9), 2px 2px 0px rgba(109,40,217,0.8), 3px 3px 0px rgba(89,20,197,0.7), 4px 4px 0px rgba(69,10,177,0.6), 5px 5px 0px rgba(50,0,150,0.5), 6px 6px 0px rgba(30,0,120,0.4), 7px 7px 12px rgba(0,0,0,0.5); }
+
+/* HERO LAYOUT */
+.hero-layout { display: flex; align-items: center; gap: 72px; position: relative; z-index: 1; }
+.hero-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+</style>
+</head>
+<body>
+
+<!-- SVG LIQUID FILTER -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="liquid-distort" x="-25%" y="-25%" width="150%" height="150%">
+      <feTurbulence id="feTurb" type="fractalNoise" baseFrequency="0.018 0.014" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap id="feDisp" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- AMBIENT PARTICLES -->
+<div id="ambient-particles"></div>
+
+<div id="progress-bar"></div>
+
+<div id="header">
+  <div id="header-logo">
+    <img src="logo-simbolo.png" alt="InvisIA symbol">
+  </div>
+  <div id="confidential">Confidencial — InvisIA</div>
+</div>
+
+<div id="slides-wrapper">
+
+  <!-- SLIDE 0: CAPA -->
+  <div class="slide active" data-slide="0">
+    <div class="neural-bg"><canvas id="neural-canvas-0"></canvas></div>
+    <div class="float-orb" style="width:540px;height:540px;background:radial-gradient(circle,rgba(109,40,217,0.4),transparent 70%);top:0%;left:5%;animation-duration:8s;"></div>
+    <div class="float-orb" style="width:320px;height:320px;background:radial-gradient(circle,rgba(124,58,237,0.28),transparent 70%);bottom:5%;right:5%;animation-delay:3s;animation-duration:9s;"></div>
+
+    <div class="hero-layout">
+      <div class="invisia-symbol-wrap reveal" id="hero-symbol-wrap">
+        <div class="invisia-symbol" id="hero-symbol">
+          <div class="symbol-void"></div>
+        </div>
+      </div>
+      <div class="hero-text">
+        <div class="tag reveal reveal-d1">Evento Exclusivo &mdash; Parceiros &amp; Multiplicadores</div>
+        <img src="logo-invisia-branca.png" alt="InvisIA" class="reveal reveal-d2" style="width:260px;max-width:55vw;margin-bottom:20px;">
+        <div class="chrome-text text-3d reveal reveal-d3" style="font-size:108px;letter-spacing:-5px;line-height:0.92;">START</div>
+        <p class="reveal reveal-d4" style="font-size:20px;color:var(--lilas);font-style:italic;margin-top:18px;animation:neonPulse 4s ease-in-out 1s infinite;">
+          <span class="glitch-text" data-text="A Pílula Sem Limite">A Pílula Sem Limite</span>
+        </p>
+        <p class="reveal reveal-d5" style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:28px;letter-spacing:2px;">Presencial · Rio de Janeiro · 2h30</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 1: 0.4% -->
+  <div class="slide bg-dark" data-slide="1">
+    <div class="particle-grid"></div>
+    <div class="orb" style="width:600px;height:600px;background:rgba(109,40,217,0.28);top:-10%;left:-8%;"></div>
+    <div class="orb" style="width:350px;height:350px;background:rgba(124,58,237,0.2);bottom:-5%;right:-5%;animation-delay:2s;"></div>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div class="big-counter reveal" id="counter-04">0,0%</div>
+      <p class="reveal reveal-d1" style="font-size:24px;font-weight:600;color:var(--lilas);margin-top:14px;">das pessoas no mundo fazem Vibe Code</p>
+      <p class="body-text reveal reveal-d2" style="margin-top:36px;">
+        A tecnologia de IA chegou a um ponto onde <strong style="color:#fff;">QUALQUER PESSOA</strong> pode ter uma equipe inteira de assistentes digitais trabalhando 24h por dia.<br><br>
+        <strong style="color:#fff;font-size:20px;">Mas quase ninguém sabe disso.</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: O PROBLEMA -->
+  <div class="slide bg-dark" data-slide="2">
+    <div class="orb" style="width:420px;height:420px;background:rgba(109,40,217,0.18);bottom:0;right:0;animation-delay:1s;"></div>
+    <div style="position:relative;z-index:1;width:100%;max-width:1100px;display:flex;flex-direction:column;align-items:center;">
+      <div class="tag reveal">O Problema</div>
+      <h1 class="reveal reveal-d1" style="text-align:center;max-width:840px;">Sua empresa gera inteligência <span style="color:var(--roxo);">todo dia</span>.</h1>
+      <p class="body-text reveal reveal-d2" style="margin-top:22px;">Reuniões, calls, decisões, ideias.<br>Mas <strong style="color:#fff;">nada é capturado</strong>. Tudo evapora.</p>
+      <div class="card-grid cols-3 reveal reveal-d3" style="margin-top:40px;max-width:1000px;">
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="card-title">60–150 ideias/mês</div>
+          <div class="card-body">perdidas porque ninguém anotou</div>
+        </div></div>
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg></div>
+          <div class="card-title">80–120 tarefas/mês</div>
+          <div class="card-body">definidas em reunião e nunca executadas</div>
+        </div></div>
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="card-title">R$ 10–50K/mês</div>
+          <div class="card-body">em ineficiência que ninguém vê</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: A INVISIA -->
+  <div class="slide" data-slide="3" style="background:#050010;">
+    <div class="mockup-bg"></div>
+    <div class="mockup-overlay"></div>
+    <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;max-width:920px;">
+      <div class="tag reveal">A Solução</div>
+      <h1 class="reveal reveal-d1" style="font-size:50px;font-weight:800;text-shadow:0 2px 40px rgba(0,0,0,0.9);">
+        A maioria das empresas não perde força no que vê.<br>
+        <span style="color:var(--roxo);">Perde no que não enxerga.</span>
+      </h1>
+      <p class="body-text reveal reveal-d2" style="margin-top:26px;text-shadow:0 2px 20px rgba(0,0,0,0.7);">
+        A InvisIA é a <strong style="color:#fff;">camada invisível de inteligência</strong> que conecta processos, organiza dados, automatiza fluxos e amplia a capacidade de decisão.
+      </p>
+      <p class="reveal reveal-d3" style="margin-top:32px;font-size:26px;color:var(--lilas);font-style:italic;animation:neonPulse 3.5s ease-in-out 0.5s infinite;">
+        "Onde o invisível ganha escala."
+      </p>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: ECOSSISTEMA -->
+  <div class="slide bg-dark" data-slide="4">
+    <div class="orb" style="width:500px;height:500px;background:rgba(124,58,237,0.14);top:15%;right:-12%;"></div>
+    <div style="position:relative;z-index:1;width:100%;max-width:960px;display:flex;flex-direction:column;align-items:center;">
+      <div class="tag reveal">Ecossistema</div>
+      <h2 class="reveal reveal-d1">Como funciona</h2>
+      <div class="card-grid cols-2 reveal reveal-d2" style="margin-top:32px;">
+        <div class="holo-card" style="border-color:rgba(124,58,237,0.4);"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <div class="card-title" style="font-size:22px;">IMMERSION</div>
+          <div class="card-body">Evento de 2 dias para empresários</div>
+          <div style="margin-top:14px;color:var(--lilas);font-weight:700;font-size:18px;">R$ 997 – 1.997</div>
+        </div></div>
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+          <div class="card-title" style="font-size:22px;">Connect</div>
+          <div class="card-body">Produto de entrada — aprende a construir</div>
+          <div style="margin-top:14px;color:var(--lilas);font-weight:700;font-size:18px;">R$ 2.000/mês</div>
+        </div></div>
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;"><svg viewBox="0 0 24 24"><path d="M2 4l3 12h14l3-12-5 4-5-6-5 6z"/><path d="M5 16v4h14v-4"/></svg></div>
+          <div class="card-title" style="font-size:22px;">Founder</div>
+          <div class="card-body">Acesso total + biblioteca + royalties</div>
+          <div style="margin-top:14px;color:var(--lilas);font-weight:700;font-size:18px;">R$ 10.000/mês</div>
+        </div></div>
+        <div class="holo-card" style="border-color:rgba(124,58,237,0.4);"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/><path d="M10 17v4"/><path d="M14 17v4"/></svg></div>
+          <div class="card-title" style="font-size:22px;">OMNIS</div>
+          <div class="card-body">Camada de dados onipresente</div>
+          <div style="margin-top:14px;color:var(--lilas);font-weight:700;font-size:18px;">O pilar de tudo</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: OMNIS -->
+  <div class="slide bg-dark" data-slide="5" style="background:radial-gradient(ellipse at 30% 20%,#2D1B69 0%,var(--preto) 65%);">
+    <div class="glow-ring" style="width:300px;height:300px;top:50%;left:50%;"></div>
+    <div class="glow-ring" style="width:480px;height:480px;top:50%;left:50%;animation-delay:1.8s;opacity:0.35;"></div>
+    <div class="glow-ring" style="width:660px;height:660px;top:50%;left:50%;animation-delay:3.2s;opacity:0.18;"></div>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:1100px;">
+      <div class="tag reveal">Produto Principal</div>
+      <div class="omnis-chrome reveal reveal-d1">OMNIS</div>
+      <p class="reveal reveal-d2" style="font-size:20px;color:var(--lilas);margin-top:12px;font-style:italic;">A empresa que não esquece nada.</p>
+      <p class="body-text reveal reveal-d3" style="margin-top:22px;">
+        Uma camada de inteligência <strong style="color:#fff;">onipresente</strong> que grava TUDO na empresa — reuniões, calls, processos — transcreve, analisa, gera insights e armazena na memória de longo prazo.
+      </p>
+      <div class="card-grid cols-3 reveal reveal-d4" style="margin-top:34px;">
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+          <div class="card-title">Grava</div>
+          <div class="card-body">Reuniões, calls, processos — 1 comando</div>
+        </div></div>
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg></div>
+          <div class="card-title">Transcreve</div>
+          <div class="card-body">Texto completo em minutos, automático</div>
+        </div></div>
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="card-title">Analisa</div>
+          <div class="card-body">Insights, padrões, action items</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: SABEDORIA -->
+  <div class="slide" data-slide="6" style="background:linear-gradient(150deg,#0d0b2e 0%,#1E1B4B 50%,#0d0b2e 100%);">
+    <div class="orb" style="width:520px;height:520px;background:rgba(124,58,237,0.18);top:5%;left:15%;animation-delay:0.5s;"></div>
+    <div class="orb" style="width:300px;height:300px;background:rgba(109,40,217,0.2);bottom:10%;right:10%;animation-delay:2s;"></div>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <span class="quote-mark reveal">&ldquo;</span>
+      <p class="quote reveal reveal-d1" style="animation:neonPulse 4.5s ease-in-out 0.6s infinite;">
+        A IA não aprende com dados genéricos.<br>
+        Aprende com os <strong style="color:#fff;">seus</strong>.<br>
+        Isso é <strong style="color:var(--lilas);">Sabedoria Artificial</strong>.
+      </p>
+      <p class="quote-author reveal reveal-d2">Conceito InvisIA</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: 4 PILARES -->
+  <div class="slide bg-dark" data-slide="7">
+    <div class="orb" style="width:420px;height:420px;background:rgba(30,27,75,0.9);top:-5%;right:-5%;"></div>
+    <div style="position:relative;z-index:1;width:100%;max-width:900px;display:flex;flex-direction:column;align-items:center;">
+      <div class="tag reveal">Cultura OMNIS</div>
+      <h2 class="reveal reveal-d1">Os 4 Pilares</h2>
+      <div class="card-grid cols-2 reveal reveal-d2" style="margin-top:32px;">
+        <div class="pillar-card" style="border-left-color:var(--green);">
+          <div class="card-title" style="color:var(--green);margin-bottom:8px;">1. Tudo se grava</div>
+          <div class="card-body">"Se não gravou, não aconteceu"</div>
+        </div>
+        <div class="pillar-card" style="border-left-color:var(--teal);">
+          <div class="card-title" style="color:var(--teal);margin-bottom:8px;">2. Tudo tem dono</div>
+          <div class="card-body">Cada tarefa: responsável + prazo</div>
+        </div>
+        <div class="pillar-card" style="border-left-color:var(--blue);">
+          <div class="card-title" style="color:var(--blue);margin-bottom:8px;">3. Tudo se consulta</div>
+          <div class="card-body">"O que já sabemos sobre isso?"</div>
+        </div>
+        <div class="pillar-card" style="border-left-color:var(--roxo);">
+          <div class="card-title" style="color:var(--lilas);margin-bottom:8px;">4. Tudo evolui</div>
+          <div class="card-body">Relatórios mensais de inteligência</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: OPORTUNIDADE -->
+  <div class="slide bg-dark" data-slide="8">
+    <div class="orb" style="width:580px;height:580px;background:rgba(109,40,217,0.22);bottom:-12%;left:-12%;animation-delay:0.8s;"></div>
+    <div style="position:relative;z-index:1;width:100%;max-width:1100px;display:flex;flex-direction:column;align-items:center;">
+      <div class="tag reveal">A Oportunidade</div>
+      <h1 class="reveal reveal-d1" style="font-size:48px;text-align:center;">A janela está aberta <span style="color:var(--roxo);">agora</span>.</h1>
+      <div class="card-grid cols-3 reveal reveal-d2" style="margin-top:36px;">
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div style="font-family:'Inter',sans-serif;font-size:46px;font-weight:900;color:var(--lilas);line-height:1;" id="stat-300k">0</div>
+          <div style="font-size:13px;color:var(--gray);margin-top:10px;line-height:1.55;">empresas no Brasil faturam R$500K+/mês e NÃO têm IA implementada</div>
+        </div></div>
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div style="font-family:'Inter',sans-serif;font-size:36px;font-weight:900;color:var(--lilas);line-height:1;padding-top:5px;">12–18 meses</div>
+          <div style="font-size:13px;color:var(--gray);margin-top:10px;line-height:1.55;">antes que grandes players copiem o modelo presencial/boutique</div>
+        </div></div>
+        <div class="holo-card"><div class="holo-shine"></div><div class="holo-edge-right"></div><div class="holo-edge-bottom"></div><div class="card-inner">
+          <div style="font-family:'Inter',sans-serif;font-size:40px;font-weight:900;color:var(--lilas);line-height:1;padding-top:5px;" id="stat-g4">R$0</div>
+          <div style="font-size:13px;color:var(--gray);margin-top:10px;line-height:1.55;">é o que o G4 cobra. A InvisIA entrega MAIS por MENOS, com mais personalização</div>
+        </div></div>
+      </div>
+      <p class="body-text reveal reveal-d3" style="margin-top:32px;">
+        <strong style="color:#fff;font-size:20px;">Quem chegar primeiro, ganha. Vocês estão chegando primeiro.</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: MODELO COMERCIAL -->
+  <div class="slide bg-dark" data-slide="9">
+    <div style="position:relative;z-index:1;width:100%;max-width:940px;display:flex;flex-direction:column;align-items:center;">
+      <div class="tag reveal">Modelo Comercial</div>
+      <h2 class="reveal reveal-d1">Quanto você ganha</h2>
+      <div class="tbl-wrap reveal reveal-d2" style="margin-top:32px;width:100%;">
+        <table class="tbl">
+          <tr><th>O que vende</th><th>Comissão</th><th>Exemplo (5 vendas/mês)</th></tr>
+          <tr><td>Ingresso IMMERSION</td><td style="color:var(--lilas);font-weight:600;">30% = ~R$ 450</td><td>R$ 2.250/mês</td></tr>
+          <tr><td>Connect (R$ 2K/mês)</td><td style="color:var(--lilas);font-weight:600;">10–15% recorrente</td><td>R$ 1.000–1.500/mês</td></tr>
+          <tr><td>Founder (R$ 10K/mês)</td><td style="color:var(--lilas);font-weight:600;">10–15% recorrente</td><td>R$ 5.000–7.500/mês</td></tr>
+          <tr class="total-row"><td><strong>Total estimado (mês 6)</strong></td><td></td><td>R$ 15–25K/mês</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: CRONOGRAMA -->
+  <div class="slide bg-dark" data-slide="10">
+    <div style="position:relative;z-index:1;width:100%;max-width:820px;display:flex;flex-direction:column;align-items:center;">
+      <div class="tag reveal">Cronograma Hoje</div>
+      <h2 class="reveal reveal-d1" style="text-align:center;margin-bottom:26px;">2h30 que mudam tudo</h2>
+      <div class="timeline reveal reveal-d2">
+        <div class="tl-line"></div>
+        <div class="tl-item"><div class="tl-time">0:00<div class="dur">10 min</div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div><div class="tl-content"><h5>Chegada</h5><p>NDA + kit + ambientação</p></div></div>
+        <div class="tl-item"><div class="tl-time">0:10<div class="dur">20 min</div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div><div class="tl-content"><h5>A Visão</h5><p>O que está acontecendo no mundo</p></div></div>
+        <div class="tl-item"><div class="tl-time">0:30<div class="dur">25 min</div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div><div class="tl-content"><h5>A InvisIA</h5><p>Projeto, oportunidade, modelo</p></div></div>
+        <div class="tl-item"><div class="tl-time">0:55<div class="dur">20 min</div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div><div class="tl-content"><h5>OMNIS</h5><p>Cultura de dados + demo ao vivo</p></div></div>
+        <div class="tl-item"><div class="tl-time">1:15<div class="dur">45 min</div></div><div class="tl-dot-wrap"><div class="tl-dot green"></div></div><div class="tl-content green-accent"><h5 style="color:#34d399;">Mão na Massa</h5><p>Instalação ao vivo — Claude + OpenCloud + OMNIS</p></div></div>
+        <div class="tl-item"><div class="tl-time">2:00<div class="dur">20 min</div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div><div class="tl-content"><h5>Primeira Vitória</h5><p>Momento "Sem Limite"</p></div></div>
+        <div class="tl-item"><div class="tl-time">2:20<div class="dur">10 min</div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div><div class="tl-content"><h5>Plano de Ação</h5><p>7 dias de missões concretas</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: MAO NA MASSA -->
+  <div class="slide" data-slide="11" style="background:linear-gradient(135deg,#4c1d95 0%,var(--roxo) 50%,var(--roxo-dark) 100%);">
+    <div class="orb" style="width:500px;height:500px;background:rgba(0,0,0,0.3);top:-5%;right:-8%;filter:blur(60px);border-radius:50%;animation:none;"></div>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:1000px;">
+      <div class="chrome-text reveal" style="font-size:90px;letter-spacing:-3px;line-height:1.05;margin-bottom:14px;">Hora de instalar.</div>
+      <p class="reveal reveal-d1" style="font-size:20px;color:rgba(255,255,255,0.82);max-width:680px;line-height:1.7;margin-top:4px;">
+        Abram os notebooks.<br>Nos próximos 45 minutos, vocês vão ter o mesmo poder<br>que menos de <strong>0,4%</strong> do planeta tem.
+      </p>
+      <div class="card-grid cols-3 reveal reveal-d2" style="margin-top:40px;">
+        <div class="step-card"><div class="step-num">1</div><div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div class="card-title">Instalar Claude Code</div><div class="card-body" style="color:rgba(255,255,255,0.72);">A IA mais poderosa, rodando local</div></div>
+        <div class="step-card"><div class="step-num">2</div><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div><div class="card-title">Configurar OpenCloud</div><div class="card-body" style="color:rgba(255,255,255,0.72);">Seu assistente pessoal</div></div>
+        <div class="step-card"><div class="step-num">3</div><div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div><div class="card-title">Ativar OMNIS</div><div class="card-body" style="color:rgba(255,255,255,0.72);">A memória da empresa</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: GLOSSARIO -->
+  <div class="slide bg-dark" data-slide="12">
+    <div style="position:relative;z-index:1;width:100%;max-width:880px;display:flex;flex-direction:column;align-items:center;">
+      <div class="tag reveal">Glossário Rápido</div>
+      <h3 class="reveal reveal-d1" style="margin-bottom:26px;text-align:center;">Termos que você vai usar hoje</h3>
+      <div class="tbl-wrap reveal reveal-d2" style="width:100%;">
+        <table class="tbl">
+          <tr><th>Termo</th><th>O que é</th></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">Claude Code</td><td>IA mais avançada do mundo, rodando no SEU computador</td></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">OpenCloud</td><td>Seu assistente pessoal — faz tarefas por você</td></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">OMNIS</td><td>Sistema que grava, transcreve e gera inteligência</td></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">Terminal</td><td>Tela do computador onde você conversa com a IA</td></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">Prompt</td><td>Instrução que você dá ao sistema</td></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">Squad</td><td>Equipe de assistentes digitais especializados</td></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">API Key</td><td>Senha que conecta dois sistemas (digita 1 vez)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 13: PLANO 7 DIAS -->
+  <div class="slide bg-dark" data-slide="13">
+    <div class="orb" style="width:380px;height:380px;background:rgba(30,27,75,0.95);top:-5%;left:-5%;"></div>
+    <div style="position:relative;z-index:1;width:100%;max-width:700px;display:flex;flex-direction:column;align-items:center;">
+      <div class="tag reveal">Pós-Evento</div>
+      <h2 class="reveal reveal-d1" style="margin-bottom:24px;">Plano de 7 dias</h2>
+      <div class="check-list" id="checklist">
+        <div class="check-item"><div class="check-num">1</div><span><strong style="color:#fff;">Amanhã:</strong> Grave TODAS as reuniões com OMNIS</span></div>
+        <div class="check-item"><div class="check-num">2</div><span><strong style="color:#fff;">Dia 2:</strong> Leia os resumos, identifique 1 tarefa perdida</span></div>
+        <div class="check-item"><div class="check-num">3</div><span><strong style="color:#fff;">Dia 3:</strong> Pergunte ao assistente: "como otimizar minha rotina?"</span></div>
+        <div class="check-item"><div class="check-num">4</div><span><strong style="color:#fff;">Dia 4:</strong> Grave uma call com cliente</span></div>
+        <div class="check-item"><div class="check-num">5</div><span><strong style="color:#fff;">Dia 5:</strong> Envie resumo de reunião para sua equipe</span></div>
+        <div class="check-item"><div class="check-num">6</div><span><strong style="color:#fff;">Dia 6:</strong> Peça relatório semanal ao assistente</span></div>
+        <div class="check-item"><div class="check-num">7</div><span><strong style="color:#fff;">Dia 7:</strong> Poste no grupo o que o OMNIS descobriu</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 14: QUOTE FINAL -->
+  <div class="slide" data-slide="14">
+    <div class="mesh-bg"></div>
+    <div class="orb" style="width:720px;height:720px;background:rgba(109,40,217,0.28);top:50%;left:50%;transform:translate(-50%,-50%);filter:blur(100px);"></div>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <span class="quote-mark reveal">&ldquo;</span>
+      <p class="quote reveal reveal-d1" style="font-size:31px;font-weight:400;animation:neonPulse 4s ease-in-out 0.8s infinite;">
+        Vocês não estão aprendendo sobre IA.<br>
+        Vocês estão recebendo o poder que<br>
+        <strong style="color:#fff;">menos de 0,4% do planeta tem</strong>.<br><br>
+        A pílula foi tomada.
+      </p>
+      <p class="quote-author reveal reveal-d2">Gabriel Rubim — InvisIA</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 15: ENCERRAMENTO -->
+  <div class="slide bg-dark" data-slide="15">
+    <div class="neural-bg"><canvas id="neural-canvas-15"></canvas></div>
+    <img class="symbol-ghost" src="logo-simbolo.png" alt="">
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <img src="logo-invisia-branca.png" alt="InvisIA" class="reveal" style="width:360px;max-width:72vw;margin-bottom:28px;">
+      <p class="reveal reveal-d1" style="font-size:24px;color:var(--lilas);font-style:italic;animation:neonPulse 3.5s ease-in-out 0.5s infinite;">
+        Onde o invisível ganha escala.
+      </p>
+      <p class="reveal reveal-d2" style="margin-top:24px;font-size:22px;color:rgba(255,255,255,0.82);">
+        Bem-vindos ao movimento.
+      </p>
+      <p class="reveal reveal-d3" style="margin-top:56px;font-size:12px;color:rgba(255,255,255,0.18);letter-spacing:1px;">
+        Confidencial — Documento protegido por NDA
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<nav id="nav">
+  <button class="nav-btn" onclick="prevSlide()" title="Anterior">&#8592;</button>
+  <div id="nav-dots"></div>
+  <span id="nav-counter">1 / 16</span>
+  <button class="nav-btn" onclick="nextSlide()" title="Próximo">&#8594;</button>
+</nav>
+
+<script>
+/* ====================================================
+   STATE
+   ==================================================== */
+var current = 0;
+var isAnimating = false;
+var slides = Array.from(document.querySelectorAll('.slide'));
+var total = slides.length;
+var progressBar = document.getElementById('progress-bar');
+var navCounter = document.getElementById('nav-counter');
+var navDotsContainer = document.getElementById('nav-dots');
+
+/* ====================================================
+   NAV DOTS
+   ==================================================== */
+slides.forEach(function(_, i) {
+  var dot = document.createElement('button');
+  dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  dot.title = 'Slide ' + (i + 1);
+  dot.addEventListener('click', function() { goToSlide(i); });
+  navDotsContainer.appendChild(dot);
+});
+
+/* ====================================================
+   1. BUILD 3D INVISIA SYMBOL — 12 V arms
+   ==================================================== */
+(function() {
+  var symbol = document.getElementById('hero-symbol');
+  if (!symbol) return;
+  var N = 12;
+  var radius = 90;
+  for (var i = 0; i < N; i++) {
+    var angleDeg = (i / N) * 360;
+    var angleRad = angleDeg * Math.PI / 180;
+    var cx = Math.cos(angleRad) * radius;
+    var cy = Math.sin(angleRad) * radius;
+    // Rotate so V tip points toward center (inward)
+    var rotDeg = angleDeg + 90;
+    var arm = document.createElement('div');
+    arm.className = 'v-arm';
+    arm.style.cssText = 'transform: translate(calc(-50% + ' + cx.toFixed(1) + 'px), calc(-50% + ' + cy.toFixed(1) + 'px)) rotate(' + rotDeg + 'deg);';
+    var shape = document.createElement('div');
+    shape.className = 'v-shape';
+    arm.appendChild(shape);
+    symbol.appendChild(arm);
+  }
+})();
+
+/* ====================================================
+   2. NEURAL NETWORK BACKGROUND (Canvas)
+   ==================================================== */
+function NeuralNet(canvas) {
+  this.canvas = canvas;
+  this.ctx = canvas.getContext('2d');
+  this.nodes = [];
+  this.raf = null;
+  this._resize = this.resize.bind(this);
+  window.addEventListener('resize', this._resize);
+  this.resize();
+  this.init();
+}
+NeuralNet.prototype.resize = function() {
+  var p = this.canvas.parentElement;
+  this.canvas.width  = p ? p.offsetWidth  || window.innerWidth  : window.innerWidth;
+  this.canvas.height = p ? p.offsetHeight || window.innerHeight : window.innerHeight;
+};
+NeuralNet.prototype.init = function() {
+  this.nodes = [];
+  for (var i = 0; i < 26; i++) {
+    this.nodes.push({
+      x: Math.random() * this.canvas.width,
+      y: Math.random() * this.canvas.height,
+      vx: (Math.random() - 0.5) * 0.32,
+      vy: (Math.random() - 0.5) * 0.32,
+      r: 1.8 + Math.random() * 2.4,
+      phase: Math.random() * Math.PI * 2,
+      freq: 0.004 + Math.random() * 0.01,
+      alpha: 0.28 + Math.random() * 0.48
+    });
+  }
+};
+NeuralNet.prototype.draw = function() {
+  var ctx = this.ctx;
+  var W = this.canvas.width;
+  var H = this.canvas.height;
+  var nodes = this.nodes;
+  var now = performance.now() * 0.001;
+  var maxD = 185;
+  ctx.clearRect(0, 0, W, H);
+  // Connections
+  for (var i = 0; i < nodes.length; i++) {
+    for (var j = i + 1; j < nodes.length; j++) {
+      var dx = nodes[i].x - nodes[j].x;
+      var dy = nodes[i].y - nodes[j].y;
+      var d = Math.sqrt(dx * dx + dy * dy);
+      if (d < maxD) {
+        var a = (1 - d / maxD) * 0.3;
+        var g = ctx.createLinearGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+        g.addColorStop(0,   'rgba(124,58,237,' + a + ')');
+        g.addColorStop(0.5, 'rgba(196,181,253,' + (a * 1.5) + ')');
+        g.addColorStop(1,   'rgba(124,58,237,' + a + ')');
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.strokeStyle = g;
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      }
+    }
+  }
+  // Nodes
+  for (var k = 0; k < nodes.length; k++) {
+    var n = nodes[k];
+    var pulse = Math.sin(now * n.freq * 6.28 + n.phase);
+    var al = Math.max(0.05, n.alpha + pulse * 0.22);
+    var rr = n.r + pulse * 0.9;
+    var grd = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, rr * 5);
+    grd.addColorStop(0,   'rgba(220,200,255,' + al + ')');
+    grd.addColorStop(0.4, 'rgba(124,58,237,' + (al * 0.55) + ')');
+    grd.addColorStop(1,   'rgba(124,58,237,0)');
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, rr * 5, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, rr, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(237,233,254,' + al + ')';
+    ctx.fill();
+    n.x += n.vx;
+    n.y += n.vy;
+    if (n.x < 0 || n.x > W) n.vx *= -1;
+    if (n.y < 0 || n.y > H) n.vy *= -1;
+  }
+};
+NeuralNet.prototype.start = function() {
+  var self = this;
+  if (self.raf) return;
+  function loop() { self.draw(); self.raf = requestAnimationFrame(loop); }
+  self.raf = requestAnimationFrame(loop);
+};
+NeuralNet.prototype.stop = function() {
+  if (this.raf) { cancelAnimationFrame(this.raf); this.raf = null; }
+  if (this.ctx) this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+};
+
+var neuralNets = {};
+function getOrCreateNet(idx) {
+  if (neuralNets[idx]) return neuralNets[idx];
+  var c = document.getElementById('neural-canvas-' + idx);
+  if (!c) return null;
+  neuralNets[idx] = new NeuralNet(c);
+  return neuralNets[idx];
+}
+
+/* ====================================================
+   3. HOLOGRAPHIC CARD — mouse tracking
+   ==================================================== */
+document.addEventListener('mousemove', function(e) {
+  document.querySelectorAll('.holo-card').forEach(function(card) {
+    var r = card.getBoundingClientRect();
+    var inX = e.clientX > r.left - r.width && e.clientX < r.right + r.width;
+    var inY = e.clientY > r.top - r.height && e.clientY < r.bottom + r.height;
+    if (inX && inY) {
+      var px = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+      var py = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+      card.style.setProperty('--holo-x', px + '%');
+      card.style.setProperty('--holo-y', py + '%');
+      var inside = e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom;
+      if (inside) {
+        var dx = (e.clientX - (r.left + r.width  / 2)) / r.width;
+        var dy = (e.clientY - (r.top  + r.height / 2)) / r.height;
+        card.style.transform = 'perspective(800px) rotateX(' + (-dy * 10).toFixed(1) + 'deg) rotateY(' + (dx * 14).toFixed(1) + 'deg) translateZ(14px) scale(1.02)';
+      }
+    }
+  });
+});
+document.querySelectorAll('.holo-card').forEach(function(card) {
+  card.addEventListener('mouseleave', function() { card.style.transform = ''; });
+});
+
+/* ====================================================
+   4a. KINETIC TYPOGRAPHY — wrap letters
+   ==================================================== */
+document.querySelectorAll('.kinetic-word').forEach(function(el) {
+  var text = el.textContent;
+  el.textContent = '';
+  Array.from(text).forEach(function(ch) {
+    var s = document.createElement('span');
+    s.className = 'k-letter';
+    s.textContent = ch === ' ' ? '\u00A0' : ch;
+    el.appendChild(s);
+  });
+});
+
+/* ====================================================
+   4b. GLITCH TEXT — random trigger
+   ==================================================== */
+(function() {
+  function triggerGlitch(el) {
+    el.classList.add('glitching');
+    setTimeout(function() { el.classList.remove('glitching'); }, 460);
+    setTimeout(function() { triggerGlitch(el); }, 5000 + Math.random() * 3500);
+  }
+  document.querySelectorAll('.glitch-text').forEach(function(el) {
+    setTimeout(function() { triggerGlitch(el); }, 1800 + Math.random() * 3000);
+  });
+})();
+
+/* ====================================================
+   5. LIQUID TRANSITION via SVG feDisplacementMap
+   ==================================================== */
+var feDisp = document.getElementById('feDisp');
+var liquidRaf = null;
+function animateLiquid(from, to, dur) {
+  if (liquidRaf) cancelAnimationFrame(liquidRaf);
+  if (!feDisp) return;
+  var t0 = performance.now();
+  function step(now) {
+    var t = Math.min((now - t0) / dur, 1);
+    var e = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    feDisp.setAttribute('scale', (from + (to - from) * e).toFixed(1));
+    if (t < 1) { liquidRaf = requestAnimationFrame(step); }
+    else { feDisp.setAttribute('scale', '0'); liquidRaf = null; }
+  }
+  liquidRaf = requestAnimationFrame(step);
+}
+
+/* ====================================================
+   6. AMBIENT PARTICLES
+   ==================================================== */
+(function() {
+  var container = document.getElementById('ambient-particles');
+  if (!container) return;
+  var colors = [
+    'rgba(255,255,255,',
+    'rgba(196,181,253,',
+    'rgba(167,139,250,',
+    'rgba(237,233,254,',
+    'rgba(124,58,237,'
+  ];
+  var layers = [
+    { count: 12, durBase: 14, durVar: 18, sMin: 1.5, sMax: 3,   aMin: 0.15, aMax: 0.5,  par: 0.012 },
+    { count: 14, durBase: 22, durVar: 14, sMin: 2,   sMax: 3.5, aMin: 0.1,  aMax: 0.35, par: 0.028 },
+    { count: 10, durBase: 32, durVar: 16, sMin: 2.5, sMax: 4.5, aMin: 0.06, aMax: 0.22, par: 0.052 }
+  ];
+  var allParticles = [];
+  var styleEl = document.createElement('style');
+
+  layers.forEach(function(layer, li) {
+    // Unique float keyframe per layer
+    var dy1 = -(30 + Math.random() * 45);
+    var dx1 = (Math.random() - 0.5) * 38;
+    var dy2 = dy1 * 1.7;
+    var dx2 = (Math.random() - 0.5) * 28;
+    styleEl.textContent += '@keyframes ambFloat' + li + '{0%{transform:translate(0,0) scale(1);opacity:0;}10%{opacity:1;}50%{transform:translate(' + dx1.toFixed(0) + 'px,' + dy1.toFixed(0) + 'px) scale(' + (0.88 + Math.random() * 0.28).toFixed(2) + ');}90%{opacity:0.4;}100%{transform:translate(' + dx2.toFixed(0) + 'px,' + dy2.toFixed(0) + 'px) scale(0.55);opacity:0;}}';
+
+    for (var i = 0; i < layer.count; i++) {
+      var p = document.createElement('div');
+      p.className = 'amb-p';
+      var size  = layer.sMin + Math.random() * (layer.sMax - layer.sMin);
+      var alpha = layer.aMin + Math.random() * (layer.aMax - layer.aMin);
+      var col   = colors[Math.floor(Math.random() * colors.length)];
+      var x     = Math.random() * 100;
+      var y     = Math.random() * 100;
+      var dur   = layer.durBase + Math.random() * layer.durVar;
+      var delay = -(Math.random() * dur);
+      p.style.cssText = 'width:' + size.toFixed(1) + 'px;height:' + size.toFixed(1) + 'px;left:' + x.toFixed(1) + '%;top:' + y.toFixed(1) + '%;background:' + col + alpha.toFixed(2) + ');box-shadow:0 0 ' + (size * 2).toFixed(0) + 'px ' + col + (alpha * 0.55).toFixed(2) + ');animation:ambFloat' + li + ' ' + dur.toFixed(1) + 's ' + delay.toFixed(1) + 's ease-in-out infinite;';
+      container.appendChild(p);
+      allParticles.push({ el: p, par: layer.par });
+    }
+  });
+  document.head.appendChild(styleEl);
+
+  // Parallax
+  var tX = 0, tY = 0, cX = 0, cY = 0;
+  window.addEventListener('mousemove', function(e) {
+    tX = (e.clientX / window.innerWidth  - 0.5) * 2;
+    tY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+  (function tick() {
+    cX += (tX - cX) * 0.055;
+    cY += (tY - cY) * 0.055;
+    allParticles.forEach(function(obj) {
+      obj.el.style.marginLeft = (cX * obj.par * window.innerWidth).toFixed(1) + 'px';
+      obj.el.style.marginTop  = (cY * obj.par * window.innerHeight).toFixed(1) + 'px';
+    });
+    requestAnimationFrame(tick);
+  })();
+})();
+
+/* ====================================================
+   CORE NAVIGATION
+   ==================================================== */
+function goToSlide(n) {
+  if (isAnimating || n === current || n < 0 || n >= total) return;
+  isAnimating = true;
+
+  var prev = current;
+  current = n;
+
+  var prevEl = slides[prev];
+  var nextEl = slides[current];
+
+  prevEl.querySelectorAll('.reveal').forEach(function(el) { el.classList.remove('visible'); });
+
+  // Liquid distortion burst
+  animateLiquid(0, 160, 300);
+  setTimeout(function() { animateLiquid(80, 0, 280); }, 180);
+
+  prevEl.classList.add('exit-left');
+  prevEl.classList.remove('active');
+  nextEl.classList.add('active');
+
+  setTimeout(function() {
+    prevEl.classList.remove('exit-left');
+    isAnimating = false;
+  }, 700);
+
+  progressBar.style.width = ((current + 1) / total * 100) + '%';
+  navCounter.textContent = (current + 1) + ' / ' + total;
+  document.querySelectorAll('.nav-dot').forEach(function(d, i) {
+    d.classList.toggle('active', i === current);
+  });
+
+  setTimeout(function() { activateSlide(current); }, 80);
+}
+
+function nextSlide() { goToSlide(current + 1); }
+function prevSlide() { goToSlide(current - 1); }
+
+/* ====================================================
+   ACTIVATE ANIMATIONS PER SLIDE
+   ==================================================== */
+function activateSlide(idx) {
+  var slide = slides[idx];
+  slide.querySelectorAll('.reveal').forEach(function(el) {
+    void el.offsetWidth;
+    el.classList.add('visible');
+  });
+
+  // Neural net on/off
+  Object.keys(neuralNets).forEach(function(k) {
+    if (parseInt(k) !== idx) neuralNets[k].stop();
+  });
+  if (idx === 0 || idx === 15) {
+    var net = getOrCreateNet(idx);
+    if (net) net.start();
+  }
+
+  if (idx === 1)  triggerCounter04();
+  if (idx === 8)  { triggerCountUp('stat-300k', 300000, '', '+', 1800); triggerCountUpMoney('stat-g4', 46800, 'R$', 2000); }
+  if (idx === 13) triggerChecklist();
+}
+
+/* ====================================================
+   COUNTERS
+   ==================================================== */
+function triggerCounter04() {
+  var el = document.getElementById('counter-04');
+  if (!el) return;
+  var dur = 2200, t0 = performance.now();
+  (function step(ts) {
+    var p = Math.min((ts - t0) / dur, 1);
+    var e = 1 - Math.pow(1 - p, 3);
+    el.textContent = (e * 0.4).toFixed(1).replace('.', ',') + '%';
+    if (p < 1) requestAnimationFrame(step); else el.textContent = '0,4%';
+  })(t0);
+}
+function triggerCountUp(id, target, prefix, suffix, dur) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var t0 = performance.now();
+  (function step(ts) {
+    var p = Math.min((ts - t0) / dur, 1);
+    var v = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+    el.textContent = prefix + v.toLocaleString('pt-BR') + suffix;
+    if (p < 1) requestAnimationFrame(step); else el.textContent = prefix + target.toLocaleString('pt-BR') + suffix;
+  })(t0);
+}
+function triggerCountUpMoney(id, target, prefix, dur) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var t0 = performance.now();
+  (function step(ts) {
+    var p = Math.min((ts - t0) / dur, 1);
+    var v = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+    el.textContent = prefix + v.toLocaleString('pt-BR');
+    if (p < 1) requestAnimationFrame(step); else el.textContent = prefix + target.toLocaleString('pt-BR');
+  })(t0);
+}
+
+/* ====================================================
+   CHECKLIST
+   ==================================================== */
+function triggerChecklist() {
+  var items = document.querySelectorAll('#checklist .check-item');
+  items.forEach(function(item) { item.classList.remove('revealed'); });
+  items.forEach(function(item, i) {
+    setTimeout(function() { item.classList.add('revealed'); }, 120 + i * 130);
+  });
+}
+
+/* ====================================================
+   GLASS/PILLAR 3D TILT
+   ==================================================== */
+document.querySelectorAll('.glass-card, .pillar-card').forEach(function(card) {
+  card.addEventListener('mousemove', function(e) {
+    var r = this.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width  - 0.5;
+    var y = (e.clientY - r.top)  / r.height - 0.5;
+    this.style.transform = 'perspective(700px) rotateY(' + (x * 12).toFixed(1) + 'deg) rotateX(' + (-y * 9).toFixed(1) + 'deg) translateZ(10px) scale(1.02)';
+  });
+  card.addEventListener('mouseleave', function() { this.style.transform = ''; });
+});
+
+/* ====================================================
+   KEYBOARD
+   ==================================================== */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  else if (e.key === 'Escape') {
+    if (document.fullscreenElement) document.exitFullscreen().catch(function(){});
+    else document.documentElement.requestFullscreen().catch(function(){});
+  }
+});
+
+/* ====================================================
+   TOUCH
+   ==================================================== */
+var tx = 0, ty = 0;
+document.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchend', function(e) {
+  var dx = tx - e.changedTouches[0].clientX;
+  var dy = ty - e.changedTouches[0].clientY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+    if (dx > 0) nextSlide(); else prevSlide();
+  }
+}, { passive: true });
+
+/* ====================================================
+   INIT
+   ==================================================== */
+activateSlide(0);
+</script>
+</body>
+</html>

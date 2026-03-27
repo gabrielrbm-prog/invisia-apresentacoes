@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia do Parceiro — InvisIA START</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & ROOT ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --preto: #0a0a0a;
+  --roxo-deep: #1E1B4B;
+  --roxo: #7C3AED;
+  --roxo-dark: #6D28D9;
+  --lilas: #C4B5FD;
+  --lilas-light: #EDE9FE;
+  --off-white: #F8F7FF;
+  --gray: #94A3B8;
+  --gray-dark: #334155;
+  --green: #059669;
+  --teal: #0D9488;
+  --blue: #3B82F6;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--preto);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ===== AMBIENT PARTICLES ===== */
+#ambient-particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.amb-p { position: absolute; border-radius: 50%; will-change: transform; }
+
+/* ===== PARTICLE GRID ===== */
+.particle-grid-fixed {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(124,58,237,0.10) 1px, transparent 1px);
+  background-size: 52px 52px;
+  animation: gridFloat 22s linear infinite;
+}
+@keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(52px); } }
+
+/* ===== SIDEBAR NAV ===== */
+#sidebar {
+  position: fixed;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+.sidebar-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  position: relative;
+}
+.sidebar-dot.active {
+  background: var(--lilas);
+  box-shadow: 0 0 10px rgba(196,181,253,0.9);
+  transform: scale(1.5);
+}
+.sidebar-dot:hover:not(.active) { background: rgba(196,181,253,0.45); transform: scale(1.3); }
+.sidebar-dot::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  color: var(--gray);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.sidebar-dot:hover::after { opacity: 1; }
+
+/* ===== LAYOUT ===== */
+main { position: relative; z-index: 2; }
+.section-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px 0 20px;
+}
+.container {
+  width: 100%;
+  max-width: 900px;
+  padding: 120px 0;
+}
+
+/* ===== REVEAL ===== */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.45s; }
+.reveal-d5 { transition-delay: 0.6s; }
+.reveal-d6 { transition-delay: 0.75s; }
+
+/* ===== CHROME TEXT ===== */
+.chrome-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  background: linear-gradient(175deg, #ffffff 0%, #e8d5ff 15%, #C4B5FD 30%, #7C3AED 50%, #4c1d95 65%, #C4B5FD 82%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(124,58,237,0.55)) drop-shadow(0 0 40px rgba(124,58,237,0.25));
+}
+
+/* ===== TAG ===== */
+.tag {
+  display: inline-flex; align-items: center;
+  padding: 6px 18px; border-radius: 100px;
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--lilas); font-weight: 600; font-family: 'Inter', sans-serif;
+  border: 1px solid rgba(196,181,253,0.25);
+  background: rgba(124,58,237,0.12);
+  margin-bottom: 18px;
+}
+
+/* ===== HERO ===== */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-mesh {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 25% 35%, rgba(109,40,217,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 75% 65%, rgba(124,58,237,0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(30,27,75,0.8) 0%, transparent 80%),
+    var(--preto);
+  animation: meshMove 16s ease-in-out infinite alternate;
+}
+@keyframes meshMove {
+  0%   { background-position: 25% 35%, 75% 65%, 50% 50%; }
+  33%  { background-position: 40% 22%, 60% 75%, 55% 42%; }
+  66%  { background-position: 65% 45%, 28% 50%, 45% 58%; }
+  100% { background-position: 30% 68%, 72% 28%, 50% 32%; }
+}
+.hero-orb-1 {
+  position: absolute; width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,58,237,0.22) 0%, transparent 70%);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  filter: blur(80px); pointer-events: none; z-index: 0;
+  animation: orbPulse 6s ease-in-out infinite;
+}
+@keyframes orbPulse { 0%,100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 0.85; transform: translate(-50%,-50%) scale(1.08); } }
+.hero-content { position: relative; z-index: 2; }
+.hero-logo { width: 250px; object-fit: contain; margin-bottom: 36px; filter: drop-shadow(0 0 30px rgba(196,181,253,0.25)); }
+.hero-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(48px, 8vw, 78px);
+  font-weight: 900; line-height: 1.0;
+  letter-spacing: -2px;
+  margin-bottom: 8px;
+}
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 300; color: var(--lilas);
+  letter-spacing: 8px; text-transform: uppercase;
+  margin-bottom: 32px;
+  animation: neonPulse 3s ease-in-out infinite;
+}
+@keyframes neonPulse {
+  0%,100% { text-shadow: 0 0 20px rgba(196,181,253,0.5), 0 0 40px rgba(124,58,237,0.35); }
+  50% { text-shadow: 0 0 30px rgba(196,181,253,0.9), 0 0 60px rgba(124,58,237,0.65), 0 0 90px rgba(124,58,237,0.25); }
+}
+.hero-body {
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--gray);
+  max-width: 600px;
+  margin: 0 auto 60px;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.scroll-indicator {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  cursor: pointer;
+}
+.scroll-indicator span { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.3); font-family: 'Inter', sans-serif; }
+.chevron-wrap { display: flex; flex-direction: column; align-items: center; gap: -4px; }
+.chevron {
+  width: 20px; height: 10px; opacity: 0;
+  animation: chevronBounce 2s ease-in-out infinite;
+}
+.chevron:nth-child(1) { animation-delay: 0s; }
+.chevron:nth-child(2) { animation-delay: 0.2s; }
+.chevron:nth-child(3) { animation-delay: 0.4s; }
+@keyframes chevronBounce {
+  0%,100% { opacity: 0; transform: translateY(-6px); }
+  50% { opacity: 0.7; transform: translateY(2px); }
+}
+
+/* ===== SECTION HEADER ===== */
+.section-header { margin-bottom: 56px; }
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900; line-height: 1.1;
+  margin-bottom: 14px;
+}
+.section-desc { font-size: 17px; color: var(--gray); line-height: 1.7; max-width: 680px; }
+
+/* ===== HOLOGRAPHIC CARDS ===== */
+.holo-card {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 20px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  cursor: default;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.holo-card::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1; border-radius: inherit;
+  background: linear-gradient(115deg, transparent 0%, rgba(124,58,237,0.08) 20%, rgba(196,181,253,0.14) 35%, rgba(167,139,250,0.09) 50%, rgba(124,58,237,0.07) 65%, transparent 100%);
+  background-size: 300% 300%;
+  pointer-events: none; mix-blend-mode: overlay;
+}
+.holo-card::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 2; border-radius: inherit;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(124,58,237,0.02) 3px, rgba(124,58,237,0.02) 4px);
+  pointer-events: none;
+  animation: scanMove 10s linear infinite;
+}
+@keyframes scanMove { from { background-position: 0 0; } to { background-position: 0 200px; } }
+.holo-shine {
+  position: absolute; inset: 0; z-index: 3; border-radius: inherit;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.05) 46%, rgba(196,181,253,0.15) 50%, rgba(255,255,255,0.05) 54%, transparent 70%);
+  background-size: 300% 100%; background-position: 200% 0;
+  transition: background-position 0.7s ease; pointer-events: none;
+}
+.holo-card:hover .holo-shine { background-position: -100% 0; }
+.holo-card:hover {
+  border-color: rgba(124,58,237,0.4);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(124,58,237,0.22), inset 0 1px 0 rgba(255,255,255,0.10), 0 0 50px rgba(124,58,237,0.08);
+  transform: translateY(-3px);
+}
+.card-inner { padding: 32px 36px; position: relative; z-index: 4; }
+
+/* ===== GLASS CARD ===== */
+.glass-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+.glass-card:hover {
+  border-color: rgba(124,58,237,0.32);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.38), 0 0 0 1px rgba(124,58,237,0.18), inset 0 1px 0 rgba(255,255,255,0.09);
+}
+
+/* ===== STEP CARDS ===== */
+.step-big-card {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+.step-big-card:hover {
+  border-color: rgba(124,58,237,0.38);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 40px rgba(124,58,237,0.08);
+  transform: translateY(-2px);
+}
+.step-big-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(124,58,237,0.06) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+.step-number-bg {
+  position: absolute;
+  top: -20px; right: -20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 140px; font-weight: 900;
+  color: rgba(124,58,237,0.05);
+  line-height: 1; pointer-events: none; z-index: 0;
+  user-select: none;
+}
+.step-inner { padding: 36px 40px; position: relative; z-index: 2; }
+.step-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 24px; }
+.step-badge {
+  width: 52px; height: 52px; border-radius: 16px; flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(109,40,217,0.15));
+  border: 1px solid rgba(124,58,237,0.35);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 900;
+  color: var(--lilas);
+  box-shadow: 0 0 20px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.step-head-text h3 {
+  font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800;
+  margin-bottom: 4px; color: #fff;
+}
+.step-what {
+  font-size: 16px; color: var(--lilas); font-style: italic;
+  line-height: 1.55; font-weight: 300; margin-bottom: 28px;
+  padding: 16px 20px;
+  background: rgba(124,58,237,0.08);
+  border-left: 3px solid rgba(124,58,237,0.4);
+  border-radius: 0 10px 10px 0;
+}
+.step-list { list-style: none; margin-bottom: 20px; }
+.step-list li {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 15px; color: rgba(255,255,255,0.85); line-height: 1.5;
+}
+.step-list li:last-child { border-bottom: none; }
+.step-list-num {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(124,58,237,0.18); border: 1px solid rgba(124,58,237,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: var(--lilas);
+  font-family: 'Inter', sans-serif; margin-top: 2px;
+}
+.step-tip {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 18px;
+  background: rgba(5,150,105,0.08);
+  border: 1px solid rgba(5,150,105,0.2);
+  border-radius: 12px;
+  font-size: 13px; color: rgba(255,255,255,0.7);
+  line-height: 1.5;
+}
+.step-tip svg { width: 18px; height: 18px; stroke: #34D399; fill: none; stroke-width: 2; flex-shrink: 0; margin-top: 1px; }
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.28);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.88em;
+  color: var(--lilas);
+}
+
+/* ===== USE CASE GRID ===== */
+.use-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.use-card {
+  padding: 26px 24px; position: relative;
+}
+.card-icon {
+  width: 46px; height: 46px; border-radius: 14px;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.22);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 0 18px rgba(124,58,237,0.14);
+}
+.card-icon svg { width: 22px; height: 22px; stroke: var(--lilas); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.use-title {
+  font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700;
+  margin-bottom: 8px; color: #fff;
+}
+.use-desc { font-size: 13px; color: var(--gray); line-height: 1.6; margin-bottom: 16px; }
+.prompt-block {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  color: rgba(196,181,253,0.85);
+  line-height: 1.55;
+  position: relative;
+}
+.prompt-block::before {
+  content: 'PROMPT';
+  display: block;
+  font-size: 9px; letter-spacing: 2px; color: rgba(124,58,237,0.7);
+  margin-bottom: 6px; font-family: 'Inter', sans-serif; font-weight: 700;
+}
+
+/* ===== PILLAR CARDS ===== */
+.pillars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.pillar-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 30px 28px;
+  border-left: 3px solid var(--roxo);
+  transition: all 0.3s ease;
+}
+.pillar-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.35), 0 0 30px rgba(124,58,237,0.06); }
+.pillar-num {
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--roxo); margin-bottom: 10px;
+}
+.pillar-title {
+  font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800;
+  margin-bottom: 12px; color: #fff;
+}
+.pillar-body { font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 18px; }
+.pillar-action {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 12px 14px;
+  background: rgba(124,58,237,0.09);
+  border-radius: 10px;
+  font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5;
+}
+.pillar-action svg { width: 16px; height: 16px; stroke: var(--lilas); fill: none; stroke-width: 2; flex-shrink: 0; margin-top: 2px; }
+
+/* ===== ANAMNESE ===== */
+.anamnese-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.anamnese-col h4 {
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--lilas); margin-bottom: 20px;
+  padding-bottom: 14px; border-bottom: 1px solid rgba(124,58,237,0.2);
+}
+.question-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.6;
+}
+.question-item:last-child { border-bottom: none; }
+.q-num {
+  width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+  background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: var(--lilas);
+  font-family: 'Inter', sans-serif; margin-top: 1px;
+}
+
+/* ===== TIMELINE CHECKLIST ===== */
+.timeline-section { position: relative; }
+.timeline-block { margin-bottom: 40px; }
+.timeline-block-header {
+  display: flex; gap: 16px; align-items: center;
+  margin-bottom: 20px;
+}
+.time-badge {
+  display: inline-flex; align-items: center;
+  padding: 6px 16px; border-radius: 100px;
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(109,40,217,0.12));
+  border: 1px solid rgba(124,58,237,0.35);
+  color: var(--lilas);
+  white-space: nowrap;
+}
+.timeline-block-title {
+  font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: #fff;
+}
+.check-items { display: flex; flex-direction: column; gap: 8px; }
+.check-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 18px; border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 15px; color: rgba(255,255,255,0.8);
+  opacity: 0; transform: translateX(-16px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  line-height: 1.45;
+}
+.check-item.revealed { opacity: 1; transform: translateX(0); }
+.check-box {
+  width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+  border: 1.5px solid rgba(124,58,237,0.45);
+  background: rgba(124,58,237,0.08);
+  margin-top: 1px;
+}
+.check-item.bonus { border-color: rgba(196,181,253,0.2); background: rgba(124,58,237,0.06); }
+.bonus-tag {
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--lilas); font-weight: 700; font-family: 'Inter', sans-serif;
+  background: rgba(124,58,237,0.18); border-radius: 4px; padding: 2px 6px;
+  margin-left: 4px;
+}
+
+/* ===== DIVIDER ===== */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,58,237,0.3), rgba(196,181,253,0.15), rgba(124,58,237,0.3), transparent);
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+/* ===== FOOTER ===== */
+#footer {
+  position: relative; z-index: 2;
+  padding: 80px 20px;
+  text-align: center;
+  border-top: 1px solid rgba(124,58,237,0.15);
+  background: linear-gradient(180deg, transparent, rgba(30,27,75,0.25));
+}
+.footer-logo { width: 120px; margin-bottom: 28px; opacity: 0.7; filter: drop-shadow(0 0 16px rgba(196,181,253,0.2)); }
+.footer-tagline {
+  font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 700;
+  color: var(--off-white); margin-bottom: 8px;
+  font-style: italic;
+}
+.footer-conf { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 28px; }
+.footer-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--lilas); text-decoration: none;
+  font-size: 14px; font-family: 'Inter', sans-serif;
+  border: 1px solid rgba(124,58,237,0.3); border-radius: 100px;
+  padding: 10px 24px;
+  background: rgba(124,58,237,0.08);
+  transition: all 0.25s ease;
+}
+.footer-link:hover { background: rgba(124,58,237,0.2); border-color: rgba(124,58,237,0.5); box-shadow: 0 0 20px rgba(124,58,237,0.2); }
+.footer-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #sidebar { display: none; }
+  .use-grid { grid-template-columns: 1fr; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .anamnese-grid { grid-template-columns: 1fr; }
+  .step-inner { padding: 24px 22px; }
+  .container { padding: 80px 0; }
+  .section-wrap { padding: 0 16px; }
+  .hero-logo { width: 180px; }
+}
+@media (max-width: 540px) {
+  .use-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 40px; letter-spacing: -1px; }
+  .hero-sub { font-size: 22px; letter-spacing: 4px; }
+}
+</style>
+</head>
+<body>
+
+<!-- AMBIENT PARTICLES -->
+<div id="ambient-particles"></div>
+<div class="particle-grid-fixed"></div>
+
+<!-- SIDEBAR NAV -->
+<nav id="sidebar" aria-label="Navegação por seções">
+  <button class="sidebar-dot active" data-section="hero"        data-label="Início"></button>
+  <button class="sidebar-dot"        data-section="s1"          data-label="Instalação"></button>
+  <button class="sidebar-dot"        data-section="s-trouble"   data-label="Problemas"></button>
+  <button class="sidebar-dot"        data-section="s2"          data-label="30 Minutos"></button>
+  <button class="sidebar-dot"        data-section="s3"          data-label="OMNIS"></button>
+  <button class="sidebar-dot"        data-section="s4"          data-label="Anamnese"></button>
+  <button class="sidebar-dot"        data-section="s5"          data-label="48 Horas"></button>
+  <button class="sidebar-dot"        data-section="s-glossario" data-label="Glossário"></button>
+</nav>
+
+<main>
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero">
+    <div class="hero-mesh"></div>
+    <div class="hero-orb-1"></div>
+    <div class="hero-content">
+      <img src="logo-invisia-branca.png" alt="InvisIA" class="hero-logo reveal">
+      <h1 class="hero-title chrome-text reveal reveal-d1">GUIA DO PARCEIRO</h1>
+      <p class="hero-sub reveal reveal-d2">START</p>
+      <p class="hero-body reveal reveal-d3">
+        Seu manual pós-pílula. Da instalação ao primeiro resultado em 48 horas.
+      </p>
+      <div class="scroll-indicator reveal reveal-d4" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})">
+        <span>Rolar para começar</span>
+        <div class="chevron-wrap">
+          <svg class="chevron" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L10 9L19 1" stroke="rgba(196,181,253,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="chevron" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L10 9L19 1" stroke="rgba(196,181,253,0.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="chevron" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L10 9L19 1" stroke="rgba(196,181,253,0.2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== SECTION 1: PRÉ-INSTALAÇÃO + INSTALAÇÃO ==================== -->
+  <section id="s1">
+    <div class="section-wrap">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="tag reveal">Instalação</div>
+          <h2 class="section-title chrome-text reveal reveal-d1">Pré-Instalação + Instalação</h2>
+          <p class="section-desc reveal reveal-d2">Siga nessa ordem. Pular etapas é a causa número um de erro. Leva menos de 1 hora.</p>
+        </div>
+
+        <!-- PASSO 1: PRÉ-REQUISITOS -->
+        <div class="step-big-card reveal reveal-d1">
+          <div class="holo-shine"></div>
+          <div class="step-number-bg">01</div>
+          <div class="step-inner">
+            <div class="step-header">
+              <div class="step-badge">01</div>
+              <div class="step-head-text">
+                <h3>Pré-Requisitos</h3>
+                <p style="color:var(--gray);font-size:14px;">Antes de instalar qualquer coisa</p>
+              </div>
+            </div>
+            <p class="step-what">Não pule essa etapa. Falta de espaço e falta de conta são os dois motivos mais comuns de tudo travar no meio do caminho.</p>
+            <ul class="step-list">
+              <li>
+                <span class="step-list-num">1</span>
+                <span><strong>Verificar espaço livre:</strong> Mac: Ajustes do Sistema &gt; Geral &gt; Armazenamento (precisa de 15GB+). Windows: Configurações &gt; Sistema &gt; Armazenamento. Se estiver abaixo: apague vídeos antigos e esvazie a lixeira.</span>
+              </li>
+              <li>
+                <span class="step-list-num">2</span>
+                <span><strong>Instalar WhatsApp Desktop:</strong> facilita copiar comandos para o Terminal sem erro de formatação. Mac: App Store. Windows: Microsoft Store. Procure "WhatsApp".</span>
+              </li>
+              <li>
+                <span class="step-list-num">3</span>
+                <span><strong>Criar conta em claude.ai</strong> — use o mesmo email que vai usar no plano. Guarde o email e a senha.</span>
+              </li>
+              <li>
+                <span class="step-list-num">4</span>
+                <span><strong>Assinar plano Pro</strong> em claude.ai — R$109/mês é o mínimo para começar. Sem o plano, o Claude Code não autentica.</span>
+              </li>
+            </ul>
+            <div class="step-tip">
+              <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Eduardo chegou com 6GB livres e o processo travou no meio. Faça a limpeza antes de começar — economiza tempo e dor de cabeça.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSO 2: NODE.JS -->
+        <div class="step-big-card reveal reveal-d2">
+          <div class="holo-shine"></div>
+          <div class="step-number-bg">02</div>
+          <div class="step-inner">
+            <div class="step-header">
+              <div class="step-badge">02</div>
+              <div class="step-head-text">
+                <h3>Instalar Node.js</h3>
+                <p style="color:var(--gray);font-size:14px;">O motor que faz o Claude Code funcionar</p>
+              </div>
+            </div>
+            <p class="step-what">O Node.js é um programa obrigatório. Sem ele, o Claude Code simplesmente não instala. Instala uma vez, esquece para sempre.</p>
+            <ul class="step-list">
+              <li>
+                <span class="step-list-num">Mac</span>
+                <span>Acesse <code>nodejs.org</code> &gt; clique em "macOS Installer" &gt; Next &gt; Next &gt; Install &gt; senha do Mac se pedir &gt; FECHE o Terminal completamente &gt; abra de novo &gt; teste: <code>node --version</code></span>
+              </li>
+              <li>
+                <span class="step-list-num">Win</span>
+                <span>Acesse <code>nodejs.org</code> &gt; clique em "Windows Installer (LTS)" &gt; Next &gt; Install &gt; FECHE o PowerShell completamente &gt; reabra &gt; teste: <code>node --version</code></span>
+              </li>
+            </ul>
+            <div class="step-tip">
+              <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>FECHAR e REABRIR o Terminal depois de instalar é obrigatório. Sem isso, o computador ainda não "conhece" o Node.js e vai aparecer "command not found".</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSO 3: CLAUDE CODE -->
+        <div class="step-big-card reveal reveal-d3">
+          <div class="holo-shine"></div>
+          <div class="step-number-bg">03</div>
+          <div class="step-inner">
+            <div class="step-header">
+              <div class="step-badge">03</div>
+              <div class="step-head-text">
+                <h3>Instalar Claude Code</h3>
+                <p style="color:var(--gray);font-size:14px;">A IA que roda no seu computador</p>
+              </div>
+            </div>
+            <p class="step-what">Claude Code é diferente do site claude.ai. Ele roda no Terminal e executa tarefas reais no seu computador — não é só conversa.</p>
+            <ul class="step-list">
+              <li>
+                <span class="step-list-num">Mac</span>
+                <span>Abra o Terminal (Cmd + Espaço &gt; digite "Terminal" &gt; Enter). Digite: <code>npm install -g @anthropic-ai/claude-code</code> e aperte Enter. Se pedir senha: <strong>digite normalmente — os caracteres NÃO aparecem na tela, é normal!</strong> Aperte Enter ao terminar.</span>
+              </li>
+              <li>
+                <span class="step-list-num">Win</span>
+                <span>Abra o PowerShell (tecla Windows &gt; digite "PowerShell" &gt; Enter). Digite: <code>npm install -g @anthropic-ai/claude-code</code></span>
+              </li>
+              <li>
+                <span class="step-list-num">Err</span>
+                <span>Se aparecer "permission denied": Mac: use <code>sudo npm install -g @anthropic-ai/claude-code</code>. Windows: feche e abra o PowerShell como Administrador (clique com botão direito &gt; "Executar como administrador").</span>
+              </li>
+            </ul>
+            <div class="step-tip">
+              <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>A senha do Mac nunca mostra os caracteres no Terminal. É um recurso de segurança. Pode digitar normalmente e apertar Enter — ele aceita.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSO 4: PRIMEIRO ACESSO -->
+        <div class="step-big-card reveal reveal-d4">
+          <div class="holo-shine"></div>
+          <div class="step-number-bg">04</div>
+          <div class="step-inner">
+            <div class="step-header">
+              <div class="step-badge">04</div>
+              <div class="step-head-text">
+                <h3>Primeiro Acesso</h3>
+                <p style="color:var(--gray);font-size:14px;">Autenticar e entrar no Claude Code</p>
+              </div>
+            </div>
+            <p class="step-what">A instalação terminou. Agora é hora de entrar pela primeira vez e autenticar com sua conta claude.ai.</p>
+            <ul class="step-list">
+              <li>
+                <span class="step-list-num">1</span>
+                <span>No Terminal, digite <code>claude</code> e aperte Enter</span>
+              </li>
+              <li>
+                <span class="step-list-num">2</span>
+                <span>Escolha o tema Escuro quando aparecer a opção</span>
+              </li>
+              <li>
+                <span class="step-list-num">3</span>
+                <span>O navegador vai abrir automaticamente para autenticar — faça login com o mesmo email do plano Pro</span>
+              </li>
+              <li>
+                <span class="step-list-num">4</span>
+                <span>Volte ao Terminal — se aparecer o prompt do Claude, está pronto!</span>
+              </li>
+            </ul>
+            <div class="step-tip">
+              <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Claude Code (Terminal) e claude.ai (site/app) são ferramentas diferentes. O Terminal executa tarefas. O site é para conversa. Use os dois de forma complementar.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSO 5: CRIAR PASTAS -->
+        <div class="step-big-card reveal reveal-d5">
+          <div class="holo-shine"></div>
+          <div class="step-number-bg">05</div>
+          <div class="step-inner">
+            <div class="step-header">
+              <div class="step-badge">05</div>
+              <div class="step-head-text">
+                <h3>Criar Estrutura de Pastas</h3>
+                <p style="color:var(--gray);font-size:14px;">Organizar antes de trabalhar</p>
+              </div>
+            </div>
+            <p class="step-what">O Claude Code trabalha dentro de pastas. Criar a estrutura certa agora evita confusão depois — você sempre vai saber onde está cada projeto.</p>
+            <ul class="step-list">
+              <li>
+                <span class="step-list-num">1</span>
+                <span>Abra o Finder (Mac) ou Explorador de Arquivos (Windows), vá até Documentos, crie uma pasta chamada "Claude"</span>
+              </li>
+              <li>
+                <span class="step-list-num">2</span>
+                <span>Dentro de "Claude", crie duas subpastas: "Meu-Contexto" e "Otimizacao-PC"</span>
+              </li>
+              <li>
+                <span class="step-list-num">Mac</span>
+                <span>Clique com botão direito na pasta "Claude" &gt; "Nova Aba de Terminal na Pasta" — o Terminal vai abrir já dentro da pasta certa</span>
+              </li>
+              <li>
+                <span class="step-list-num">Win</span>
+                <span>Abra a pasta "Claude" no Explorador &gt; clique na barra de endereço no topo &gt; apague o texto &gt; digite <code>powershell</code> &gt; Enter</span>
+              </li>
+              <li>
+                <span class="step-list-num">5</span>
+                <span>Com o Terminal aberto dentro da pasta, digite <code>claude</code> — agora você está dentro do projeto!</span>
+              </li>
+            </ul>
+            <div class="step-tip">
+              <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Sempre abra o Terminal de dentro da pasta do projeto. O Claude Code trabalha com os arquivos que estão na pasta onde você abre ele.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== SEÇÃO TROUBLESHOOTING ==================== -->
+  <section id="s-trouble">
+    <div class="section-wrap">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="tag reveal">Troubleshooting</div>
+          <h2 class="section-title chrome-text reveal reveal-d1">Travou? Calma.</h2>
+          <p class="section-desc reveal reveal-d2">Os erros mais comuns, traduzidos para humano, com a solução exata.</p>
+        </div>
+
+        <div class="use-grid">
+
+          <div class="glass-card use-card reveal reveal-d1">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="use-title">"command not found: claude"</div>
+            <div class="use-desc">O computador ainda não reconhece o comando. Solução: feche completamente o Terminal e abra de novo. Se persistir:</div>
+            <div class="prompt-block">npm install -g @anthropic-ai/claude-code</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d2">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="use-title">"permission denied"</div>
+            <div class="use-desc">Sem permissão para instalar. Mac: adicione <code>sudo</code> antes do comando. Windows: feche e reabra o PowerShell como Administrador (botão direito).</div>
+            <div class="prompt-block">sudo npm install -g @anthropic-ai/claude-code</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d3">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="use-title">"npm: command not found"</div>
+            <div class="use-desc">Node.js não está instalado — ou o Terminal ainda não foi fechado e reaberto após a instalação. Volte ao passo "Instalar Node.js" e repita o processo.</div>
+            <div class="prompt-block">nodejs.org &gt; instalar &gt; FECHAR Terminal &gt; abrir de novo</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d1">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="use-title">"Senha não aparece quando digito"</div>
+            <div class="use-desc">Isso é normal e esperado. O Mac esconde os caracteres da senha no Terminal por segurança. Continue digitando sua senha normalmente e aperte Enter.</div>
+            <div class="prompt-block">Digite a senha + Enter — mesmo sem ver os caracteres</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d2">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="use-title">"ENOSPC: no space left"</div>
+            <div class="use-desc">Sem espaço em disco. Precisa de pelo menos 15GB livres. Apague vídeos antigos, esvazie a lixeira, e remova apps que não usa. Só depois tente de novo.</div>
+            <div class="prompt-block">Mac: Ajustes &gt; Geral &gt; Armazenamento &gt; libere 15GB</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d3">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="use-title">"Computador muito lento"</div>
+            <div class="use-desc">Claude Code precisa de pelo menos 8GB de RAM livres. Feche todos os outros programas antes de usar: navegador, Spotify, Zoom, tudo.</div>
+            <div class="prompt-block">Feche outros programas &gt; tente de novo</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d1">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="use-title">"Não consigo copiar do WhatsApp"</div>
+            <div class="use-desc">Copiar do WhatsApp no celular e colar no Terminal do Mac frequentemente dá erro de formatação. Solução: instale o WhatsApp Desktop no computador, ou mande o comando para si mesmo por email.</div>
+            <div class="prompt-block">Instale WhatsApp Desktop &gt; copie de lá</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d2">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="use-title">"Claude Code vs Claude app?"</div>
+            <div class="use-desc"><strong>Claude Code</strong> = Terminal — executa tarefas reais no seu computador, cria arquivos, roda comandos. <strong>Claude app/site</strong> = conversa — ideal para perguntas, rascunhos, ideias. São complementares, use os dois.</div>
+            <div class="prompt-block">Terminal = executa. Site = conversa. Ambos são IA.</div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== SECTION 2: PRIMEIRAS AÇÕES ==================== -->
+  <section id="s2">
+    <div class="section-wrap">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="tag reveal">Primeiras Ações</div>
+          <h2 class="section-title chrome-text reveal reveal-d1">O que fazer nos primeiros 30 minutos</h2>
+          <p class="section-desc reveal reveal-d2">Quatro ações concretas. Nesta ordem. Você vai sair daqui com a IA funcionando do jeito certo para você.</p>
+        </div>
+
+        <div class="use-grid" style="grid-template-columns: repeat(2, 1fr);">
+
+          <!-- 1 -->
+          <div class="glass-card use-card reveal reveal-d1">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="use-title">Otimize seu computador</div>
+            <div class="use-desc">Sua primeira experiência de execucao real. O Claude vai avaliar e otimizar a performance da maquina. Quando aparecer [y/n] digite y. Quando aparecer 1 ou 2, escolha 2.</div>
+            <div class="prompt-block">Instalei o Claude Code e vou usar muito. Quero que você tenha acesso total ao meu Mac. Avalie e otimize a performance. Monte um plano de ação.</div>
+          </div>
+
+          <!-- 2 -->
+          <div class="glass-card use-card reveal reveal-d2">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div class="use-title">Importe seu contexto do ChatGPT</div>
+            <div class="use-desc">Em claude.ai: Configuracoes &gt; Conta &gt; Privacidade &gt; Importar memoria de outros provedores. Copie o prompt gerado, cole no ChatGPT, copie a resposta e cole no Claude Code:</div>
+            <div class="prompt-block">Vou colar meu contexto do GPT. Atualiza sua memória sobre mim: [colar resposta aqui]</div>
+          </div>
+
+          <!-- 3 -->
+          <div class="glass-card use-card reveal reveal-d3">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="use-title">Crie seu clone pessoal</div>
+            <div class="use-desc">Hack poderoso: grave audio de 5 a 10 minutos no celular contando quem voce e, seu momento atual e seus desafios. iPhone: use o app Gravador &gt; ative transcricao automatica. Copie e cole:</div>
+            <div class="prompt-block">Esse é meu contexto atual. Estude e guarde na memória: [colar transcrição]</div>
+          </div>
+
+          <!-- 4 -->
+          <div class="glass-card use-card reveal reveal-d4">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <div class="use-title">Primeira tarefa real</div>
+            <div class="use-desc">Teste o poder na pratica. Um email que levaria 15 minutos vai ficar pronto em 10 segundos. Resultado imediato, sem exagero.</div>
+            <div class="prompt-block">Escreva um email profissional para [nome] agradecendo a reunião sobre [assunto] e propondo próximos passos.</div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== SECTION 3: ORGANIZAÇÃO ==================== -->
+  <section id="s3">
+    <div class="section-wrap">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="tag reveal">Organização</div>
+          <h2 class="section-title chrome-text reveal reveal-d1">OMNIS na Prática</h2>
+          <p class="section-desc reveal reveal-d2">Quatro pilares para transformar sua empresa numa organização que aprende, lembra e evolui continuamente.</p>
+        </div>
+
+        <div class="pillars-grid">
+
+          <div class="pillar-card reveal reveal-d1" style="border-left-color:#7C3AED;">
+            <div class="pillar-num">Pilar 01</div>
+            <div class="pillar-title">Tudo se grava</div>
+            <div class="pillar-body">Ative o OMNIS em TODA reunião. Sem exceção. As melhores ideias surgem quando ninguém está anotando — e é exatamente quando você mais precisa que tudo seja capturado.</div>
+            <div class="pillar-action">
+              <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              <span>Configure gravação automática no Google Meet e Zoom. Ative antes de abrir qualquer call.</span>
+            </div>
+          </div>
+
+          <div class="pillar-card reveal reveal-d2" style="border-left-color:#6D28D9;">
+            <div class="pillar-num">Pilar 02</div>
+            <div class="pillar-title">Tudo tem dono</div>
+            <div class="pillar-body">Depois de cada reunião, peça ao OMNIS: "Liste todas as tarefas mencionadas com responsável e prazo." Nunca mais uma decisão que fica no ar sem execução.</div>
+            <div class="pillar-action">
+              <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              <span>Crie uma rotina: ao fim de cada call, gere e compartilhe os action items com a equipe.</span>
+            </div>
+          </div>
+
+          <div class="pillar-card reveal reveal-d3" style="border-left-color:#C4B5FD;">
+            <div class="pillar-num">Pilar 03</div>
+            <div class="pillar-title">Tudo se consulta</div>
+            <div class="pillar-body">Antes de tomar qualquer decisão, pergunte: "O que já sabemos sobre isso?" O OMNIS cruza dados de todas as reuniões anteriores e entrega contexto completo em segundos.</div>
+            <div class="pillar-action">
+              <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              <span>Treine sua equipe para consultar o OMNIS antes de decidir. Decisão sem contexto é chute.</span>
+            </div>
+          </div>
+
+          <div class="pillar-card reveal reveal-d4" style="border-left-color:#EDE9FE;">
+            <div class="pillar-num">Pilar 04</div>
+            <div class="pillar-title">Tudo evolui</div>
+            <div class="pillar-body">Todo mês, peça um relatório de inteligência: tendências, padrões, oportunidades que ninguém percebeu. A empresa aprende como um organismo vivo — e você fica sempre um passo à frente.</div>
+            <div class="pillar-action">
+              <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              <span>Agende o "Relatório OMNIS Mensal" no calendário — primeiro dia de cada mês, sem falta.</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== SECTION 4: ANAMNESE ==================== -->
+  <section id="s4">
+    <div class="section-wrap">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="tag reveal">Anamnese</div>
+          <h2 class="section-title chrome-text reveal reveal-d1">Diagnóstico de IA</h2>
+          <p class="section-desc reveal reveal-d2">Use estas perguntas para mapear onde a IA pode gerar mais impacto — na sua vida e na empresa. Seja honesto nas respostas. O diagnóstico preciso é o primeiro passo.</p>
+        </div>
+
+        <div class="holo-card reveal reveal-d3">
+          <div class="holo-shine"></div>
+          <div class="card-inner">
+            <div class="anamnese-grid">
+
+              <div class="anamnese-col">
+                <h4>
+                  <svg style="display:inline;width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;margin-right:8px;vertical-align:middle;" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  Pessoal
+                </h4>
+                <div class="question-item">
+                  <span class="q-num">1</span>
+                  <span>Quantas horas por semana você gasta escrevendo emails, mensagens e textos?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">2</span>
+                  <span>Quantas reuniões você faz por semana? Quantas são gravadas ou documentadas?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">3</span>
+                  <span>Quanto tempo leva para encontrar uma informação que você sabe que já discutiu?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">4</span>
+                  <span>Você tem uma rotina de organização pessoal? Ela realmente funciona?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">5</span>
+                  <span>Quantas ideias você teve no último mês que não foram para frente por falta de tempo?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">6</span>
+                  <span>Qual a tarefa repetitiva que mais consome seu tempo atualmente?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">7</span>
+                  <span>Se você tivesse um assistente disponível 24h, qual seria a primeira coisa que delegaria?</span>
+                </div>
+              </div>
+
+              <div class="anamnese-col">
+                <h4>
+                  <svg style="display:inline;width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;margin-right:8px;vertical-align:middle;" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  Empresa
+                </h4>
+                <div class="question-item">
+                  <span class="q-num">1</span>
+                  <span>Quantas reuniões a empresa faz por semana? Quantas geram atas ou action items?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">2</span>
+                  <span>Qual o maior gargalo operacional que impede o crescimento hoje?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">3</span>
+                  <span>Quantas ferramentas a equipe usa que não se comunicam entre si?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">4</span>
+                  <span>Quanto a empresa gasta, em horas, com tarefas que poderiam ser automatizadas?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">5</span>
+                  <span>A equipe de vendas tem um script? Ele é atualizado e consultado com frequência?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">6</span>
+                  <span>Como são tomadas as decisões estratégicas? Com base em dados ou feeling?</span>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">7</span>
+                  <span>Se toda a inteligência da empresa estivesse documentada e consultável em segundos, o que mudaria?</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== SECTION 5: 48 HORAS ==================== -->
+  <section id="s5">
+    <div class="section-wrap">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="tag reveal">Quick Start</div>
+          <h2 class="section-title chrome-text reveal reveal-d1">48 Horas Sem Limite</h2>
+          <p class="section-desc reveal reveal-d2">Missões concretas para as próximas 48 horas. Complete todas e você nunca mais vai voltar ao modo antigo.</p>
+        </div>
+
+        <div class="timeline-section">
+
+          <!-- BLOCO 0-2H -->
+          <div class="timeline-block reveal reveal-d1">
+            <div class="timeline-block-header">
+              <span class="time-badge">Hora 0 — 2</span>
+              <span class="timeline-block-title">Setup</span>
+            </div>
+            <div class="check-items" data-stagger="true">
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Espaço verificado e limpo — 15GB+ livres confirmados</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Node.js instalado, Terminal fechado e reaberto, <code>node --version</code> funcionando</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Claude Code instalado com <code>npm install -g @anthropic-ai/claude-code</code></span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Autenticado com conta claude.ai Pro — terminal mostrando o prompt do Claude</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Pasta "Claude" criada em Documentos com subpastas "Meu-Contexto" e "Otimizacao-PC"</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Primeira experiência: otimizacao do computador executada com sucesso</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOCO 2-6H -->
+          <div class="timeline-block reveal reveal-d2">
+            <div class="timeline-block-header">
+              <span class="time-badge">Hora 2 — 6</span>
+              <span class="timeline-block-title">Contexto</span>
+            </div>
+            <div class="check-items" data-stagger="true">
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Memória importada do ChatGPT via claude.ai &gt; Configuracoes &gt; Privacidade</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Audio de 5 a 10 minutos gravado no celular contando quem voce e e seus desafios</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Transcricao colada no Claude Code — contexto pessoal salvo na memória</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Link do Instagram ou LinkedIn enviado para o Claude estudar seu perfil publico</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOCO 6-12H -->
+          <div class="timeline-block reveal reveal-d3">
+            <div class="timeline-block-header">
+              <span class="time-badge">Hora 6 — 12</span>
+              <span class="timeline-block-title">Primeira Vitória</span>
+            </div>
+            <div class="check-items" data-stagger="true">
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Email profissional escrito em 10 segundos — compare com o tempo que levaria antes</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Documento longo resumido — relatório, artigo ou contrato entregue em segundos</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Reuniao gravada no celular, transcrita e action items gerados pelo Claude</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOCO 12-24H -->
+          <div class="timeline-block reveal reveal-d4">
+            <div class="timeline-block-header">
+              <span class="time-badge">Hora 12 — 24</span>
+              <span class="timeline-block-title">Rotina</span>
+            </div>
+            <div class="check-items" data-stagger="true">
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Daily matinal: grave um audio de standup com voce mesmo, transcreva, Claude organiza as tarefas do dia no Notas</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Pesquisa real sobre algo do seu negocio feita com o Claude — comparacao, analise ou estrategia</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Agenda da semana reorganizada e priorizada pelo Claude com foco em receita</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOCO 24-48H -->
+          <div class="timeline-block reveal reveal-d5">
+            <div class="timeline-block-header">
+              <span class="time-badge">Hora 24 — 48</span>
+              <span class="timeline-block-title">Multiplicação</span>
+            </div>
+            <div class="check-items" data-stagger="true">
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Primeira skill personalizada criada — ensinando o Claude a fazer algo específico do seu trabalho</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Resultado mostrado para pelo menos 1 pessoa — multiplique o impacto</span>
+              </div>
+              <div class="check-item">
+                <div class="check-box"></div>
+                <span>Resultado postado no grupo dos parceiros InvisIA — inspire quem ainda está travado</span>
+              </div>
+              <div class="check-item bonus">
+                <div class="check-box" style="border-color:rgba(196,181,253,0.5);background:rgba(124,58,237,0.14);"></div>
+                <span>Plano completo de implementação de IA para sua empresa gerado pelo Claude <span class="bonus-tag">BONUS</span></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ==================== GLOSSÁRIO ==================== -->
+  <section id="s-glossario">
+    <div class="section-wrap">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="tag reveal">Vocabulário</div>
+          <h2 class="section-title chrome-text reveal reveal-d1">Tradutor para Leigos</h2>
+          <p class="section-desc reveal reveal-d2">Os termos que vao aparecer no seu caminho — traduzidos sem firula.</p>
+        </div>
+
+        <div class="use-grid" style="grid-template-columns: repeat(2, 1fr);">
+
+          <div class="glass-card use-card reveal reveal-d1">
+            <div class="use-title">Terminal</div>
+            <div class="use-desc">Tela preta onde voce conversa com a IA e executa comandos. Mac: Cmd + Espaco &gt; digite "Terminal". Windows: tecla Windows &gt; "PowerShell".</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d2">
+            <div class="use-title">Prompt</div>
+            <div class="use-desc">A instrucao que voce da para a IA. Quanto melhor a pergunta, melhor a resposta. Seja especifico, contextualize, diga o formato que quer.</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d3">
+            <div class="use-title">Token</div>
+            <div class="use-desc">A moeda da IA. Cada palavra ou fragmento de texto consome tokens. Planos com mais tokens = mais capacidade de processar textos longos e complexos.</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d4">
+            <div class="use-title">Skill</div>
+            <div class="use-desc">Habilidade que voce ensina ao Claude. Ele aprende na velocidade da luz. Uma skill pode ser "sempre escreva em tom direto" ou "use meu estilo de email".</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d1">
+            <div class="use-title">Agente</div>
+            <div class="use-desc">Assistente com personalidade e autonomia definidas. Faz tarefas sozinho seguindo regras que voce estabelece. Diferente de uma conversa avulsa.</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d2">
+            <div class="use-title">Squad</div>
+            <div class="use-desc">Time de 6 a 16 agentes trabalhando em conjunto. Como ter um departamento inteiro de IA rodando ao mesmo tempo numa so tarefa.</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d3">
+            <div class="use-title">Node.js</div>
+            <div class="use-desc">Programa de computador necessario para o Claude Code funcionar. Voce instala uma vez e esquece. E como o motor embaixo do capo — nao precisa entender, so instalar.</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d4">
+            <div class="use-title">Clone</div>
+            <div class="use-desc">Versao personalizada do Claude com suas skills, seu contexto e seu estilo. Quanto mais voce alimenta, mais ele parece voce — sem o cansaco.</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d1">
+            <div class="use-title">OMNIS</div>
+            <div class="use-desc">Sistema da InvisIA que grava tudo na empresa — reunioes, decisoes, ideias. E a memoria de longo prazo da organizacao. Se nao gravou, nao aconteceu.</div>
+          </div>
+
+          <div class="glass-card use-card reveal reveal-d2">
+            <div class="use-title">Sudo</div>
+            <div class="use-desc">Comando que da permissao de administrador no Terminal do Mac. E o "por favor com poderes maximos" do computador. Use quando aparecer "permission denied".</div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer id="footer">
+  <img src="logo-invisia-branca.png" alt="InvisIA" class="footer-logo">
+  <p class="footer-tagline">"Você tomou a pílula. Não tem volta."</p>
+  <p class="footer-conf">Confidencial — InvisIA</p>
+  <a href="apresentacao-start.html" class="footer-link">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Ver Apresentação START
+  </a>
+</footer>
+
+<script>
+/* ===== AMBIENT PARTICLES ===== */
+(function() {
+  const container = document.getElementById('ambient-particles');
+  const colors = [
+    'rgba(124,58,237,VAL)', 'rgba(196,181,253,VAL)', 'rgba(109,40,217,VAL)',
+    'rgba(167,139,250,VAL)', 'rgba(237,233,254,VAL)'
+  ];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'amb-p';
+    const size = Math.random() * 3 + 1;
+    const opacity = (Math.random() * 0.18 + 0.04).toFixed(2);
+    const color = colors[Math.floor(Math.random() * colors.length)].replace('VAL', opacity);
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    const dur = Math.random() * 18 + 14;
+    const delay = Math.random() * -20;
+    const dx = (Math.random() - 0.5) * 200;
+    const dy = (Math.random() - 0.5) * 200;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${x}%; top:${y}%;
+      background:${color};
+      box-shadow:0 0 ${size*4}px ${color};
+      animation: ambFloat${i} ${dur}s ${delay}s ease-in-out infinite;
+    `;
+    const sheet = document.styleSheets[0];
+    try {
+      sheet.insertRule(`@keyframes ambFloat${i} {
+        0%,100% { transform: translate(0,0) scale(1); opacity:${opacity}; }
+        33%  { transform: translate(${dx*0.4}px,${dy*0.4}px) scale(${1+Math.random()*0.4}); opacity:${Math.min(+opacity*2,0.35)}; }
+        66%  { transform: translate(${dx}px,${dy}px) scale(${1-Math.random()*0.2}); opacity:${+opacity*0.5}; }
+      }`, sheet.cssRules.length);
+    } catch(e) {}
+    container.appendChild(p);
+  }
+})();
+
+/* ===== INTERSECTION OBSERVER — REVEAL ===== */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ===== STAGGER CHECKLIST ITEMS ===== */
+const staggerBlocks = document.querySelectorAll('[data-stagger]');
+const checkObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const items = entry.target.querySelectorAll('.check-item');
+      items.forEach((item, i) => {
+        setTimeout(() => item.classList.add('revealed'), i * 90);
+      });
+      checkObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+staggerBlocks.forEach(b => checkObserver.observe(b));
+
+/* ===== SIDEBAR ACTIVE STATE ===== */
+const sections = ['hero','s1','s2','s3','s4','s5'];
+const dots = document.querySelectorAll('.sidebar-dot');
+
+function getActiveSectionId() {
+  let active = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= window.innerHeight * 0.5) active = id;
+  });
+  return active;
+}
+
+function updateSidebar() {
+  const activeId = getActiveSectionId();
+  dots.forEach(dot => {
+    dot.classList.toggle('active', dot.dataset.section === activeId);
+  });
+}
+
+window.addEventListener('scroll', updateSidebar, { passive: true });
+updateSidebar();
+
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    const target = document.getElementById(dot.dataset.section);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+/* ===== HOLOGRAPHIC CARD MOUSE EFFECT ===== */
+document.querySelectorAll('.holo-card, .step-big-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+    card.style.setProperty('--holo-x', x + '%');
+    card.style.setProperty('--holo-y', y + '%');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.setProperty('--holo-x', '50%');
+    card.style.setProperty('--holo-y', '50%');
+  });
+});
+</script>
+</body>
+</html>

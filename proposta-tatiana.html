@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta de Parceria — Tatiana Brandão × InvisIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & ROOT ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --preto: #0a0a0a;
+  --roxo-deep: #1E1B4B;
+  --roxo: #7C3AED;
+  --roxo-dark: #6D28D9;
+  --lilas: #C4B5FD;
+  --lilas-light: #EDE9FE;
+  --off-white: #F8F7FF;
+  --gray: #94A3B8;
+  --gray-dark: #334155;
+  --green: #059669;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  width: 100%;
+  background: var(--preto);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: var(--roxo); border-radius: 2px; }
+
+/* ===== AMBIENT PARTICLES ===== */
+#ambient-particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.amb-p {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+/* ===== FIXED NAV ===== */
+#top-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 100;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+#top-nav img { height: 28px; object-fit: contain; }
+#top-nav .nav-tag {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(196,181,253,0.5);
+  font-weight: 500;
+}
+
+/* ===== CHROME TEXT ===== */
+.chrome-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  background: linear-gradient(175deg, #ffffff 0%, #e8d5ff 15%, #C4B5FD 30%, #7C3AED 50%, #4c1d95 65%, #C4B5FD 82%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(124,58,237,0.55)) drop-shadow(0 0 40px rgba(124,58,237,0.25));
+}
+.chrome-gold {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  background: linear-gradient(175deg, #fff8e1 0%, #ffe082 20%, #ffd54f 40%, #ffb300 58%, #ff8f00 75%, #ffe082 90%, #fff8e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(255,193,7,0.5)) drop-shadow(0 0 36px rgba(255,152,0,0.25));
+}
+
+/* ===== TAG ===== */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 20px;
+  border-radius: 100px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--lilas);
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid rgba(196,181,253,0.25);
+  background: rgba(124,58,237,0.1);
+  margin-bottom: 22px;
+}
+
+/* ===== SECTIONS ===== */
+section {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 40px;
+}
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 5;
+}
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 40px 100px;
+  position: relative;
+  overflow: hidden;
+}
+.mesh-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 25%, rgba(109,40,217,0.45) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 80% 75%, rgba(124,58,237,0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(30,27,75,0.8) 0%, transparent 80%),
+    var(--preto);
+  animation: meshMove 16s ease-in-out infinite alternate;
+}
+@keyframes meshMove {
+  0% { background-position: 0% 0%; }
+  33% { background-position: 30% 20%; }
+  66% { background-position: 60% 40%; }
+  100% { background-position: 20% 60%; }
+}
+.particle-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(124,58,237,0.14) 1px, transparent 1px);
+  background-size: 56px 56px;
+  animation: gridFloat 24s linear infinite;
+}
+@keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(56px); } }
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: orbPulse 6s ease-in-out infinite;
+}
+@keyframes orbPulse { 0%,100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.12); } }
+
+#hero .hero-inner {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#hero img.hero-logo {
+  width: 200px;
+  object-fit: contain;
+  margin-bottom: 40px;
+  filter: drop-shadow(0 0 30px rgba(124,58,237,0.4));
+  animation: logoFloat 5s ease-in-out infinite;
+}
+@keyframes logoFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.hero-name {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+.hero-subtitle {
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: var(--lilas);
+  font-weight: 300;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+.hero-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 28px;
+  border-radius: 100px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(196,181,253,0.3);
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--lilas);
+  font-weight: 600;
+  margin-bottom: 18px;
+  box-shadow: 0 0 30px rgba(124,58,237,0.2);
+}
+.hero-conf {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  margin-top: 8px;
+}
+.scroll-hint {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.35;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+@keyframes scrollBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+.scroll-hint span { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; }
+.scroll-hint svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ===== GLASS CARD ===== */
+.glass-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 0%, rgba(124,58,237,0.06) 20%, rgba(196,181,253,0.1) 35%, rgba(167,139,250,0.07) 50%, transparent 100%);
+  background-size: 300% 300%;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  transition: background-position 0.08s ease;
+}
+.glass-card:hover {
+  border-color: rgba(124,58,237,0.4);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 40px rgba(124,58,237,0.08);
+  transform: translateY(-3px);
+}
+.card-inner { padding: 28px 30px; position: relative; z-index: 2; }
+.card-icon {
+  width: 48px; height: 48px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 14px;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.22);
+  box-shadow: 0 0 20px rgba(124,58,237,0.15);
+}
+.card-icon svg { width: 24px; height: 24px; stroke: var(--lilas); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.card-title { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.card-body { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+/* ===== GRID HELPERS ===== */
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+
+/* ===== SECTION HEADERS ===== */
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.section-body {
+  font-size: 18px;
+  color: var(--gray);
+  line-height: 1.75;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124,58,237,0.4) 30%, rgba(196,181,253,0.6) 50%, rgba(124,58,237,0.4) 70%, transparent);
+  margin: 0;
+}
+
+/* ===== BIG NUMBER ===== */
+.big-pct {
+  font-size: clamp(80px, 14vw, 160px);
+  font-weight: 900;
+  line-height: 1;
+  display: block;
+  margin: 0 auto 16px;
+  text-align: center;
+}
+
+/* ===== REVENUE CARDS ===== */
+.revenue-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+.revenue-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--roxo), var(--lilas), var(--roxo), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.revenue-card:hover { border-color: rgba(124,58,237,0.35); transform: translateY(-4px); box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.15); }
+.revenue-card:hover::after { opacity: 1; }
+.revenue-card .rc-icon {
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.22);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  box-shadow: 0 0 24px rgba(124,58,237,0.15);
+}
+.revenue-card .rc-icon svg { width: 26px; height: 26px; stroke: var(--lilas); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.revenue-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.revenue-card .rc-price {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.revenue-card .rc-sub { font-size: 13px; color: var(--gray); line-height: 1.55; margin-bottom: 10px; }
+.revenue-card .rc-earn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(5,150,105,0.12);
+  border: 1px solid rgba(5,150,105,0.25);
+  font-size: 13px;
+  font-weight: 700;
+  color: #34d399;
+}
+.revenue-card .rc-recurring {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(196,181,253,0.6);
+  letter-spacing: 0.5px;
+}
+.revenue-card .rc-recurring svg { width: 14px; height: 14px; stroke: var(--lilas); fill: none; stroke-width: 2; }
+
+/* ===== ENTREGAVEIS COLUMNS ===== */
+.entrega-col {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.entrega-col.featured {
+  border-color: rgba(124,58,237,0.3);
+  background: rgba(124,58,237,0.05);
+  box-shadow: 0 0 40px rgba(124,58,237,0.1), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.entrega-col .plan-name {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--lilas);
+  margin-bottom: 6px;
+}
+.entrega-col .plan-price {
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.entrega-col .plan-price span { font-size: 16px; color: var(--gray); font-weight: 400; }
+.entrega-col .plan-pitch {
+  font-size: 13px;
+  color: var(--gray);
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  font-style: italic;
+  line-height: 1.5;
+}
+.check-item-v2 {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.85);
+}
+.check-item-v2:last-child { border-bottom: none; }
+.check-mark {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(5,150,105,0.15);
+  border: 1px solid rgba(5,150,105,0.3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.check-mark svg { width: 12px; height: 12px; stroke: #34d399; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ===== SCENARIO TABLES ===== */
+.scenario-block {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 22px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+.scenario-block:hover { border-color: rgba(124,58,237,0.3); }
+.scenario-header {
+  padding: 20px 28px;
+  background: rgba(124,58,237,0.1);
+  border-bottom: 1px solid rgba(124,58,237,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.scenario-header h3 { font-size: 18px; font-weight: 800; }
+.scenario-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.badge-conservador { background: rgba(148,163,184,0.15); border: 1px solid rgba(148,163,184,0.3); color: #94a3b8; }
+.badge-base { background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3); color: var(--lilas); }
+.badge-otimista { background: rgba(255,193,7,0.12); border: 1px solid rgba(255,193,7,0.3); color: #fbbf24; }
+.scenario-table { width: 100%; border-collapse: collapse; }
+.scenario-table th {
+  padding: 12px 20px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.scenario-table td {
+  padding: 13px 20px;
+  font-size: 14px;
+  color: var(--gray);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.scenario-table tr:last-child td { border-bottom: none; }
+.scenario-table .total-row td {
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  background: rgba(124,58,237,0.1);
+  border-top: 1px solid rgba(124,58,237,0.25);
+  padding: 16px 20px;
+}
+.scenario-table .total-row td:last-child { color: #34d399; font-size: 18px; }
+.scenario-table .avg-row td {
+  color: var(--lilas);
+  font-weight: 700;
+  font-size: 14px;
+  background: rgba(196,181,253,0.04);
+  padding: 12px 20px;
+}
+.scenario-table .avg-row td:last-child { font-size: 16px; font-weight: 900; }
+.highlight-cell { color: #fff !important; font-weight: 600 !important; }
+
+/* ===== GSP SECTION ===== */
+.gsp-big {
+  font-size: clamp(52px, 9vw, 100px);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.gsp-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.gsp-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 18px 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  border-left: 3px solid rgba(124,58,237,0.5);
+  transition: all 0.3s ease;
+}
+.gsp-step:hover { border-left-color: var(--lilas); background: rgba(124,58,237,0.06); }
+.gsp-step-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(124,58,237,0.2);
+  border: 1px solid rgba(124,58,237,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800;
+  color: var(--lilas);
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+}
+.gsp-step-text { flex: 1; }
+.gsp-step-text strong { font-size: 16px; color: #fff; display: block; margin-bottom: 4px; }
+.gsp-step-text span { font-size: 14px; color: var(--gray); }
+.gsp-earn {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(5,150,105,0.12);
+  border: 1px solid rgba(5,150,105,0.25);
+  font-size: 13px;
+  font-weight: 700;
+  color: #34d399;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+/* ===== TIMELINE ===== */
+.timeline-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+.tl-line {
+  position: absolute;
+  left: 19px;
+  top: 8px; bottom: 8px;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(124,58,237,0.5) 8%, rgba(124,58,237,0.5) 92%, transparent);
+}
+.tl-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.tl-dot-col {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  padding-top: 16px;
+  flex-shrink: 0;
+}
+.tl-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--roxo);
+  box-shadow: 0 0 14px rgba(124,58,237,0.9);
+  flex-shrink: 0;
+}
+.tl-dot.active-dot {
+  background: #34d399;
+  box-shadow: 0 0 14px rgba(52,211,153,0.9);
+  width: 14px; height: 14px;
+}
+.tl-card {
+  flex: 1;
+  padding: 16px 20px;
+  background: rgba(124,58,237,0.07);
+  border-radius: 14px;
+  border-left: 2px solid rgba(124,58,237,0.3);
+  transition: all 0.3s ease;
+}
+.tl-card:hover { border-left-color: var(--lilas); background: rgba(124,58,237,0.1); }
+.tl-card.today { background: rgba(52,211,153,0.08); border-left-color: rgba(52,211,153,0.4); }
+.tl-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--lilas);
+  margin-bottom: 4px;
+}
+.tl-card.today .tl-label { color: #34d399; }
+.tl-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+.tl-card p { font-size: 13px; color: var(--gray); }
+
+/* ===== TERMS CARD ===== */
+.terms-card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(124,58,237,0.2);
+  border-radius: 24px;
+  padding: 40px 48px;
+  box-shadow: 0 0 60px rgba(124,58,237,0.08);
+}
+.term-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.term-item:last-child { border-bottom: none; }
+.term-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--roxo);
+  box-shadow: 0 0 10px rgba(124,58,237,0.7);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.term-item strong { font-size: 15px; color: var(--lilas); margin-right: 6px; }
+.term-item span { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.55; }
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 80px 40px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+footer .footer-inner { position: relative; z-index: 2; }
+footer img { height: 40px; margin-bottom: 20px; opacity: 0.7; object-fit: contain; }
+footer .footer-tagline { font-size: 18px; color: var(--lilas); font-weight: 300; margin-bottom: 12px; }
+footer .footer-conf { font-size: 12px; color: rgba(255,255,255,0.2); margin-bottom: 6px; letter-spacing: 1px; }
+footer .footer-date { font-size: 11px; color: rgba(255,255,255,0.12); letter-spacing: 2px; text-transform: uppercase; }
+
+/* ===== STAT HIGHLIGHT BOX ===== */
+.stat-box {
+  text-align: center;
+  padding: 30px 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+.stat-box:hover { border-color: rgba(124,58,237,0.3); transform: translateY(-3px); }
+.stat-box .stat-number { font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin-bottom: 6px; display: block; }
+.stat-box .stat-label { font-size: 13px; color: var(--gray); line-height: 1.5; }
+
+/* ===== QUOTE BLOCK ===== */
+.quote-block {
+  text-align: center;
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.quote-mark { font-size: 80px; line-height: 0.5; color: rgba(124,58,237,0.4); font-family: Georgia, serif; display: block; margin-bottom: 20px; }
+.quote-text { font-size: clamp(18px, 2.5vw, 26px); font-weight: 300; font-style: italic; color: var(--lilas-light); line-height: 1.65; }
+
+/* ===== REVEAL ANIMATIONS ===== */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.22s; }
+.reveal-d3 { transition-delay: 0.34s; }
+.reveal-d4 { transition-delay: 0.46s; }
+.reveal-d5 { transition-delay: 0.58s; }
+.reveal-d6 { transition-delay: 0.70s; }
+
+/* ===== NEON GLOW ===== */
+@keyframes neonPulse {
+  0%,100% { filter: drop-shadow(0 0 20px rgba(196,181,253,0.6)) drop-shadow(0 0 40px rgba(124,58,237,0.4)); }
+  50% { filter: drop-shadow(0 0 30px rgba(196,181,253,1)) drop-shadow(0 0 60px rgba(124,58,237,0.7)) drop-shadow(0 0 100px rgba(124,58,237,0.3)); }
+}
+.neon-pulse { animation: neonPulse 3s ease-in-out infinite; }
+
+/* ===== ACCENT BG SECTIONS ===== */
+.section-dark { background: rgba(124,58,237,0.03); }
+.section-accent {
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(30,27,75,0.6) 0%, transparent 80%);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  section { padding: 80px 20px; }
+  #hero { padding: 100px 20px 80px; }
+  #top-nav { padding: 0 20px; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: repeat(2,1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+  .terms-card { padding: 28px 24px; }
+  .scenario-table th, .scenario-table td { padding: 10px 12px; font-size: 13px; }
+}
+@media (max-width: 480px) {
+  .grid-4 { grid-template-columns: 1fr; }
+  .scenario-table { font-size: 12px; }
+  .scenario-table th, .scenario-table td { padding: 8px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- AMBIENT PARTICLES -->
+<div id="ambient-particles"></div>
+
+<!-- TOP NAV -->
+<nav id="top-nav">
+  <img src="logo-invisia-branca.png" alt="InvisIA" onerror="this.style.display='none'">
+  <span class="nav-tag">Confidencial &bull; Tatiana Brandão</span>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="mesh-hero"></div>
+  <div class="particle-grid"></div>
+  <div class="orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(109,40,217,0.35),transparent 70%);top:-100px;left:-150px;"></div>
+  <div class="orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,0.2),transparent 70%);bottom:-80px;right:-100px;animation-delay:-3s;"></div>
+
+  <div class="hero-inner">
+    <img src="logo-invisia-branca.png" alt="InvisIA" class="hero-logo reveal" onerror="this.style.display='none'">
+
+    <p class="hero-subtitle reveal reveal-d1">Proposta de Parceria Estratégica</p>
+
+    <h1 class="hero-name chrome-text reveal reveal-d2">TATIANA BRANDÃO</h1>
+
+    <div class="hero-role reveal reveal-d3">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Embaixadora &amp; Produtora de Eventos InvisIA
+    </div>
+
+    <p class="hero-conf reveal reveal-d4">Confidencial &mdash; Documento exclusivo</p>
+
+    <div class="scroll-hint reveal reveal-d5">
+      <span>Deslize para explorar</span>
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 1: A INVISIA ===== -->
+<section class="section-accent">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">Quem Somos</div>
+      <h2 class="section-title reveal reveal-d1">A InvisIA em <span class="chrome-text">60 segundos</span></h2>
+      <p class="section-body reveal reveal-d2">
+        A InvisIA é a camada invisível de inteligência que conecta processos, organiza dados, automatiza fluxos e amplia a capacidade de decisão das empresas.
+      </p>
+      <div class="quote-block reveal reveal-d3" style="padding:24px 0 0;">
+        <span class="quote-mark">&ldquo;</span>
+        <p class="quote-text">Onde o invisível ganha escala.</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="glass-card reveal reveal-d1">
+        <div class="card-inner">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div class="card-title"><span class="chrome-text">0,4%</span> do planeta</div>
+          <div class="card-body">faz vibe code. Nós somos esse 0,4% — os que enxergam o que os outros ainda não conseguem ver.</div>
+        </div>
+      </div>
+
+      <div class="glass-card reveal reveal-d2">
+        <div class="card-inner">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="card-title"><span class="chrome-text">R$46.800</span> é o que a G4 cobra</div>
+          <div class="card-body">A InvisIA entrega MAIS por MENOS. Implementação real de IA, não apenas conteúdo educacional.</div>
+        </div>
+      </div>
+
+      <div class="glass-card reveal reveal-d3">
+        <div class="card-inner">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="card-title"><span class="chrome-text">300.000+</span> empresas esperando</div>
+          <div class="card-body">Faturam R$500K+ e NÃO têm IA implementada. Esse é o mercado que a Tatiana vai abrir para nós.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION: QUEM É TATIANA ===== -->
+<section>
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">Seu Perfil</div>
+      <h2 class="section-title reveal reveal-d1">Por que <span class="chrome-text">você</span>, Tatiana.</h2>
+      <p class="section-body reveal reveal-d2">Não escolhemos parceiros por acaso. Seu perfil é exatamente o que a InvisIA precisa para escalar.</p>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="glass-card reveal reveal-d2" style="max-width:800px;margin:0 auto 40px;">
+      <div class="card-inner" style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;">
+        <div style="flex:1;min-width:260px;">
+          <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--lilas);margin-bottom:12px;font-weight:600;">Dados</div>
+          <div style="font-size:15px;margin-bottom:8px;"><strong style="color:#fff;">Nome:</strong> <span style="color:var(--gray);">Tatiana Maximo Nogueira Brandão</span></div>
+          <div style="font-size:15px;margin-bottom:8px;"><strong style="color:#fff;">WhatsApp:</strong> <span style="color:var(--gray);">+55 21 96417-7014</span></div>
+          <div style="font-size:15px;margin-bottom:8px;"><strong style="color:#fff;">Instagram:</strong> <span style="color:var(--lilas);">@tatianamaxximo</span> <span style="color:var(--gray);">— 14.500 seguidores</span></div>
+          <div style="font-size:15px;margin-bottom:8px;"><strong style="color:#fff;">Localização:</strong> <span style="color:var(--gray);">Barra da Tijuca, RJ</span></div>
+          <div style="font-size:15px;"><strong style="color:#fff;">Experiência:</strong> <span style="color:var(--gray);">+20 anos de mercado</span></div>
+        </div>
+        <div style="flex:1;min-width:260px;">
+          <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--lilas);margin-bottom:12px;font-weight:600;">Cargos Atuais</div>
+          <div style="font-size:15px;margin-bottom:8px;color:var(--gray);">Diretora Comercial e Marketing — <strong style="color:#fff;">Évora Farma</strong></div>
+          <div style="font-size:15px;margin-bottom:8px;color:var(--gray);">Diretora Comercial e Marketing — <strong style="color:#fff;">GUP Suplementos</strong></div>
+          <div style="font-size:15px;margin-bottom:8px;color:var(--gray);">Criadora — <strong style="color:#fff;">DivaDay Club</strong></div>
+          <div style="font-size:15px;color:var(--gray);">Produtora — <strong style="color:#fff;">Casa Búzios Experience</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brands Grid -->
+    <div style="max-width:900px;margin:0 auto 40px;">
+      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--lilas);margin-bottom:16px;font-weight:600;text-align:center;" class="reveal reveal-d2">Marcas & Projetos Associados</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+        <div class="reveal" style="padding:8px 18px;border-radius:100px;border:1px solid rgba(124,58,237,0.25);background:rgba(124,58,237,0.08);font-size:13px;color:var(--lilas);font-weight:500;">GUP Suplementos</div>
+        <div class="reveal" style="padding:8px 18px;border-radius:100px;border:1px solid rgba(124,58,237,0.25);background:rgba(124,58,237,0.08);font-size:13px;color:var(--lilas);font-weight:500;">Évora Farma</div>
+        <div class="reveal" style="padding:8px 18px;border-radius:100px;border:1px solid rgba(124,58,237,0.25);background:rgba(124,58,237,0.08);font-size:13px;color:var(--lilas);font-weight:500;">Pleno+</div>
+        <div class="reveal" style="padding:8px 18px;border-radius:100px;border:1px solid rgba(124,58,237,0.25);background:rgba(124,58,237,0.08);font-size:13px;color:var(--lilas);font-weight:500;">DivaDay Club</div>
+        <div class="reveal" style="padding:8px 18px;border-radius:100px;border:1px solid rgba(124,58,237,0.25);background:rgba(124,58,237,0.08);font-size:13px;color:var(--lilas);font-weight:500;">MNCS Coffee</div>
+        <div class="reveal" style="padding:8px 18px;border-radius:100px;border:1px solid rgba(124,58,237,0.25);background:rgba(124,58,237,0.08);font-size:13px;color:var(--lilas);font-weight:500;">Casa Búzios Experience</div>
+        <div class="reveal" style="padding:8px 18px;border-radius:100px;border:1px solid rgba(124,58,237,0.25);background:rgba(124,58,237,0.08);font-size:13px;color:var(--lilas);font-weight:500;">GUP Sessions</div>
+        <div class="reveal" style="padding:8px 18px;border-radius:100px;border:1px solid rgba(124,58,237,0.25);background:rgba(124,58,237,0.08);font-size:13px;color:var(--lilas);font-weight:500;">Minime Comércio</div>
+      </div>
+    </div>
+
+    <!-- Why Strategic -->
+    <div style="max-width:900px;margin:0 auto;">
+      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--lilas);margin-bottom:16px;font-weight:600;text-align:center;" class="reveal reveal-d2">Por que você é estratégica</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+        <div class="glass-card reveal reveal-d1"><div class="card-inner" style="text-align:center;padding:20px 16px;">
+          <div style="font-size:28px;margin-bottom:8px;">🔗</div>
+          <div class="card-title" style="font-size:14px;color:var(--lilas);">Network Gigantesco</div>
+          <div class="card-body" style="font-size:12px;">Barra, Búzios, Brasília — profissionais de alto padrão no RJ</div>
+        </div></div>
+        <div class="glass-card reveal reveal-d2"><div class="card-inner" style="text-align:center;padding:20px 16px;">
+          <div style="font-size:28px;margin-bottom:8px;">🎪</div>
+          <div class="card-title" style="font-size:14px;color:var(--lilas);">Produtora de Eventos</div>
+          <div class="card-body" style="font-size:12px;">DivaDay, GUP Sessions, Casa Búzios — experiências premium</div>
+        </div></div>
+        <div class="glass-card reveal reveal-d3"><div class="card-inner" style="text-align:center;padding:20px 16px;">
+          <div style="font-size:28px;margin-bottom:8px;">👑</div>
+          <div class="card-title" style="font-size:14px;color:var(--lilas);">Mercado Feminino</div>
+          <div class="card-body" style="font-size:12px;">Empresárias e executivas — zero concorrência em IA para mulheres</div>
+        </div></div>
+        <div class="glass-card reveal reveal-d1"><div class="card-inner" style="text-align:center;padding:20px 16px;">
+          <div style="font-size:28px;margin-bottom:8px;">⚡</div>
+          <div class="card-title" style="font-size:14px;color:var(--lilas);">Catalisadora Natural</div>
+          <div class="card-body" style="font-size:12px;">Prospecta sem pedir, conecta pessoas, gera oportunidades espontaneamente</div>
+        </div></div>
+        <div class="glass-card reveal reveal-d2"><div class="card-inner" style="text-align:center;padding:20px 16px;">
+          <div style="font-size:28px;margin-bottom:8px;">🏢</div>
+          <div class="card-title" style="font-size:14px;color:var(--lilas);">4 Empresas Ativas</div>
+          <div class="card-body" style="font-size:12px;">Minime, Irpa, consultoria publicidade e gestão empresarial</div>
+        </div></div>
+        <div class="glass-card reveal reveal-d3"><div class="card-inner" style="text-align:center;padding:20px 16px;">
+          <div style="font-size:28px;margin-bottom:8px;">📊</div>
+          <div class="card-title" style="font-size:14px;color:var(--lilas);">Perfil DISC: DI</div>
+          <div class="card-body" style="font-size:12px;">Alta Dominância + Alta Influência. Ação e resultado, não burocracia.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Connection Already Generated -->
+    <div class="glass-card reveal reveal-d3" style="max-width:800px;margin:40px auto 0;border-color:rgba(5,150,105,0.3);">
+      <div class="card-inner">
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:14px;font-weight:600;">Conexões já geradas (antes de ser oficializada)</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;box-shadow:0 0 8px rgba(5,150,105,0.6);"></div>
+            <div><strong style="color:#fff;">André Soares Pereira</strong> <span style="color:var(--gray);">— GSP Franchising (400+ marcas, 1.500+ lojas). Reunião + evento realizados.</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--roxo);flex-shrink:0;box-shadow:0 0 8px rgba(124,58,237,0.6);"></div>
+            <div><strong style="color:#fff;">Dono da lancha Atlantis</strong> <span style="color:var(--gray);">— Empresário alto padrão (a identificar)</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--roxo);flex-shrink:0;box-shadow:0 0 8px rgba(124,58,237,0.6);"></div>
+            <div><strong style="color:#fff;">Biomédica</strong> <span style="color:var(--gray);">— Saúde/farma (a identificar)</span></div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);font-size:14px;color:var(--lilas);font-style:italic;">
+          "Catalisador infinito" — já prospectando empresas ANTES de ser oficializada.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 2: SEU PAPEL ===== -->
+<section>
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">A Embaixadora</div>
+      <h2 class="section-title reveal reveal-d1">Você é o <span class="chrome-text">catalisador.</span></h2>
+      <p class="section-body reveal reveal-d2">
+        Seu papel não é vender. É <strong style="color:#fff;">CONECTAR</strong>. Cada empresário que você apresenta à InvisIA é uma porta que se abre para transformação — e para você, uma fonte de renda recorrente.
+      </p>
+    </div>
+
+    <div class="grid-4" style="max-width:960px;margin:0 auto;">
+      <div class="glass-card reveal reveal-d1">
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 16px;">
+            <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </div>
+          <div class="card-title" style="font-size:15px;">Conectar empresários ao ecossistema InvisIA</div>
+        </div>
+      </div>
+
+      <div class="glass-card reveal reveal-d2">
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 16px;">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="card-title" style="font-size:15px;">Produzir eventos premium com identidade InvisIA</div>
+        </div>
+      </div>
+
+      <div class="glass-card reveal reveal-d3">
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 16px;">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="card-title" style="font-size:15px;">Abrir o mercado feminino (InvisIA Women)</div>
+        </div>
+      </div>
+
+      <div class="glass-card reveal reveal-d4">
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 16px;">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="card-title" style="font-size:15px;">Expandir a rede no RJ, Búzios e Brasília</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 3: O QUE VOCÊ GANHA ===== -->
+<section class="section-dark section-accent">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">Sua Remuneração</div>
+      <h2 class="section-title reveal reveal-d1">25% do líquido. Recorrente. <span class="chrome-text">Para sempre.</span></h2>
+
+      <div style="margin:40px auto 16px;" class="reveal reveal-d2">
+        <span class="big-pct chrome-text neon-pulse">25%</span>
+        <p style="font-size:20px;color:var(--lilas);font-weight:300;">de todo movimento que você gerar</p>
+      </div>
+    </div>
+
+    <div class="grid-2" style="max-width:960px;margin:0 auto;">
+      <!-- CARD EVENTO -->
+      <div class="revenue-card reveal reveal-d1">
+        <div class="rc-icon">
+          <svg viewBox="0 0 24 24"><path d="M2 9a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9z"/><path d="M4 10v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>
+        </div>
+        <h3>Eventos IMMERSION</h3>
+        <div class="rc-price chrome-text">R$997 – R$1.997</div>
+        <div class="rc-sub">por ingresso &bull; Lotação de 30 pessoas</div>
+        <div class="rc-earn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          R$250 a R$500 por ingresso
+        </div>
+        <div class="rc-earn" style="margin-top:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          R$7.500 a R$15.000 por evento lotado
+        </div>
+      </div>
+
+      <!-- CARD CONNECT -->
+      <div class="revenue-card reveal reveal-d2">
+        <div class="rc-icon">
+          <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        </div>
+        <h3>Produto Connect</h3>
+        <div class="rc-price chrome-text">R$2.000<span style="font-size:16px;color:var(--gray);font-weight:400;">/mês por empresa</span></div>
+        <div class="rc-sub">R$24.000/ano por cliente</div>
+        <div class="rc-earn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          R$500/mês por empresa (25% líquido)
+        </div>
+        <div class="rc-recurring">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Recorrente — enquanto o cliente pagar, você ganha
+        </div>
+      </div>
+
+      <!-- CARD FOUNDER -->
+      <div class="revenue-card reveal reveal-d3">
+        <div class="rc-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>Produto Founder</h3>
+        <div class="rc-price chrome-text">R$10.000<span style="font-size:16px;color:var(--gray);font-weight:400;">/mês por empresa</span></div>
+        <div class="rc-sub">R$100.000/ano por cliente &bull; Alta performance</div>
+        <div class="rc-earn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          R$2.500/mês por empresa
+        </div>
+        <div class="rc-recurring">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Recorrente — enquanto o cliente pagar, você ganha
+        </div>
+      </div>
+
+      <!-- CARD PATROCINIO -->
+      <div class="revenue-card reveal reveal-d4">
+        <div class="rc-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+        </div>
+        <h3>Ativação de Marca / Patrocínio</h3>
+        <div class="rc-price chrome-text">R$3.000 – R$30.000</div>
+        <div class="rc-sub">por cota de patrocínio</div>
+        <div class="rc-earn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          25% do líquido de cada cota
+        </div>
+        <div class="rc-recurring" style="margin-top:8px;">
+          <svg viewBox="0 0 24 24" width="14" height="14"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Permutas que você conseguir = economia compartilhada
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 4: ENTREGÁVEIS ===== -->
+<section>
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">O que o Cliente Recebe</div>
+      <h2 class="section-title reveal reveal-d1">Entregáveis <span class="chrome-text">exclusivos</span></h2>
+      <p class="section-body reveal reveal-d2">Você apresenta. A InvisIA entrega. O cliente renova. Você continua ganhando.</p>
+    </div>
+
+    <div class="grid-2" style="max-width:960px;margin:0 auto;">
+      <!-- CONNECT -->
+      <div class="entrega-col reveal reveal-d1">
+        <div class="plan-name">Connect</div>
+        <div class="plan-price">R$2.000<span>/mês</span></div>
+        <div class="plan-pitch">"Aprenda a construir seu próprio time de IA"</div>
+
+        <div class="check-item-v2">
+          <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Acesso à comunidade InvisIA</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Lives educacionais semanais</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Aulas de construção de agentes de IA</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Mastermind com empresários</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Suporte via comunidade</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Cultura OMNIS implementada</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>2 assentos (empresário + 1 membro)</span>
+        </div>
+      </div>
+
+      <!-- FOUNDER -->
+      <div class="entrega-col featured reveal reveal-d2">
+        <div class="plan-name" style="color:#fbbf24;">Founder</div>
+        <div class="plan-price" style="font-size:36px;">R$10.000<span>/mês</span></div>
+        <div class="plan-pitch">"Você está comprando R$1M de folha por R$10K/mês"</div>
+
+        <div class="check-item-v2">
+          <div class="check-mark" style="background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.3);">
+            <svg viewBox="0 0 24 24" style="stroke:#fbbf24;"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>TUDO do Connect</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark" style="background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.3);">
+            <svg viewBox="0 0 24 24" style="stroke:#fbbf24;"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>Biblioteca completa de squads prontos</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark" style="background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.3);">
+            <svg viewBox="0 0 24 24" style="stroke:#fbbf24;"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>Soluções finais (dashboards, automações)</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark" style="background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.3);">
+            <svg viewBox="0 0 24 24" style="stroke:#fbbf24;"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>Modelo de royalties (cria squad → ganha)</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark" style="background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.3);">
+            <svg viewBox="0 0 24 24" style="stroke:#fbbf24;"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>Acompanhamento personalizado</span>
+        </div>
+        <div class="check-item-v2">
+          <div class="check-mark" style="background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.3);">
+            <svg viewBox="0 0 24 24" style="stroke:#fbbf24;"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>5 assentos (empresário + 4 membros)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 5: PROJEÇÃO ===== -->
+<section class="section-dark">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">Simulação</div>
+      <h2 class="section-title reveal reveal-d1">Quanto você pode <span class="chrome-text">ganhar</span></h2>
+      <p class="section-body reveal reveal-d2">Três cenários reais — baseados em operações já existentes no mercado de IA educacional e consultoria.</p>
+    </div>
+
+    <!-- CENÁRIO CONSERVADOR -->
+    <div class="scenario-block reveal">
+      <div class="scenario-header">
+        <h3>Cenário Conservador</h3>
+        <span class="scenario-badge badge-conservador">6 meses</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="scenario-table">
+          <thead>
+            <tr>
+              <th>Fonte</th>
+              <th>Qtd</th>
+              <th>Ticket</th>
+              <th>Receita Total</th>
+              <th>Sua Parte (25%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="highlight-cell">Eventos (2 eventos)</td>
+              <td>60 ingressos</td>
+              <td>R$1.500</td>
+              <td>R$90.000</td>
+              <td style="color:#34d399;font-weight:600;">R$22.500</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Connect</td>
+              <td>8 empresas</td>
+              <td>R$2.000/mês</td>
+              <td>R$96.000</td>
+              <td style="color:#34d399;font-weight:600;">R$24.000</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Founder</td>
+              <td>1 empresa</td>
+              <td>R$10.000/mês</td>
+              <td>R$60.000</td>
+              <td style="color:#34d399;font-weight:600;">R$15.000</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Patrocínio</td>
+              <td>4 cotas</td>
+              <td>R$10.000</td>
+              <td>R$40.000</td>
+              <td style="color:#34d399;font-weight:600;">R$10.000</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>TOTAL 6 MESES</strong></td>
+              <td><strong>R$286.000</strong></td>
+              <td><strong>R$71.500</strong></td>
+            </tr>
+            <tr class="avg-row">
+              <td colspan="3">Mensal médio</td>
+              <td>&mdash;</td>
+              <td><strong>R$11.917</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CENÁRIO BASE -->
+    <div class="scenario-block reveal reveal-d1">
+      <div class="scenario-header">
+        <h3>Cenário Base</h3>
+        <span class="scenario-badge badge-base">12 meses</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="scenario-table">
+          <thead>
+            <tr>
+              <th>Fonte</th>
+              <th>Qtd</th>
+              <th>Ticket</th>
+              <th>Receita Total</th>
+              <th>Sua Parte (25%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="highlight-cell">Eventos (4)</td>
+              <td>120 ingressos</td>
+              <td>R$1.500</td>
+              <td>R$180.000</td>
+              <td style="color:#34d399;font-weight:600;">R$45.000</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Connect</td>
+              <td>20 empresas</td>
+              <td>R$2.000/mês</td>
+              <td>R$480.000</td>
+              <td style="color:#34d399;font-weight:600;">R$120.000</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Founder</td>
+              <td>3 empresas</td>
+              <td>R$10.000/mês</td>
+              <td>R$360.000</td>
+              <td style="color:#34d399;font-weight:600;">R$90.000</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Patrocínio</td>
+              <td>10 cotas</td>
+              <td>R$12.000</td>
+              <td>R$120.000</td>
+              <td style="color:#34d399;font-weight:600;">R$30.000</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>TOTAL 12 MESES</strong></td>
+              <td><strong>R$1.140.000</strong></td>
+              <td><strong>R$285.000</strong></td>
+            </tr>
+            <tr class="avg-row">
+              <td colspan="3">Mensal médio</td>
+              <td>&mdash;</td>
+              <td><strong>R$23.750</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CENÁRIO OTIMISTA -->
+    <div class="scenario-block reveal reveal-d2">
+      <div class="scenario-header">
+        <h3>Cenário Otimista</h3>
+        <span class="scenario-badge badge-otimista">12 meses</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="scenario-table">
+          <thead>
+            <tr>
+              <th>Fonte</th>
+              <th>Qtd</th>
+              <th>Ticket</th>
+              <th>Receita Total</th>
+              <th>Sua Parte (25%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="highlight-cell">Eventos (6)</td>
+              <td>180 ingressos</td>
+              <td>R$1.500</td>
+              <td>R$270.000</td>
+              <td style="color:#34d399;font-weight:600;">R$67.500</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Connect</td>
+              <td>35 empresas</td>
+              <td>R$2.000/mês</td>
+              <td>R$840.000</td>
+              <td style="color:#34d399;font-weight:600;">R$210.000</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Founder</td>
+              <td>6 empresas</td>
+              <td>R$10.000/mês</td>
+              <td>R$720.000</td>
+              <td style="color:#34d399;font-weight:600;">R$180.000</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">Patrocínio</td>
+              <td>15 cotas</td>
+              <td>R$15.000</td>
+              <td>R$225.000</td>
+              <td style="color:#34d399;font-weight:600;">R$56.250</td>
+            </tr>
+            <tr>
+              <td class="highlight-cell">InvisIA Women (vertical)</td>
+              <td>50 ingressos</td>
+              <td>R$997</td>
+              <td>R$49.850</td>
+              <td style="color:#34d399;font-weight:600;">R$12.463</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>TOTAL 12 MESES</strong></td>
+              <td><strong>R$2.104.850</strong></td>
+              <td><strong>R$526.213</strong></td>
+            </tr>
+            <tr class="avg-row">
+              <td colspan="3">Mensal médio</td>
+              <td>&mdash;</td>
+              <td><strong>R$43.851</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 6: CASO GSP ===== -->
+<section class="section-accent">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">Case Real</div>
+      <h2 class="section-title reveal reveal-d1">O que o André (GSP) <span class="chrome-text">pode gerar</span></h2>
+      <p class="section-body reveal reveal-d2">
+        Você já tem o André. Isso não é apenas uma conexão — é uma alavanca que pode multiplicar dezenas de clientes. Veja o que UM relacionamento pode produzir.
+      </p>
+    </div>
+
+    <div class="gsp-flow reveal">
+      <div class="gsp-step">
+        <div class="gsp-step-num">1</div>
+        <div class="gsp-step-text">
+          <strong>GSP Founder (R$10.000/mês)</strong>
+          <span>André entra como cliente Founder direto</span>
+          <div class="gsp-earn">R$2.500/mês para Tatiana — recorrente</div>
+        </div>
+      </div>
+
+      <div class="gsp-step">
+        <div class="gsp-step-num">2</div>
+        <div class="gsp-step-text">
+          <strong>GSP formata 10 marcas/ano</strong>
+          <span>Cada marca pode virar cliente Connect</span>
+          <div class="gsp-earn">10 × R$2.000/mês = R$5.000/mês para Tatiana</div>
+        </div>
+      </div>
+
+      <div class="gsp-step">
+        <div class="gsp-step-num">3</div>
+        <div class="gsp-step-text">
+          <strong>Cada marca abre 20–50 franquias</strong>
+          <span>Se 10% aderem ao Connect: 20–50 franquias × R$2.000/mês</span>
+          <div class="gsp-earn">Crescimento exponencial — receita em cascata</div>
+        </div>
+      </div>
+
+      <div class="gsp-step">
+        <div class="gsp-step-num">4</div>
+        <div class="gsp-step-text">
+          <strong>Eventos na Casa GSP (auditório do André)</strong>
+          <span>R$0 de custo de local = maior margem líquida = mais para você</span>
+          <div class="gsp-earn">Eventos com custo reduzido = rentabilidade ampliada</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:60px;" class="reveal reveal-d3">
+      <p style="font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--gray);margin-bottom:12px;">Projeção GSP — 12 meses</p>
+      <span class="gsp-big chrome-gold neon-pulse">R$125.000+</span>
+      <p style="font-size:18px;color:var(--lilas);margin-top:8px;font-weight:300;">vindo apenas de UMA conexão. A do André.</p>
+      <p style="font-size:14px;color:var(--gray);margin-top:6px;">R$500K+ de receita InvisIA → R$125K+ para Tatiana</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 7: TIMELINE ===== -->
+<section>
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">Próximos Passos</div>
+      <h2 class="section-title reveal reveal-d1">Como <span class="chrome-text">começa</span></h2>
+      <p class="section-body reveal reveal-d2">Um caminho claro. Resultados reais. Cada etapa construída juntos.</p>
+    </div>
+
+    <div class="timeline-wrap">
+      <div class="tl-line"></div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot-col"><div class="tl-dot active-dot"></div></div>
+        <div class="tl-card today">
+          <div class="tl-label">Hoje</div>
+          <h4>Aceitar proposta + NDA</h4>
+          <p>Formalizar a parceria e proteger o ecossistema</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal reveal-d1">
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-label">Semana 1</div>
+          <h4>Alinhamento de agenda + primeiros contatos</h4>
+          <p>Calendário de eventos e mapeamento de leads prioritários</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal reveal-d2">
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-label">Mês 1</div>
+          <h4>Primeiro evento IMMERSION (30 pessoas)</h4>
+          <p>Experiência premium. Identidade InvisIA. Primeiras conversões</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal reveal-d3">
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-label">Mês 2</div>
+          <h4>Primeiras conversões Connect/Founder</h4>
+          <p>Empresários do evento que decidem continuar na jornada</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal reveal-d4">
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-label">Mês 3</div>
+          <h4>Primeiro cheque recorrente</h4>
+          <p>A renda começa a chegar todo mês — sem precisar vender de novo</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal reveal-d5">
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-label">Mês 6</div>
+          <h4>Receita estabilizada R$10–25K/mês</h4>
+          <p>Base de clientes recorrentes consolidada</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal reveal-d6">
+        <div class="tl-dot-col"><div class="tl-dot" style="background:#fbbf24;box-shadow:0 0 14px rgba(251,191,36,0.9);"></div></div>
+        <div class="tl-card" style="border-left-color:rgba(251,191,36,0.4);background:rgba(251,191,36,0.05);">
+          <div class="tl-label" style="color:#fbbf24;">Mês 12</div>
+          <h4>Vertical InvisIA Women + múltiplos eventos</h4>
+          <p>Uma vertical inteira construída por você. Um legado de receita recorrente</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 8: TERMOS ===== -->
+<section class="section-dark section-accent">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="tag reveal">Termos</div>
+      <h2 class="section-title reveal reveal-d1">Regras da <span class="chrome-text">parceria</span></h2>
+      <p class="section-body reveal reveal-d2">Transparência total. Nada escondido. Essa é a base de tudo que construímos juntos.</p>
+    </div>
+
+    <div class="terms-card reveal">
+      <div class="term-item">
+        <div class="term-dot"></div>
+        <div><strong>25% do líquido</strong><span>de TODO negócio gerado pela sua linha de relacionamento, sem exceção</span></div>
+      </div>
+      <div class="term-item">
+        <div class="term-dot"></div>
+        <div><strong>Recorrente:</strong><span>enquanto o cliente pagar, você ganha — mês após mês, sem precisar reconquistar</span></div>
+      </div>
+      <div class="term-item">
+        <div class="term-dot"></div>
+        <div><strong>Cascata:</strong><span>se o André (que você conectou) indicar outro cliente, você também recebe 25% dessa indicação</span></div>
+      </div>
+      <div class="term-item">
+        <div class="term-dot"></div>
+        <div><strong>Sem teto:</strong><span>não há limite de ganhos — quanto mais você gera, mais você ganha, infinitamente</span></div>
+      </div>
+      <div class="term-item">
+        <div class="term-dot"></div>
+        <div><strong>Exclusividade regional:</strong><span>Rio de Janeiro + network pessoal — o seu território, protegido</span></div>
+      </div>
+      <div class="term-item">
+        <div class="term-dot"></div>
+        <div><strong>Transparência:</strong><span>acesso a relatório mensal completo de receita e comissões — você vê tudo</span></div>
+      </div>
+      <div class="term-item" style="border-bottom:none;padding-bottom:0;">
+        <div class="term-dot"></div>
+        <div><strong>NDA:</strong><span>informações do ecossistema, clientes e tecnologias são confidenciais</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(109,40,217,0.2),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);position:absolute;z-index:0;"></div>
+  <div class="footer-inner reveal">
+    <img src="logo-invisia-branca.png" alt="InvisIA" onerror="this.style.display='none'">
+    <p class="footer-tagline">Onde o invisível ganha escala.</p>
+    <p class="footer-conf">Esta proposta é pessoal, intransferível e confidencial.</p>
+    <p class="footer-date">InvisIA &mdash; Março 2026</p>
+  </div>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+(function() {
+  // AMBIENT PARTICLES
+  const container = document.getElementById('ambient-particles');
+  const colors = [
+    'rgba(124,58,237,0.35)',
+    'rgba(196,181,253,0.25)',
+    'rgba(109,40,217,0.3)',
+    'rgba(167,139,250,0.2)',
+    'rgba(255,255,255,0.08)',
+  ];
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement('div');
+    p.className = 'amb-p';
+    const size = Math.random() * 5 + 2;
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    const dur = Math.random() * 20 + 15;
+    const delay = Math.random() * 10;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${x}%;top:${y}%;
+      background:${color};
+      box-shadow:0 0 ${size * 3}px ${color};
+      animation:ambFloat${i} ${dur}s ${delay}s ease-in-out infinite;
+    `;
+    const dx = (Math.random() - 0.5) * 200;
+    const dy = (Math.random() - 0.5) * 200;
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ambFloat${i} {
+        0%,100% { transform: translate(0,0) scale(1); opacity:0.6; }
+        25% { transform: translate(${dx * 0.5}px,${dy * 0.5}px) scale(1.2); opacity:0.9; }
+        50% { transform: translate(${dx}px,${dy}px) scale(0.8); opacity:0.4; }
+        75% { transform: translate(${dx * 0.3}px,${dy * 0.7}px) scale(1.1); opacity:0.7; }
+      }
+    `;
+    document.head.appendChild(style);
+    container.appendChild(p);
+  }
+
+  // SCROLL REVEAL
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // HOLOGRAPHIC CARD MOUSE TRACKING
+  document.querySelectorAll('.glass-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 100;
+      const y = ((e.clientY - r.top) / r.height) * 100;
+      card.style.setProperty('--holo-x', x + '%');
+      card.style.setProperty('--holo-y', y + '%');
+    });
+  });
+
+  // SMOOTH SCROLL FOR ANCHOR LINKS
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+</script>
+</body>
+</html>

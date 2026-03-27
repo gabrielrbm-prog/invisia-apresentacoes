@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvisIA — Apresentações</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --preto: #0a0a0a; --roxo: #7C3AED; --roxo-dark: #6D28D9; --lilas: #C4B5FD; --lilas-light: #EDE9FE; --gray: #94A3B8; }
+html, body { width: 100%; min-height: 100vh; background: var(--preto); color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; }
+
+.container { max-width: 800px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; align-items: center; }
+.logo { width: 240px; margin-bottom: 40px; }
+.subtitle { font-size: 16px; color: var(--lilas); font-style: italic; margin-bottom: 60px; animation: neonPulse 4s ease-in-out infinite; }
+@keyframes neonPulse { 0%,100% { text-shadow: 0 0 20px rgba(196,181,253,0.4); } 50% { text-shadow: 0 0 30px rgba(196,181,253,0.8), 0 0 60px rgba(124,58,237,0.5); } }
+
+h2 { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-bottom: 24px; }
+
+.cards { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+.card {
+  display: block; text-decoration: none; color: #fff;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 32px 36px;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden;
+}
+.card::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.04) 46%, rgba(196,181,253,0.12) 50%, rgba(255,255,255,0.04) 54%, transparent 70%);
+  background-size: 300% 100%; background-position: 200% 0;
+  transition: background-position 0.7s ease; pointer-events: none;
+}
+.card:hover::after { background-position: -100% 0; }
+.card:hover {
+  border-color: rgba(124,58,237,0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 50px rgba(124,58,237,0.12);
+}
+.card-tag {
+  display: inline-block; padding: 4px 12px; border-radius: 100px;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--lilas); border: 1px solid rgba(196,181,253,0.25);
+  background: rgba(124,58,237,0.1); margin-bottom: 14px; font-weight: 600;
+}
+.card h3 { font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+.card p { font-size: 15px; color: var(--gray); line-height: 1.6; }
+.card .arrow { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); font-size: 24px; color: rgba(255,255,255,0.2); transition: all 0.3s; }
+.card:hover .arrow { color: var(--lilas); transform: translateY(-50%) translateX(4px); }
+
+.footer { margin-top: 80px; font-size: 11px; color: rgba(255,255,255,0.15); letter-spacing: 1px; }
+
+.orb { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; animation: orbPulse 6s ease-in-out infinite; }
+@keyframes orbPulse { 0%,100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.08); } }
+</style>
+</head>
+<body>
+
+<div class="orb" style="width:500px;height:500px;background:rgba(109,40,217,0.35);top:-10%;left:-5%;"></div>
+<div class="orb" style="width:400px;height:400px;background:rgba(124,58,237,0.2);bottom:-5%;right:-8%;animation-delay:3s;"></div>
+
+<div class="container">
+  <img src="logo-invisia-branca.png" alt="InvisIA" class="logo">
+  <p class="subtitle">Onde o invisível ganha escala.</p>
+
+  <h2>Apresentações</h2>
+
+  <div class="cards">
+    <a href="apresentacao-start.html" class="card">
+      <div class="card-tag">Evento</div>
+      <h3>InvisIA START</h3>
+      <p>Evento de ativação para parceiros e multiplicadores. 2h30 presencial — a pílula sem limite.</p>
+      <span class="arrow">→</span>
+    </a>
+
+    <a href="squad-trafego.html" class="card">
+      <div class="card-tag">Produto</div>
+      <h3>Squad de Tráfego</h3>
+      <p>16 especialistas autônomos de IA gerenciando tráfego pago do início ao fim. Proposta comercial.</p>
+      <span class="arrow">→</span>
+    </a>
+
+    <a href="guia-start.html" class="card">
+      <div class="card-tag">Guia</div>
+      <h3>Guia do Parceiro START</h3>
+      <p>Manual pós-pílula: instalação, uso pessoal, OMNIS na organização, anamnese e missões 48h sem limite.</p>
+      <span class="arrow">→</span>
+    </a>
+
+    <a href="proposta-tatiana.html" class="card">
+      <div class="card-tag">Proposta</div>
+      <h3>Tatiana Brandão — Embaixadora</h3>
+      <p>Proposta de parceria estratégica: 25% do líquido recorrente, projeções de ganho e entregáveis completos.</p>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+
+  <p class="footer">Confidencial — INVISIA IA</p>
+</div>
+
+</body>
+</html>
