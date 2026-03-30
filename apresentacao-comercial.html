@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvisIA — Apresentacao Comercial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --preto: #0a0a0a;
+  --roxo-deep: #1E1B4B;
+  --roxo: #7C3AED;
+  --roxo-dark: #6D28D9;
+  --lilas: #C4B5FD;
+  --lilas-light: #EDE9FE;
+  --off-white: #F8F7FF;
+  --gray: #94A3B8;
+  --gray-dark: #334155;
+  --green: #10B981;
+  --red: #EF4444;
+  --amber: #F59E0B;
+  --blue: #3B82F6;
+}
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--preto); color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; }
+
+/* PROGRESS */
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; z-index: 200; background: linear-gradient(90deg, var(--roxo-dark), var(--roxo), var(--lilas)); transition: width 0.5s cubic-bezier(0.4,0,0.2,1); box-shadow: 0 0 12px rgba(124,58,237,0.8), 0 0 24px rgba(196,181,253,0.4); }
+
+/* HEADER */
+#header { position: fixed; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; z-index: 150; pointer-events: none; }
+#header-logo { display: flex; align-items: center; gap: 10px; opacity: 0.7; }
+#header-logo img { width: 32px; height: 32px; object-fit: contain; }
+#confidential { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.18); font-family: 'Inter', sans-serif; font-weight: 500; }
+
+/* SLIDES */
+#slides-wrapper { position: relative; width: 100vw; height: 100vh; perspective: 1400px; }
+.slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 80px 100px; opacity: 0; pointer-events: none; transform: translateX(80px) rotateY(8deg) scale(0.96); transform-origin: center center; transform-style: preserve-3d; transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); will-change: transform, opacity; overflow: hidden; }
+.slide.active { opacity: 1; pointer-events: all; transform: translateX(0) rotateY(0) scale(1); }
+.slide.exit-left { opacity: 0; transform: translateX(-80px) rotateY(-8deg) scale(0.96); pointer-events: none; }
+
+/* NAV */
+#nav { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; z-index: 200; background: rgba(10,10,10,0.85); backdrop-filter: blur(24px) saturate(180%); padding: 10px 20px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+.nav-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(255,255,255,0.08); color: #fff; font-size: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.nav-btn:hover { background: var(--roxo); box-shadow: 0 0 16px rgba(124,58,237,0.6); }
+#nav-counter { font-size: 13px; color: var(--gray); min-width: 48px; text-align: center; font-family: 'Inter', sans-serif; font-weight: 500; }
+#nav-dots { display: flex; align-items: center; gap: 5px; }
+.nav-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; border: none; padding: 0; }
+.nav-dot.active { background: var(--lilas); box-shadow: 0 0 8px rgba(196,181,253,0.8); transform: scale(1.5); }
+.nav-dot:hover:not(.active) { background: rgba(196,181,253,0.4); }
+/* Section markers in dots */
+.nav-dot.section-start { width: 7px; height: 7px; }
+
+/* BACKGROUNDS */
+.mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(109,40,217,0.38) 0%, transparent 70%), radial-gradient(ellipse 50% 55% at 80% 70%, rgba(124,58,237,0.22) 0%, transparent 65%), radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.7) 0%, transparent 80%), var(--preto); animation: meshMove 14s ease-in-out infinite alternate; }
+@keyframes meshMove { 0% { background-position: 20% 30%, 80% 70%, 50% 50%; } 50% { background-position: 35% 20%, 65% 80%, 55% 45%; } 100% { background-position: 25% 65%, 75% 30%, 50% 30%; } }
+
+.red-mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(220,38,38,0.28) 0%, transparent 70%), radial-gradient(ellipse 50% 55% at 80% 70%, rgba(185,28,28,0.18) 0%, transparent 65%), radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.5) 0%, transparent 80%), var(--preto); animation: meshMove 14s ease-in-out infinite alternate; }
+
+.green-mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(16,185,129,0.2) 0%, transparent 70%), radial-gradient(ellipse 50% 55% at 80% 70%, rgba(124,58,237,0.18) 0%, transparent 65%), radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.5) 0%, transparent 80%), var(--preto); animation: meshMove 14s ease-in-out infinite alternate; }
+
+.particle-grid { position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: radial-gradient(circle, rgba(124,58,237,0.15) 1px, transparent 1px); background-size: 52px 52px; animation: gridFloat 22s linear infinite; }
+@keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(52px); } }
+
+/* AMBIENT PARTICLES */
+#ambient-particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.amb-p { position: absolute; border-radius: 50%; will-change: transform; }
+
+/* TAG */
+.tag { display: inline-flex; align-items: center; padding: 7px 20px; border-radius: 100px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--lilas); font-weight: 600; font-family: 'Inter', sans-serif; border: 1px solid rgba(196,181,253,0.25); background: rgba(124,58,237,0.1); margin-bottom: 22px; }
+.tag.red { color: var(--red); border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
+.tag.green { color: var(--green); border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.08); }
+.tag.amber { color: var(--amber); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.08); }
+
+/* CHROME TEXT */
+.chrome-text { font-family: 'Inter', sans-serif; font-weight: 900; background: linear-gradient(175deg, #ffffff 0%, #e8d5ff 15%, #C4B5FD 30%, #7C3AED 50%, #4c1d95 65%, #C4B5FD 82%, #ffffff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 20px rgba(124,58,237,0.55)) drop-shadow(0 0 40px rgba(124,58,237,0.25)); }
+
+/* GLITCH */
+.glitch { position: relative; }
+.glitch::before, .glitch::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; overflow: hidden; background: transparent; -webkit-background-clip: text; background-clip: text; }
+.glitch::before { text-shadow: -2px 0 #ff00ea; clip-path: inset(0 0 65% 0); animation: glitchTop 6s infinite linear alternate-reverse; }
+.glitch::after { text-shadow: 2px 0 #00eaff; clip-path: inset(65% 0 0 0); animation: glitchBottom 5s infinite linear alternate-reverse; }
+@keyframes glitchTop { 0%,93%,100% { transform: translate(0); } 94% { transform: translate(-4px, -2px); } 95% { transform: translate(4px, 2px); } }
+@keyframes glitchBottom { 0%,93%,100% { transform: translate(0); } 94% { transform: translate(3px, 1px); } 95% { transform: translate(-3px, -1px); } }
+
+/* HOLOGRAPHIC CARDS */
+.holo-card { position: relative; background: rgba(255,255,255,0.04); backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; overflow: hidden; transform-style: preserve-3d; will-change: transform; cursor: default; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
+.holo-card::before { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit; background: linear-gradient(115deg, transparent 0%, rgba(124,58,237,0.08) 20%, rgba(196,181,253,0.15) 35%, rgba(167,139,250,0.1) 50%, rgba(124,58,237,0.08) 65%, transparent 100%); background-size: 300% 300%; pointer-events: none; mix-blend-mode: overlay; }
+.holo-card::after { content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(124,58,237,0.025) 3px, rgba(124,58,237,0.025) 4px); pointer-events: none; animation: scanMove 10s linear infinite; }
+@keyframes scanMove { from { background-position: 0 0; } to { background-position: 0 200px; } }
+.holo-shine { position: absolute; inset: 0; z-index: 3; border-radius: inherit; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.06) 46%, rgba(196,181,253,0.18) 50%, rgba(255,255,255,0.06) 54%, transparent 70%); background-size: 300% 100%; background-position: 200% 0; transition: background-position 0.7s ease; pointer-events: none; }
+.holo-card:hover .holo-shine { background-position: -100% 0; }
+.holo-card:hover { border-color: rgba(124,58,237,0.45); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.25), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 50px rgba(124,58,237,0.1); }
+
+/* TYPOGRAPHY */
+h1 { font-family: 'Inter', sans-serif; font-size: 56px; font-weight: 800; line-height: 1.1; }
+h2 { font-family: 'Inter', sans-serif; font-size: 42px; font-weight: 700; line-height: 1.2; }
+h3 { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.3; }
+.subtitle { font-size: 22px; color: var(--lilas); font-weight: 300; }
+.body-text { font-size: 18px; color: var(--gray); line-height: 1.7; max-width: 800px; text-align: center; }
+
+/* CARD GRID */
+.card-grid { display: grid; gap: 18px; width: 100%; max-width: 1100px; position: relative; z-index: 2; }
+.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.card-inner { padding: 26px 28px; position: relative; z-index: 4; }
+.card-icon { width: 44px; height: 44px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.2); box-shadow: 0 0 20px rgba(124,58,237,0.15); }
+.card-icon svg { width: 22px; height: 22px; stroke: var(--lilas); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.card-icon.red { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.25); }
+.card-icon.red svg { stroke: var(--red); }
+.card-title { font-family: 'Inter', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 7px; }
+.card-body { font-size: 13px; color: var(--gray); line-height: 1.55; }
+
+/* TABLE */
+.tbl-wrap { width: 100%; max-width: 1000px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); position: relative; z-index: 2; }
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { background: rgba(124,58,237,0.2); padding: 14px 22px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lilas); font-family: 'Inter', sans-serif; border-bottom: 1px solid rgba(124,58,237,0.3); }
+.tbl td { padding: 14px 22px; font-size: 15px; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+.tbl .highlight-row td { color: #fff; background: rgba(124,58,237,0.12); }
+
+/* QUOTE */
+.quote-mark { font-size: 100px; line-height: 0.4; color: rgba(124,58,237,0.45); font-family: Georgia, serif; margin-bottom: 24px; display: block; }
+.quote { font-size: 28px; font-weight: 300; font-style: italic; line-height: 1.65; max-width: 820px; text-align: center; color: var(--lilas-light); }
+.quote-author { margin-top: 28px; font-size: 16px; color: var(--roxo); font-weight: 600; font-style: normal; font-family: 'Inter', sans-serif; }
+
+/* COUNTER ANIMATED */
+.counter-num { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 120px; line-height: 1; background: linear-gradient(175deg, #fff 0%, var(--lilas) 50%, var(--roxo) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.counter-num.red-grad { background: linear-gradient(175deg, #fff 0%, #fca5a5 50%, var(--red) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.counter-label { font-size: 20px; color: var(--gray); margin-top: 12px; }
+
+/* TIMELINE HORIZONTAL */
+.h-timeline { display: flex; align-items: flex-start; gap: 0; width: 100%; max-width: 1100px; position: relative; z-index: 2; }
+.h-tl-item { flex: 1; text-align: center; position: relative; padding: 0 12px; }
+.h-tl-dot { width: 16px; height: 16px; border-radius: 50%; margin: 0 auto 16px; position: relative; z-index: 2; }
+.h-tl-line { position: absolute; top: 8px; left: 50%; right: -50%; height: 2px; z-index: 1; }
+.h-tl-item:last-child .h-tl-line { display: none; }
+.h-tl-year { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 24px; margin-bottom: 6px; }
+.h-tl-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.h-tl-desc { font-size: 12px; color: var(--gray); line-height: 1.4; }
+.h-tl-dead { font-size: 11px; color: var(--red); font-weight: 600; margin-top: 6px; }
+
+/* COMPARISON BAR */
+.comp-bar-wrap { width: 100%; max-width: 800px; position: relative; z-index: 2; }
+.comp-bar { margin-bottom: 20px; }
+.comp-bar-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+.comp-bar-label span:first-child { font-weight: 600; }
+.comp-bar-label span:last-child { color: var(--lilas); font-weight: 700; }
+.comp-bar-track { height: 8px; border-radius: 99px; background: rgba(255,255,255,0.06); overflow: hidden; }
+.comp-bar-fill { height: 100%; border-radius: 99px; transition: width 1.5s cubic-bezier(0.34,1.56,0.64,1); width: 0; }
+
+/* FLOW DIAGRAM */
+.flow { display: flex; align-items: center; gap: 0; width: 100%; max-width: 1000px; position: relative; z-index: 2; justify-content: center; flex-wrap: wrap; }
+.flow-step { text-align: center; padding: 16px 20px; background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 14px; min-width: 140px; }
+.flow-step h4 { font-size: 14px; font-weight: 700; font-family: 'Inter', sans-serif; margin-bottom: 4px; }
+.flow-step p { font-size: 11px; color: var(--gray); }
+.flow-arrow { font-size: 24px; color: rgba(124,58,237,0.5); padding: 0 8px; }
+
+/* STACK */
+.stack-wrap { width: 100%; max-width: 700px; position: relative; z-index: 2; }
+.stack-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 16px; }
+.stack-item:last-child { border-bottom: none; }
+.stack-val { color: var(--lilas); font-weight: 700; font-family: 'Inter', sans-serif; }
+.stack-total { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; background: rgba(124,58,237,0.12); border-radius: 14px; margin-top: 16px; border: 1px solid rgba(124,58,237,0.3); }
+.stack-total span:first-child { font-weight: 700; font-size: 18px; }
+.stack-total span:last-child { font-size: 28px; font-weight: 900; color: var(--lilas); font-family: 'Inter', sans-serif; text-decoration: line-through; text-decoration-color: rgba(239,68,68,0.6); }
+
+/* HEADLINE CARD */
+.headline-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px 24px; margin-bottom: 10px; max-width: 900px; width: 100%; position: relative; z-index: 2; display: flex; align-items: center; gap: 16px; }
+.headline-source { font-size: 11px; font-weight: 700; color: var(--roxo); text-transform: uppercase; letter-spacing: 1px; min-width: 100px; font-family: 'Inter', sans-serif; }
+.headline-text { font-size: 15px; color: var(--lilas-light); font-weight: 500; }
+
+/* PLACEHOLDER */
+.placeholder-box { border: 2px dashed rgba(124,58,237,0.3); border-radius: 20px; padding: 60px 40px; text-align: center; max-width: 900px; width: 100%; position: relative; z-index: 2; }
+.placeholder-box h3 { color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.placeholder-box p { color: rgba(255,255,255,0.2); font-size: 16px; }
+
+/* GLOW RING */
+.glow-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(124,58,237,0.3); box-shadow: 0 0 30px rgba(124,58,237,0.25), inset 0 0 30px rgba(124,58,237,0.08); pointer-events: none; animation: ringPulse 3.5s ease-in-out infinite; }
+@keyframes ringPulse { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; } 50% { transform: translate(-50%,-50%) scale(1.04); opacity: 0.9; } }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeInUp 0.8s ease-out forwards; }
+.delay-1 { animation-delay: 0.15s; opacity: 0; }
+.delay-2 { animation-delay: 0.3s; opacity: 0; }
+.delay-3 { animation-delay: 0.45s; opacity: 0; }
+.delay-4 { animation-delay: 0.6s; opacity: 0; }
+
+/* NEON PULSE */
+@keyframes neonPulse { 0%,100% { text-shadow: 0 0 20px rgba(196,181,253,0.6), 0 0 40px rgba(124,58,237,0.4); } 50% { text-shadow: 0 0 30px rgba(196,181,253,1), 0 0 60px rgba(124,58,237,0.7); } }
+
+/* SECTION DIVIDER */
+.section-divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--roxo), var(--lilas)); border-radius: 99px; margin: 16px auto 20px; }
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- HEADER -->
+<div id="header">
+  <div id="header-logo">
+    <img src="logo-simbolo.png" alt="InvisIA">
+    <span style="font-size:12px;font-weight:600;letter-spacing:2px;color:rgba(255,255,255,0.5);font-family:'Inter',sans-serif;">INVISIA</span>
+  </div>
+  <span id="confidential">Confidencial</span>
+</div>
+
+<!-- AMBIENT PARTICLES -->
+<div id="ambient-particles"></div>
+
+<!-- ====== SLIDES ====== -->
+<div id="slides-wrapper">
+
+<!-- SLIDE 0: CAPA -->
+<div class="slide active" data-section="capa">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:500px;height:500px;top:50%;left:50%;"></div>
+  <div class="glow-ring" style="width:320px;height:320px;top:50%;left:50%;animation-delay:-1.5s;"></div>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <img src="logo-invisia-branca.png" alt="InvisIA" style="width:220px;margin-bottom:32px;filter:drop-shadow(0 0 30px rgba(124,58,237,0.5));">
+    <div class="section-divider" style="margin:0 auto 24px;"></div>
+    <p class="subtitle fade-in" style="font-size:24px;font-weight:300;letter-spacing:1px;">Onde o invisivel ganha escala.</p>
+    <div style="margin-top:48px;">
+      <span class="tag">Apresentacao Comercial</span>
+    </div>
+    <p style="font-size:14px;color:rgba(255,255,255,0.25);margin-top:24px;font-family:'Inter',sans-serif;">Marco 2026 &mdash; Documento Confidencial</p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- BLOCO 1: FOMO -->
+<!-- ============================================ -->
+
+<!-- SLIDE 1: ERA DAS REVOLUCOES -->
+<div class="slide" data-section="fomo">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag red">Contexto Historico</span>
+    <h2 style="margin-bottom:8px;">Quatro revolucoes.<br><span style="color:var(--red);">Tres eliminaram quem hesitou.</span></h2>
+    <p class="body-text" style="margin:16px auto 40px;">Cada revolucao foi mais rapida que a anterior. A janela para se adaptar encolheu de seculos para anos.</p>
+    <div class="h-timeline">
+      <div class="h-tl-item">
+        <div class="h-tl-line" style="background:linear-gradient(90deg,rgba(148,163,184,0.4),rgba(148,163,184,0.1));"></div>
+        <div class="h-tl-dot" style="background:var(--gray-dark);box-shadow:0 0 12px rgba(148,163,184,0.4);"></div>
+        <div class="h-tl-year" style="color:var(--gray);">1760</div>
+        <div class="h-tl-name">Vapor</div>
+        <div class="h-tl-desc">Maquina a vapor<br>Fabricas mecanizadas</div>
+        <div class="h-tl-dead">~100 anos para adaptar</div>
+      </div>
+      <div class="h-tl-item">
+        <div class="h-tl-line" style="background:linear-gradient(90deg,rgba(245,158,11,0.4),rgba(245,158,11,0.1));"></div>
+        <div class="h-tl-dot" style="background:var(--amber);box-shadow:0 0 12px rgba(245,158,11,0.6);"></div>
+        <div class="h-tl-year" style="color:var(--amber);">1870</div>
+        <div class="h-tl-name">Eletricidade</div>
+        <div class="h-tl-desc">Linha de montagem<br>Producao em massa</div>
+        <div class="h-tl-dead">~40 anos para adaptar</div>
+      </div>
+      <div class="h-tl-item">
+        <div class="h-tl-line" style="background:linear-gradient(90deg,rgba(59,130,246,0.4),rgba(59,130,246,0.1));"></div>
+        <div class="h-tl-dot" style="background:var(--blue);box-shadow:0 0 12px rgba(59,130,246,0.6);"></div>
+        <div class="h-tl-year" style="color:var(--blue);">1990</div>
+        <div class="h-tl-name">Internet</div>
+        <div class="h-tl-desc">World Wide Web<br>E-commerce, cloud</div>
+        <div class="h-tl-dead">~15 anos para adaptar</div>
+      </div>
+      <div class="h-tl-item">
+        <div class="h-tl-dot" style="background:var(--roxo);box-shadow:0 0 20px rgba(124,58,237,0.9);animation:neonPulse 2s infinite;"></div>
+        <div class="h-tl-year chrome-text" style="font-size:28px;">2024</div>
+        <div class="h-tl-name" style="color:var(--lilas);font-size:16px;">Inteligencia Artificial</div>
+        <div class="h-tl-desc">LLMs, Agentes Autonomos<br>Automacao cognitiva total</div>
+        <div style="font-size:13px;color:var(--red);font-weight:800;margin-top:8px;animation:neonPulse 2s infinite;">3-5 ANOS PARA ADAPTAR</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: OS MORTOS ILUSTRES -->
+<div class="slide" data-section="fomo">
+  <div class="red-mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag red">Licao da Historia</span>
+    <h2 style="margin-bottom:40px;">Todos achavam que<br><span class="glitch" data-text="tinham tempo.">tinham tempo.</span></h2>
+    <div class="card-grid cols-4" style="max-width:1100px;margin:0 auto;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <h3 style="font-size:22px;margin-bottom:4px;">Kodak</h3>
+        <p style="font-size:12px;color:var(--amber);font-weight:600;">Inventou a camera digital</p>
+        <p class="card-body" style="margin-top:8px;">Tinha a tecnologia. Teve medo de canibalizar o filme. Resultado: -80% da forca de trabalho. Falencia.</p>
+        <p style="font-size:11px;color:var(--red);margin-top:10px;font-weight:700;">40 anos ignorando a propria invencao</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <h3 style="font-size:22px;margin-bottom:4px;">Blockbuster</h3>
+        <p style="font-size:12px;color:var(--amber);font-weight:600;">9.000 lojas. 65M clientes.</p>
+        <p class="card-body" style="margin-top:8px;">Recusou comprar a Netflix por US$ 50M em 2000. Em 2010: faliu com US$ 900M em dividas.</p>
+        <p style="font-size:11px;color:var(--red);margin-top:10px;font-weight:700;">10 anos entre recusar e desaparecer</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <h3 style="font-size:22px;margin-bottom:4px;">Nokia</h3>
+        <p style="font-size:12px;color:var(--amber);font-weight:600;">50% dos lucros de celulares</p>
+        <p class="card-body" style="margin-top:8px;">Ignorou a importancia do software. Em 6 anos: de 50% para 3% do mercado de smartphones.</p>
+        <p style="font-size:11px;color:var(--red);margin-top:10px;font-weight:700;">6 anos para perder tudo</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <h3 style="font-size:22px;margin-bottom:4px;">Xerox</h3>
+        <p style="font-size:12px;color:var(--amber);font-weight:600;">Inventou o PC moderno</p>
+        <p class="card-body" style="margin-top:8px;">Criou o mouse, a interface grafica, a ethernet. Nao soube comercializar. A Apple e a Microsoft ficaram com o mercado.</p>
+        <p style="font-size:11px;color:var(--red);margin-top:10px;font-weight:700;">Trilhoes cedidos por inacao</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: VELOCIDADE DA MUDANCA -->
+<div class="slide" data-section="fomo">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag amber">Velocidade Exponencial</span>
+    <h2 style="margin-bottom:40px;">O tempo acabou.</h2>
+    <div class="comp-bar-wrap" style="margin:0 auto;">
+      <div class="comp-bar">
+        <div class="comp-bar-label"><span>Telefone &rarr; 100M usuarios</span><span>75 anos</span></div>
+        <div class="comp-bar-track"><div class="comp-bar-fill" data-width="100" style="background:var(--gray-dark);"></div></div>
+      </div>
+      <div class="comp-bar">
+        <div class="comp-bar-label"><span>Internet &rarr; 100M usuarios</span><span>7 anos</span></div>
+        <div class="comp-bar-track"><div class="comp-bar-fill" data-width="55" style="background:var(--blue);"></div></div>
+      </div>
+      <div class="comp-bar">
+        <div class="comp-bar-label"><span>Instagram &rarr; 100M usuarios</span><span>2,5 anos</span></div>
+        <div class="comp-bar-track"><div class="comp-bar-fill" data-width="30" style="background:var(--amber);"></div></div>
+      </div>
+      <div class="comp-bar">
+        <div class="comp-bar-label"><span style="color:var(--lilas);">ChatGPT &rarr; 100M usuarios</span><span style="color:var(--roxo);font-size:18px;">2 MESES</span></div>
+        <div class="comp-bar-track"><div class="comp-bar-fill" data-width="5" style="background:linear-gradient(90deg,var(--roxo),var(--lilas));box-shadow:0 0 20px rgba(124,58,237,0.6);"></div></div>
+      </div>
+    </div>
+    <p class="body-text" style="margin:32px auto 0;font-size:20px;color:var(--lilas-light);">A maior adocao tecnologica da historia humana.<br>E a sua empresa? Ja esta nessa curva?</p>
+  </div>
+</div>
+
+<!-- SLIDE 4: HEADLINES REAIS -->
+<div class="slide" data-section="fomo">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">O Que a Midia Ja Sabe</span>
+    <h2 style="margin-bottom:32px;font-size:36px;">O mundo ja decidiu.<br>A pergunta e: <span style="color:var(--lilas);">voce tambem?</span></h2>
+    <div style="max-width:900px;margin:0 auto;">
+      <div class="headline-card"><span class="headline-source">IBGE</span><span class="headline-text">"Uso de IA em empresas industriais cresce 163% em dois anos"</span></div>
+      <div class="headline-card"><span class="headline-source">Bain & Co.</span><span class="headline-text">"67% das empresas brasileiras consideram IA prioridade estrategica para 2025"</span></div>
+      <div class="headline-card"><span class="headline-source">McKinsey</span><span class="headline-text">"Setores com alta adocao de IA crescem 4,8x mais rapido em produtividade"</span></div>
+      <div class="headline-card"><span class="headline-source">Gartner</span><span class="headline-text">"Gasto mundial em IA vai chegar a US$ 2,5 trilhoes em 2026"</span></div>
+      <div class="headline-card"><span class="headline-source">CNN</span><span class="headline-text">"41% das empresas globais planejam reduzir quadro de funcionarios ate 2030 por causa da IA"</span></div>
+      <div class="headline-card"><span class="headline-source" style="color:var(--red);">Fast Co.</span><span class="headline-text">"The First Chapter of AI-Driven Bankruptcy"</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: O DADO CHOCANTE -->
+<div class="slide" data-section="fomo">
+  <div class="red-mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <span class="tag red">Dado Oficial &mdash; CETIC.br 2024</span>
+    <div class="counter-num red-grad" id="counter-pme" style="margin:16px 0;">10%</div>
+    <h2 style="font-size:32px;margin-bottom:16px;">das PMEs brasileiras usam IA<br>de forma estruturada.</h2>
+    <div class="section-divider" style="background:linear-gradient(90deg,var(--red),var(--amber));"></div>
+    <p class="body-text" style="margin:20px auto 0;font-size:20px;">Grandes: 38%. Medias: 29%. <span style="color:var(--red);font-weight:700;">Pequenas: 10%.</span><br><br>Sua empresa esta no grupo dos <span style="color:var(--red);font-weight:800;">90% que ainda nao se adaptaram?</span></p>
+    <p style="margin-top:32px;font-size:16px;color:var(--amber);font-weight:600;">72% das empresas ainda estao nos estagios iniciais. 70-95% das iniciativas falham.</p>
+    <p style="margin-top:8px;font-size:18px;color:#fff;font-weight:700;">Nao basta adotar. Precisa implementar CERTO.</p>
+  </div>
+</div>
+
+<!-- SLIDE 6: CUSTO DA INACAO -->
+<div class="slide" data-section="fomo">
+  <div class="red-mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag red">O Custo Invisivel</span>
+    <h2 style="margin-bottom:32px;">O que sua empresa<br><span style="color:var(--red);">perde sem perceber.</span></h2>
+    <div class="card-grid cols-3" style="max-width:900px;margin:0 auto;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:48px;font-weight:900;color:var(--red);font-family:'Inter',sans-serif;">60-150</div>
+        <p style="font-size:15px;font-weight:600;margin:8px 0 4px;">ideias perdidas/mes</p>
+        <p class="card-body">Ninguem anota. Ninguem organiza. Ninguem executa.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:48px;font-weight:900;color:var(--red);font-family:'Inter',sans-serif;">80-120</div>
+        <p style="font-size:15px;font-weight:600;margin:8px 0 4px;">tarefas nunca executadas</p>
+        <p class="card-body">Definidas em reuniao, esquecidas no dia seguinte.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:42px;font-weight:900;color:var(--red);font-family:'Inter',sans-serif;">R$10-50K</div>
+        <p style="font-size:15px;font-weight:600;margin:8px 0 4px;">por mes em ineficiencia</p>
+        <p class="card-body">Custo real. Invisivel. Sangrando todo mes.</p>
+      </div></div>
+    </div>
+    <p class="body-text" style="margin:32px auto 0;font-size:20px;">Se IA pode fazer em <span style="color:#fff;font-weight:700;">40 segundos</span> o que leva <span style="color:var(--red);font-weight:700;">2 horas</span>...<br>quanto tempo voce esta queimando por mes?</p>
+  </div>
+</div>
+
+<!-- SLIDE 7: DADOS GLOBAIS DE IMPACTO -->
+<div class="slide" data-section="fomo">
+  <div class="green-mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag green">Quem Ja Adotou</span>
+    <h2 style="margin-bottom:32px;">Os numeros de quem<br><span style="color:var(--green);">nao esperou.</span></h2>
+    <div class="card-grid cols-3" style="max-width:1000px;margin:0 auto;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:52px;font-weight:900;color:var(--green);font-family:'Inter',sans-serif;">+14%</div>
+        <p style="font-size:15px;font-weight:600;margin:8px 0;">produtividade</p>
+        <p class="card-body">Empresas com IA estruturada vs media do mercado</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:52px;font-weight:900;color:var(--green);font-family:'Inter',sans-serif;">R$3,70</div>
+        <p style="font-size:15px;font-weight:600;margin:8px 0;">retorno por R$1 investido</p>
+        <p class="card-body">Media. Top performers chegam a R$10,30.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:52px;font-weight:900;color:var(--green);font-family:'Inter',sans-serif;">4,8x</div>
+        <p style="font-size:15px;font-weight:600;margin:8px 0;">mais rapido</p>
+        <p class="card-body">Crescimento de produtividade vs quem nao adotou</p>
+      </div></div>
+    </div>
+    <div class="card-grid cols-2" style="max-width:700px;margin:24px auto 0;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:36px;font-weight:900;color:var(--green);font-family:'Inter',sans-serif;">+50%</div>
+        <p class="card-body">leads qualificados em vendas</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:36px;font-weight:900;color:var(--green);font-family:'Inter',sans-serif;">-50%</div>
+        <p class="card-body">contatos humanos em atendimento</p>
+      </div></div>
+    </div>
+    <p style="margin-top:24px;font-size:13px;color:var(--gray);font-style:italic;">Fontes: McKinsey State of AI 2025, Bain & Company, PwC Brasil</p>
+  </div>
+</div>
+
+<!-- SLIDE 8: A JANELA -->
+<div class="slide" data-section="fomo">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:400px;height:400px;top:50%;left:50%;border-color:rgba(239,68,68,0.3);box-shadow:0 0 30px rgba(239,68,68,0.25),inset 0 0 30px rgba(239,68,68,0.08);"></div>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <span class="tag red">Janela Critica</span>
+    <h1 style="font-size:72px;margin-bottom:16px;">12-18 meses.</h1>
+    <div class="section-divider" style="background:linear-gradient(90deg,var(--red),var(--amber));"></div>
+    <p class="body-text" style="margin:24px auto 0;font-size:22px;max-width:700px;">Depois disso, quem nao se adaptou vai pagar <span style="color:var(--red);font-weight:700;">10x mais caro</span> para recuperar a distancia.<br><br>Cada mes de atraso e um mes cedido ao concorrente.</p>
+  </div>
+</div>
+
+<!-- SLIDE 9: A PERGUNTA -->
+<div class="slide" data-section="fomo">
+  <div class="red-mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <span class="quote-mark">&ldquo;</span>
+    <p class="quote" style="font-size:38px;font-weight:500;font-style:normal;">Voce vai ser o <span style="color:var(--red);font-weight:800;">Kodak</span><br>ou o <span style="color:var(--green);font-weight:800;">Netflix</span> da sua industria?</p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- BLOCO 2: AUTORIDADE -->
+<!-- ============================================ -->
+
+<!-- SLIDE 10: O QUE E A INVISIA -->
+<div class="slide" data-section="autoridade">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <span class="tag">Quem Somos</span>
+    <img src="logo-invisia-branca.png" alt="InvisIA" style="width:180px;margin-bottom:24px;filter:drop-shadow(0 0 20px rgba(124,58,237,0.4));">
+    <h2 style="margin-bottom:16px;">A camada invisivel que<br>escala sua empresa.</h2>
+    <p class="body-text" style="margin:0 auto 32px;">Nao somos escola. Nao somos agencia. Nao somos SaaS.<br>Somos a <span style="color:var(--lilas);font-weight:600;">boutique de IA</span> que vende o ativo mais valioso: <span style="color:#fff;font-weight:700;">TEMPO.</span></p>
+    <div class="card-grid cols-3" style="max-width:800px;margin:0 auto;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="card-title">Resultado em dias</div>
+        <p class="card-body">O que consultoria tradicional entrega em 18 meses, nos fazemos em 1-3 meses</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="card-title">ROI 300-500%</div>
+        <p class="card-body">Comprovado em 12 meses. Cada real investido volta multiplicado.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="card-title">Squads de IA</div>
+        <p class="card-body">Times inteiros de agentes especializados. Sem contratar ninguem.</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11: O DIFERENCIAL -->
+<div class="slide" data-section="autoridade">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">Comparativo de Mercado</span>
+    <h2 style="margin-bottom:32px;">Por que InvisIA<br>e <span style="color:var(--lilas);">diferente de tudo.</span></h2>
+    <div class="tbl-wrap" style="margin:0 auto;">
+      <table class="tbl">
+        <thead><tr><th style="width:25%;">Aspecto</th><th>Consultoria Tradicional</th><th>SaaS Generico</th><th style="color:#fff;">InvisIA</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#fff;">Custo</td><td>R$ 2MM+</td><td>R$ 200-2K/mes</td><td class="highlight-row" style="color:var(--green);font-weight:700;background:rgba(16,185,129,0.08)!important;">Fracao do custo</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Prazo</td><td>12-18 meses</td><td>Setup rapido, sem resultado</td><td class="highlight-row" style="color:var(--green);font-weight:700;background:rgba(16,185,129,0.08)!important;">1-3 meses</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Personalizacao</td><td>Alta, mas cara</td><td>Zero — um-size-fits-all</td><td class="highlight-row" style="color:var(--green);font-weight:700;background:rgba(16,185,129,0.08)!important;">Total — co-criado</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Suporte</td><td>Por hora ($$)</td><td>Ticket/email</td><td class="highlight-row" style="color:var(--green);font-weight:700;background:rgba(16,185,129,0.08)!important;">Direto WhatsApp</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">ROI</td><td>Indefinido</td><td>Baixo</td><td class="highlight-row" style="color:var(--green);font-weight:700;background:rgba(16,185,129,0.08)!important;">300-500% em 12m</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12: CASES REAIS -->
+<div class="slide" data-section="autoridade">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag green">Cases Reais</span>
+    <h2 style="margin-bottom:32px;">Resultados, nao promessas.</h2>
+    <div class="card-grid cols-3" style="max-width:1000px;margin:0 auto;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner">
+        <p style="font-size:11px;color:var(--roxo);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Agencia de Marketing</p>
+        <h3 style="font-size:20px;">Pulso Digital</h3>
+        <p style="font-size:13px;color:var(--amber);margin:4px 0 12px;">Faturamento: R$ 1MM/mes</p>
+        <p class="card-body">Squad completo de IA para criacao de conteudo, gestao de trafego e atendimento. Reducao de 60% no tempo operacional.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner">
+        <p style="font-size:11px;color:var(--roxo);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Restaurante Premium</p>
+        <h3 style="font-size:20px;">Brasa & Co.</h3>
+        <p style="font-size:13px;color:var(--amber);margin:4px 0 12px;">Faturamento: R$ 2MM/mes</p>
+        <p class="card-body">Automacao de cardapio, gestao de fornecedores e marketing local. ROI de 420% nos primeiros 6 meses.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner">
+        <p style="font-size:11px;color:var(--roxo);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Agencia Full Service</p>
+        <h3 style="font-size:20px;">Flow Agency</h3>
+        <p style="font-size:13px;color:var(--amber);margin:4px 0 12px;">12 dias de implementacao</p>
+        <p class="card-body">47 horas economizadas. 14 tarefas automatizadas. 21 agentes configurados. Quick win em 2 semanas.</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 13: OMNIS -->
+<div class="slide" data-section="autoridade">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">Tecnologia Proprietaria</span>
+    <h2 class="chrome-text" style="font-size:64px;margin-bottom:16px;">OMNIS</h2>
+    <p class="subtitle" style="margin-bottom:32px;">A memoria perfeita da sua empresa.</p>
+    <div class="card-grid cols-4" style="max-width:1000px;margin:0 auto;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+        <div class="card-title">Grava</div>
+        <p class="card-body">Reunioes, calls, processos — tudo capturado automaticamente</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="card-title">Transcreve</div>
+        <p class="card-body">Texto, resumos, action items — em tempo real</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="card-title">Consulta</div>
+        <p class="card-body">"O que foi dito sobre X?" — resposta instantanea</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="card-title">Executa</div>
+        <p class="card-body">Transforma inteligencia em acao. Decisoes baseadas em dados.</p>
+      </div></div>
+    </div>
+    <p class="body-text" style="margin:28px auto 0;">Sabedoria Artificial: sua empresa nunca mais esquece nada.<br>Cada conversa vira ativo. Cada decisao vira historico consultavel.</p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- BLOCO 3: SOLUCAO -->
+<!-- ============================================ -->
+
+<!-- SLIDE 14: ECOSSISTEMA -->
+<div class="slide" data-section="solucao">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">Ecossistema InvisIA</span>
+    <h2 style="margin-bottom:32px;">Sua jornada de<br><span style="color:var(--lilas);">transformacao.</span></h2>
+    <div class="flow">
+      <div class="flow-step" style="border-color:var(--lilas);background:rgba(124,58,237,0.06);min-width:180px;">
+        <h4 style="color:var(--lilas);">Connect</h4>
+        <p>30 dias<br>R$ 14.997</p>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step" style="border-color:var(--blue);background:rgba(59,130,246,0.06);min-width:180px;">
+        <h4 style="color:var(--blue);">Sprint</h4>
+        <p>90 dias<br>R$ 34.000</p>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step" style="border-color:var(--green);background:rgba(16,185,129,0.06);min-width:180px;">
+        <h4 style="color:var(--green);">Founder</h4>
+        <p>12 meses<br>R$ 100.000</p>
+      </div>
+    </div>
+    <p class="body-text" style="margin:24px auto 0;">Sua empresa precisa de tudo isso. <span style="color:#fff;font-weight:600;">Escolha ate onde quer ir agora.</span><br>Cada pacote gera resultado mensuravel antes de avancar pro proximo.</p>
+    <div style="margin-top:20px;padding:12px 24px;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:12px;display:inline-block;position:relative;z-index:2;">
+      <p style="font-size:14px;color:var(--lilas);">+ <strong>Joias avulsas</strong> da biblioteca &mdash; compre solucoes prontas a qualquer momento</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 15: COMO FUNCIONA -->
+<div class="slide" data-section="solucao">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">Metodologia</span>
+    <h2 style="margin-bottom:32px;">Resultado real em<br><span style="color:var(--green);">90 dias.</span></h2>
+    <div class="card-grid cols-3" style="max-width:1000px;margin:0 auto;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:48px;font-weight:900;color:var(--green);font-family:'Inter',sans-serif;margin-bottom:8px;">01</div>
+        <h3 style="font-size:20px;">Fundacao</h3>
+        <p style="font-size:12px;color:var(--green);font-weight:600;margin:4px 0 12px;">Dias 1-30 &mdash; Quick Win</p>
+        <p class="card-body">Diagnostico 80/20. Primeiro agente rodando. Primeira hora economizada. Resultado tangivel antes do dia 14.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:48px;font-weight:900;color:var(--blue);font-family:'Inter',sans-serif;margin-bottom:8px;">02</div>
+        <h3 style="font-size:20px;">Expansao</h3>
+        <p style="font-size:12px;color:var(--blue);font-weight:600;margin:4px 0 12px;">Dias 31-60 &mdash; Area por Area</p>
+        <p class="card-body">Squad completo funcionando. 3+ agentes integrados. Ponto de nao-retorno: "Nao consigo mais imaginar sem isso."</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div style="font-size:48px;font-weight:900;color:var(--roxo);font-family:'Inter',sans-serif;margin-bottom:8px;">03</div>
+        <h3 style="font-size:20px;">Autonomia</h3>
+        <p style="font-size:12px;color:var(--lilas);font-weight:600;margin:4px 0 12px;">Dias 61-90 &mdash; Voce no controle</p>
+        <p class="card-body">Operacao supervisionada. Equipe treinada. ROI documentado. Manual de operacoes entregue.</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 16: ANTES VS DEPOIS -->
+<div class="slide" data-section="solucao">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">Transformacao</span>
+    <h2 style="margin-bottom:32px;">Antes vs <span style="color:var(--green);">Depois.</span></h2>
+    <div class="tbl-wrap" style="margin:0 auto;max-width:900px;">
+      <table class="tbl">
+        <thead><tr><th style="width:15%;">Area</th><th style="color:var(--red);">Antes (sem IA)</th><th style="color:var(--green);">Depois (com InvisIA)</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#fff;">Reunioes</td><td>Anotacoes perdidas, sem follow-up</td><td style="color:var(--green);">OMNIS grava, transcreve, gera tarefas</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Vendas</td><td>CRM desatualizado, leads frios</td><td style="color:var(--green);">Lead scoring automatico, +50% leads</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Marketing</td><td>Conteudo manual, 1 post/dia max</td><td style="color:var(--green);">Squad de conteudo, 10x mais output</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Financeiro</td><td>Planilhas, relatorios manuais</td><td style="color:var(--green);">Dashboard em tempo real, alertas</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Atendimento</td><td>Resposta em horas, equipe sobrecarregada</td><td style="color:var(--green);">-50% contatos humanos, resposta instantanea</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Decisoes</td><td>Intuicao, achismo</td><td style="color:var(--green);">Dados consolidados, IA consultiva</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 17: SQUADS -->
+<div class="slide" data-section="solucao">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">Tecnologia</span>
+    <h2 style="margin-bottom:12px;">Squads de IA.</h2>
+    <p class="body-text" style="margin:0 auto 32px;">Um departamento inteiro de especialistas autonomos.<br>Sem contratar. Sem treinar. Sem turnover.</p>
+    <div class="card-grid cols-3" style="max-width:1000px;margin:0 auto;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="card-title">Squad de Trafego</div>
+        <p class="card-body">16 agentes especializados. Do briefing ao anuncio no ar. Monitoramento 24/7.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="card-title">Squad de Conteudo</div>
+        <p class="card-body">Copywriters, designers, estrategistas. Conteudo calibrado com a voz da sua marca.</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <div class="card-icon" style="margin:0 auto 12px;"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="card-title">Squad de Dados</div>
+        <p class="card-body">Dashboards executivos, alertas inteligentes, relatorios automaticos.</p>
+      </div></div>
+    </div>
+    <p style="margin-top:24px;font-size:16px;color:var(--lilas);font-weight:500;">Custo de um unico gestor humano. Capacidade de um time inteiro.</p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- BLOCO 4: PLACEHOLDER (Gabriel preenche) -->
+<!-- ============================================ -->
+
+<!-- SLIDE 18: STACK SLIDE -->
+<div class="slide" data-section="fechamento">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag green">O Que Voce Recebe</span>
+    <h2 style="margin-bottom:32px;">Stack de valor.</h2>
+    <div class="stack-wrap" style="margin:0 auto;">
+      <div class="stack-item"><span>Roadmap completo de IA (visao 1 ano)</span><span class="stack-val">R$ 8.000</span></div>
+      <div class="stack-item"><span>Claude Code + OpenClaw versao ultraturbinada INVISIA</span><span class="stack-val">R$ 5.000</span></div>
+      <div class="stack-item"><span>Treinamento Vibe Code (CEO + heads)</span><span class="stack-val">R$ 6.000</span></div>
+      <div class="stack-item"><span>Solucoes codadas pela INVISIA (MVPs)</span><span class="stack-val">R$ 15.000</span></div>
+      <div class="stack-item"><span>Omnia instalado (cultura de dados + diagnostico)</span><span class="stack-val">R$ 4.000</span></div>
+      <div class="stack-item"><span>Sessoes de acompanhamento estrategico</span><span class="stack-val">R$ 8.000</span></div>
+      <div class="stack-item"><span>Comunidade exclusiva de empresarios</span><span class="stack-val">R$ 3.000</span></div>
+      <div class="stack-item"><span>Benchmarking completo pre-implementacao</span><span class="stack-val">R$ 4.000</span></div>
+      <div class="stack-total"><span>Valor total se contratado avulso:</span><span>R$ 53.000</span></div>
+    </div>
+    <p style="margin-top:16px;font-size:16px;color:var(--lilas);">Seu investimento a partir de <span style="font-weight:800;font-size:20px;">R$ 14.997</span></p>
+  </div>
+</div>
+
+<!-- SLIDE 19: ANCHOR PRICING -->
+<div class="slide" data-section="fechamento">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag amber">Custo de NAO Fazer</span>
+    <h2 style="margin-bottom:32px;font-size:34px;">Quanto custa continuar como esta?</h2>
+    <div class="card-grid cols-3" style="max-width:900px;margin:0 auto 24px;">
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <p style="font-size:14px;color:var(--red);font-weight:700;margin-bottom:8px;">Ineficiencia Mensal</p>
+        <div style="font-size:32px;font-weight:900;color:var(--red);font-family:'Inter',sans-serif;">R$10-50K</div>
+        <p class="card-body" style="margin-top:8px;">= R$120-600K/ano sangrando</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <p style="font-size:14px;color:var(--amber);font-weight:700;margin-bottom:8px;">Gestor + Agencia</p>
+        <div style="font-size:32px;font-weight:900;color:var(--amber);font-family:'Inter',sans-serif;">R$13-35K</div>
+        <p class="card-body" style="margin-top:8px;">/mes — e ainda nao resolve</p>
+      </div></div>
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;">
+        <p style="font-size:14px;color:var(--gray);font-weight:700;margin-bottom:8px;">Consultoria Tradicional</p>
+        <div style="font-size:32px;font-weight:900;color:var(--gray);font-family:'Inter',sans-serif;">R$2MM+</div>
+        <p class="card-body" style="margin-top:8px;">e 18 meses para entregar</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 20: OS 3 PACOTES -->
+<div class="slide" data-section="fechamento">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">Investimento</span>
+    <h2 style="margin-bottom:8px;">Sua empresa precisa disso tudo.</h2>
+    <p class="body-text" style="margin:0 auto 28px;">Escolha ate onde quer ir agora:</p>
+    <div class="card-grid cols-3" style="max-width:1100px;margin:0 auto;">
+      <!-- CONNECT -->
+      <div class="holo-card"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;padding:28px 24px;">
+        <p style="font-size:11px;color:var(--roxo);font-weight:700;text-transform:uppercase;letter-spacing:2px;">Porta de Entrada</p>
+        <h3 style="font-size:26px;margin:8px 0 4px;">CONNECT</h3>
+        <p style="font-size:14px;color:var(--gray);margin-bottom:12px;">30 dias</p>
+        <div style="font-size:36px;font-weight:900;color:var(--lilas);font-family:'Inter',sans-serif;">R$ 14.997</div>
+        <div class="section-divider" style="margin:16px auto;"></div>
+        <div style="text-align:left;font-size:13px;color:var(--gray);line-height:2;">
+          <div style="color:#fff;">Roadmap completo (visao 1 ano)</div>
+          <div>Claude Code + OpenClaw turbinados</div>
+          <div>Treinamento Vibe Code (CEO + 2 heads)</div>
+          <div style="color:#fff;">1 solucao codada pela INVISIA</div>
+          <div>Omnia instalado</div>
+          <div>4 sessoes de acompanhamento</div>
+          <div>Comunidade pos-pacote</div>
+        </div>
+      </div></div>
+      <!-- SPRINT -->
+      <div class="holo-card" style="border-color:rgba(59,130,246,0.4);box-shadow:0 0 40px rgba(59,130,246,0.15);"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;padding:28px 24px;">
+        <p style="font-size:11px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:2px;">Aceleracao Completa</p>
+        <h3 style="font-size:26px;margin:8px 0 4px;color:var(--blue);">SPRINT</h3>
+        <p style="font-size:14px;color:var(--gray);margin-bottom:12px;">90 dias</p>
+        <div style="font-size:36px;font-weight:900;color:var(--blue);font-family:'Inter',sans-serif;">R$ 34.000</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:4px;">&lt; R$ 12K/mes pela transformacao</div>
+        <div class="section-divider" style="margin:16px auto;background:linear-gradient(90deg,var(--blue),var(--lilas));"></div>
+        <div style="text-align:left;font-size:13px;color:var(--gray);line-height:2;">
+          <div style="color:#fff;">Tudo do Connect +</div>
+          <div style="color:#fff;">Treinamento time INTEIRO de heads</div>
+          <div style="color:#fff;">~3 solucoes codadas (80/20 completo)</div>
+          <div>8-10 sessoes de acompanhamento</div>
+          <div>Refinamento ate virar "joia"</div>
+          <div>Diagnostico atualizado mes 2</div>
+          <div style="color:var(--green);font-weight:600;">Resultado: heads resolvem 90% sozinhos</div>
+        </div>
+      </div></div>
+      <!-- FOUNDER -->
+      <div class="holo-card" style="border-color:rgba(16,185,129,0.4);box-shadow:0 0 40px rgba(16,185,129,0.15);"><div class="holo-shine"></div><div class="card-inner" style="text-align:center;padding:28px 24px;">
+        <p style="font-size:11px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:2px;">Co-Criador do Ecossistema</p>
+        <h3 style="font-size:26px;margin:8px 0 4px;color:var(--green);">FOUNDER</h3>
+        <p style="font-size:14px;color:var(--gray);margin-bottom:12px;">12 meses</p>
+        <div style="font-size:36px;font-weight:900;color:var(--green);font-family:'Inter',sans-serif;">R$ 100.000</div>
+        <div style="font-size:12px;color:var(--green);margin-top:4px;">ou R$ 70.000 a vista</div>
+        <div class="section-divider" style="margin:16px auto;background:linear-gradient(90deg,var(--green),var(--lilas));"></div>
+        <div style="text-align:left;font-size:13px;color:var(--gray);line-height:2;">
+          <div style="color:#fff;">Tudo do Sprint +</div>
+          <div style="color:#fff;">Biblioteca COMPLETA de solucoes</div>
+          <div>Sprint 90 dias + 12 meses acompanhamento</div>
+          <div style="color:#fff;">Orquestradores avancados (squads)</div>
+          <div style="color:var(--green);">Royalties sobre solucoes que criar</div>
+          <div>Comunidade vitalicia</div>
+          <div style="color:var(--green);font-weight:600;">Resultado: empresa revolucionada</div>
+        </div>
+      </div></div>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:var(--gray);">Todos incluem: Roadmap, Vibe Code, Omnia, comunidade e acesso a plataforma.</p>
+  </div>
+</div>
+
+<!-- SLIDE 20b: JORNADA COMPLETA -->
+<div class="slide" data-section="fechamento">
+  <div class="mesh-bg"></div>
+  <div style="position:relative;z-index:2;text-align:center;width:100%;">
+    <span class="tag">Jornada do Cliente</span>
+    <h2 style="margin-bottom:28px;font-size:34px;">Do fechamento a<br><span style="color:var(--lilas);">transformacao total.</span></h2>
+    <div class="tbl-wrap" style="margin:0 auto;max-width:1000px;">
+      <table class="tbl">
+        <thead><tr><th>Fase</th><th>O que acontece</th><th>Periodo</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:700;color:var(--amber);">F0 &mdash; Comercial</td><td>Benchmarking completo por IA + call de venda</td><td>Pre-venda</td></tr>
+          <tr><td style="font-weight:700;color:var(--lilas);">F1 &mdash; Briefing</td><td>Agente WhatsApp extrai 80/20 + gargalos</td><td>1-2 dias</td></tr>
+          <tr><td style="font-weight:700;color:var(--lilas);">F2 &mdash; Call Unica</td><td>Roadmap + Vibe Code instalado + treinamento</td><td>Semana 1</td></tr>
+          <tr><td style="font-weight:700;color:var(--blue);">F3 &mdash; Omnia + Projeto 1</td><td>Cultura de dados + 1a solucao rodando</td><td>Semana 1-3</td></tr>
+          <tr><td style="font-weight:700;color:var(--blue);">F4 &mdash; Expansao</td><td>Projetos 2-3 + time inteiro codando</td><td>Mes 2-3</td></tr>
+          <tr><td style="font-weight:700;color:var(--green);">F5 &mdash; Orquestracao</td><td>Squads autonomos + reorganizacao empresa</td><td>Mes 3-6</td></tr>
+          <tr><td style="font-weight:700;color:var(--green);">F6 &mdash; Autonomia</td><td>Cardapio completo + royalties + co-criador</td><td>Mes 6-12</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:20px;font-size:14px;color:var(--lilas);">INVISIA entrega a estrutura. Voce coda a personalizacao.<br>O acabamento final acontece no campo de batalha.</p>
+  </div>
+</div>
+
+<!-- SLIDE 21: GARANTIA -->
+<div class="slide" data-section="fechamento">
+  <div class="green-mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:350px;height:350px;top:50%;left:50%;border-color:rgba(16,185,129,0.3);box-shadow:0 0 30px rgba(16,185,129,0.25),inset 0 0 30px rgba(16,185,129,0.08);"></div>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <span class="tag green">Garantia de Resultado</span>
+    <h2 style="font-size:48px;margin-bottom:16px;">Resultado em 30 dias<br>ou devolvemos o mes.</h2>
+    <div class="section-divider" style="background:linear-gradient(90deg,var(--green),var(--lilas));"></div>
+    <p class="body-text" style="margin:24px auto 0;font-size:20px;">Voce nao precisa acreditar na gente.<br>Precisa ver funcionando. E vai ver.</p>
+  </div>
+</div>
+
+<!-- SLIDE 22: CTA FINAL -->
+<div class="slide" data-section="fechamento">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:500px;height:500px;top:50%;left:50%;"></div>
+  <div class="glow-ring" style="width:320px;height:320px;top:50%;left:50%;animation-delay:-1.5s;"></div>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <span class="quote-mark">&ldquo;</span>
+    <p class="quote" style="font-size:34px;font-weight:500;font-style:normal;">A pergunta nao e <span style="font-weight:300;opacity:0.6;">SE</span> voce vai implementar IA.<br>E <span style="color:var(--lilas);font-weight:800;">QUANDO</span> &mdash; e <span style="color:var(--lilas);font-weight:800;">COM QUEM.</span></p>
+    <div class="section-divider" style="margin:32px auto;"></div>
+    <img src="logo-invisia-branca.png" alt="InvisIA" style="width:160px;margin-bottom:16px;filter:drop-shadow(0 0 20px rgba(124,58,237,0.4));">
+    <p style="font-size:18px;color:var(--lilas);font-weight:300;">Onde o invisivel ganha escala.</p>
+    <p style="margin-top:32px;font-size:14px;color:var(--gray);">Agende sua implementacao &rarr; invisia.ai</p>
+  </div>
+</div>
+
+</div><!-- /slides-wrapper -->
+
+<!-- NAV -->
+<div id="nav">
+  <button class="nav-btn" onclick="prevSlide()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div id="nav-dots"></div>
+  <span id="nav-counter">1 / 24</span>
+  <button class="nav-btn" onclick="nextSlide()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<script>
+// ===== SLIDE ENGINE =====
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+let currentSlide = 0;
+const sectionStarts = { capa: 0, fomo: 1, autoridade: 10, solucao: 14, fechamento: 18 }; // 24 slides total
+
+function goToSlide(n) {
+  if (n < 0 || n >= totalSlides || n === currentSlide) return;
+  const dir = n > currentSlide ? 1 : -1;
+  slides[currentSlide].classList.remove('active');
+  slides[currentSlide].classList.add(dir > 0 ? 'exit-left' : '');
+  setTimeout(() => { slides[currentSlide - dir]?.classList.remove('exit-left'); }, 700);
+  currentSlide = n;
+  slides[currentSlide].classList.remove('exit-left');
+  slides[currentSlide].classList.add('active');
+  updateNav();
+  animateBars();
+}
+function nextSlide() { goToSlide(currentSlide + 1); }
+function prevSlide() { goToSlide(currentSlide - 1); }
+
+function updateNav() {
+  document.getElementById('progress-bar').style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+  document.getElementById('nav-counter').textContent = (currentSlide + 1) + ' / ' + totalSlides;
+  document.querySelectorAll('.nav-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentSlide);
+  });
+}
+
+// Create dots
+const dotsContainer = document.getElementById('nav-dots');
+const sectionStartSet = new Set(Object.values(sectionStarts));
+for (let i = 0; i < totalSlides; i++) {
+  const dot = document.createElement('button');
+  dot.className = 'nav-dot' + (i === 0 ? ' active' : '') + (sectionStartSet.has(i) ? ' section-start' : '');
+  dot.onclick = () => goToSlide(i);
+  dotsContainer.appendChild(dot);
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
+  if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); }
+});
+
+// Touch
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 60) { diff > 0 ? nextSlide() : prevSlide(); }
+});
+
+// Wheel
+let wheelLock = false;
+document.addEventListener('wheel', e => {
+  if (wheelLock) return;
+  wheelLock = true;
+  if (e.deltaY > 30) nextSlide();
+  else if (e.deltaY < -30) prevSlide();
+  setTimeout(() => wheelLock = false, 600);
+}, { passive: true });
+
+// ===== ANIMATED BARS =====
+function animateBars() {
+  const activeSlide = slides[currentSlide];
+  activeSlide.querySelectorAll('.comp-bar-fill').forEach(bar => {
+    const w = bar.getAttribute('data-width');
+    setTimeout(() => { bar.style.width = w + '%'; }, 200);
+  });
+}
+
+// ===== AMBIENT PARTICLES =====
+(function() {
+  const container = document.getElementById('ambient-particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'amb-p';
+    const size = Math.random() * 3 + 1;
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    const dur = Math.random() * 20 + 15;
+    const delay = Math.random() * -20;
+    const opacity = Math.random() * 0.2 + 0.05;
+    const colors = ['rgba(124,58,237,', 'rgba(196,181,253,', 'rgba(255,255,255,'];
+    const color = colors[Math.floor(Math.random() * colors.length)] + opacity + ')';
+    p.style.cssText = `width:${size}px;height:${size}px;left:${x}%;top:${y}%;background:${color};animation:ambFloat${i%3} ${dur}s ease-in-out ${delay}s infinite;`;
+    container.appendChild(p);
+  }
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ambFloat0 { 0%,100% { transform: translate(0,0); } 25% { transform: translate(30px,-40px); } 50% { transform: translate(-20px,-80px); } 75% { transform: translate(40px,-30px); } }
+    @keyframes ambFloat1 { 0%,100% { transform: translate(0,0); } 25% { transform: translate(-40px,30px); } 50% { transform: translate(50px,-20px); } 75% { transform: translate(-30px,50px); } }
+    @keyframes ambFloat2 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(25px,-60px); } 66% { transform: translate(-35px,25px); } }
+  `;
+  document.head.appendChild(style);
+})();
+
+// ===== HOLOGRAPHIC TILT =====
+document.querySelectorAll('.holo-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const tiltX = (y - 0.5) * 8;
+    const tiltY = (x - 0.5) * -8;
+    card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+    card.style.setProperty('--holo-x', (x * 100) + '%');
+    card.style.setProperty('--holo-y', (y * 100) + '%');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// Init
+updateNav();
+animateBars();
+</script>
+</body>
+</html>
