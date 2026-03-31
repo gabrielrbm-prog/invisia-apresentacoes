@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvisIA — Proposta Estratégica Longboard Paradise</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --preto: #0a0a0a;
+  --roxo-deep: #1E1B4B;
+  --roxo: #7C3AED;
+  --roxo-dark: #6D28D9;
+  --lilas: #C4B5FD;
+  --lilas-light: #EDE9FE;
+  --off-white: #F8F7FF;
+  --gray: #94A3B8;
+  --gray-dark: #334155;
+  --green: #10B981;
+  --red: #EF4444;
+  --amber: #F59E0B;
+  --blue: #3B82F6;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--preto); color: #fff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; overflow-x: hidden; }
+
+/* ====== SCROLL PROGRESS ====== */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 300;
+  background: linear-gradient(90deg, var(--roxo-dark), var(--roxo), var(--lilas));
+  box-shadow: 0 0 12px rgba(124,58,237,0.8), 0 0 24px rgba(196,181,253,0.4);
+  transition: width 0.1s linear; width: 0%;
+}
+
+/* ====== TOP NAV ====== */
+#top-nav {
+  position: fixed; top: 3px; left: 0; right: 0; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; z-index: 200;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+#nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+#nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+#nav-logo span { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: rgba(255,255,255,0.45); text-transform: uppercase; }
+#nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.2s;
+  letter-spacing: 0.5px; white-space: nowrap; border: none; background: none; cursor: pointer;
+}
+.nav-link:hover { color: var(--lilas); background: rgba(124,58,237,0.1); }
+.nav-link.active { color: var(--lilas); background: rgba(124,58,237,0.15); }
+#nav-confidential { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.18); }
+#mobile-menu-btn { display: none; background: none; border: none; color: #fff; cursor: pointer; padding: 4px; }
+
+/* ====== AMBIENT PARTICLES ====== */
+#ambient-particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.amb-p { position: absolute; border-radius: 50%; will-change: transform; }
+
+/* ====== SECTIONS ====== */
+section { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 40px 80px; overflow: hidden; }
+section.tall { min-height: auto; padding: 120px 40px; }
+
+/* ====== BACKGROUNDS ====== */
+.mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(109,40,217,0.38) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 55% at 80% 70%, rgba(124,58,237,0.22) 0%, transparent 65%),
+              radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.7) 0%, transparent 80%), var(--preto);
+  animation: meshMove 14s ease-in-out infinite alternate; }
+.red-mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(220,38,38,0.28) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 55% at 80% 70%, rgba(185,28,28,0.18) 0%, transparent 65%),
+              radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.5) 0%, transparent 80%), var(--preto);
+  animation: meshMove 14s ease-in-out infinite alternate; }
+.green-mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(16,185,129,0.2) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 55% at 80% 70%, rgba(124,58,237,0.18) 0%, transparent 65%),
+              radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.5) 0%, transparent 80%), var(--preto);
+  animation: meshMove 14s ease-in-out infinite alternate; }
+@keyframes meshMove { 0% { background-position: 20% 30%, 80% 70%, 50% 50%; } 50% { background-position: 35% 20%, 65% 80%, 55% 45%; } 100% { background-position: 25% 65%, 75% 30%, 50% 30%; } }
+
+.particle-grid { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(124,58,237,0.15) 1px, transparent 1px);
+  background-size: 52px 52px; animation: gridFloat 22s linear infinite; }
+@keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(52px); } }
+
+/* ====== GLOW RING ====== */
+.glow-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(124,58,237,0.3);
+  box-shadow: 0 0 30px rgba(124,58,237,0.25), inset 0 0 30px rgba(124,58,237,0.08);
+  pointer-events: none; animation: ringPulse 3.5s ease-in-out infinite; }
+@keyframes ringPulse { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; } 50% { transform: translate(-50%,-50%) scale(1.04); opacity: 0.9; } }
+
+/* ====== CHROME TEXT ====== */
+.chrome-text { font-weight: 900;
+  background: linear-gradient(175deg, #ffffff 0%, #e8d5ff 15%, #C4B5FD 30%, #7C3AED 50%, #4c1d95 65%, #C4B5FD 82%, #ffffff 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(124,58,237,0.55)) drop-shadow(0 0 40px rgba(124,58,237,0.25)); }
+
+/* ====== TAG ====== */
+.tag { display: inline-flex; align-items: center; padding: 7px 20px; border-radius: 100px;
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--lilas);
+  font-weight: 600; border: 1px solid rgba(196,181,253,0.25); background: rgba(124,58,237,0.1); margin-bottom: 22px; }
+.tag.red { color: var(--red); border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
+.tag.green { color: var(--green); border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.08); }
+.tag.amber { color: var(--amber); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.08); }
+.tag.blue { color: var(--blue); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.08); }
+
+/* ====== TYPOGRAPHY ====== */
+h1 { font-size: clamp(36px, 5vw, 60px); font-weight: 800; line-height: 1.1; }
+h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 700; line-height: 1.2; }
+h3 { font-size: clamp(20px, 2.5vw, 28px); font-weight: 600; line-height: 1.3; }
+.subtitle { font-size: clamp(16px, 2vw, 22px); color: var(--lilas); font-weight: 300; }
+.body-text { font-size: clamp(15px, 1.5vw, 18px); color: var(--gray); line-height: 1.7; max-width: 800px; text-align: center; }
+.section-divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--roxo), var(--lilas)); border-radius: 99px; margin: 16px auto 20px; }
+
+/* ====== CONTENT WRAPPER ====== */
+.section-content { position: relative; z-index: 2; text-align: center; width: 100%; max-width: 1200px; }
+
+/* ====== HOLOGRAPHIC CARDS ====== */
+.holo-card { position: relative; background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; overflow: hidden; transform-style: preserve-3d;
+  will-change: transform; cursor: default; transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease; }
+.holo-card::before { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit;
+  background: linear-gradient(115deg, transparent 0%, rgba(124,58,237,0.08) 20%, rgba(196,181,253,0.15) 35%, rgba(167,139,250,0.1) 50%, rgba(124,58,237,0.08) 65%, transparent 100%);
+  background-size: 300% 300%; pointer-events: none; mix-blend-mode: overlay; }
+.holo-card::after { content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(124,58,237,0.025) 3px, rgba(124,58,237,0.025) 4px);
+  pointer-events: none; animation: scanMove 10s linear infinite; }
+@keyframes scanMove { from { background-position: 0 0; } to { background-position: 0 200px; } }
+.holo-shine { position: absolute; inset: 0; z-index: 3; border-radius: inherit;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.06) 46%, rgba(196,181,253,0.18) 50%, rgba(255,255,255,0.06) 54%, transparent 70%);
+  background-size: 300% 100%; background-position: 200% 0; transition: background-position 0.7s ease; pointer-events: none; }
+.holo-card:hover .holo-shine { background-position: -100% 0; }
+.holo-card:hover { border-color: rgba(124,58,237,0.45); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.25), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 50px rgba(124,58,237,0.1); }
+.card-inner { padding: 26px 28px; position: relative; z-index: 4; }
+.card-icon { width: 44px; height: 44px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.2); box-shadow: 0 0 20px rgba(124,58,237,0.15); }
+.card-icon svg { width: 22px; height: 22px; stroke: var(--lilas); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.card-icon.red { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.25); }
+.card-icon.red svg { stroke: var(--red); }
+.card-icon.green { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.25); }
+.card-icon.green svg { stroke: var(--green); }
+.card-icon.amber { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.25); }
+.card-icon.amber svg { stroke: var(--amber); }
+.card-title { font-size: 17px; font-weight: 700; margin-bottom: 7px; }
+.card-body { font-size: 13px; color: var(--gray); line-height: 1.55; }
+
+/* ====== CARD GRID ====== */
+.card-grid { display: grid; gap: 18px; width: 100%; }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ====== TABLE ====== */
+.tbl-wrap { width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); position: relative; z-index: 2; }
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { background: rgba(124,58,237,0.2); padding: 14px 22px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lilas); border-bottom: 1px solid rgba(124,58,237,0.3); }
+.tbl td { padding: 13px 22px; font-size: 14px; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+/* ====== INTERSECTION OBSERVER ANIMATIONS ====== */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
+
+/* ====== PLUG CHIPS ====== */
+.plug-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--roxo); margin-bottom: 8px; }
+.plug-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.plug-chip { padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); color: var(--lilas); white-space: nowrap; }
+
+/* ====== VERTICAL TIMELINE ====== */
+.v-tl-item { display: flex; gap: 20px; align-items: flex-start; padding-bottom: 28px; position: relative; }
+.v-tl-item:last-child { padding-bottom: 0; }
+.v-tl-left { display: flex; flex-direction: column; align-items: center; min-width: 24px; }
+.v-tl-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.v-tl-line { width: 2px; flex: 1; min-height: 32px; margin-top: 4px; }
+.v-tl-item:last-child .v-tl-line { display: none; }
+.v-tl-label { font-size: 12px; font-weight: 700; color: var(--lilas); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
+.v-tl-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.v-tl-desc { font-size: 13px; color: var(--gray); line-height: 1.5; }
+.v-tl-badge { display: inline-block; margin-top: 6px; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--green); }
+
+/* ====== COUNT-UP NUMBER ====== */
+.count-up { transition: all 0.3s; }
+
+/* ====== SCROLL DOWN ARROW ====== */
+@keyframes bounceDown { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+.scroll-arrow { animation: bounceDown 1.8s ease-in-out infinite; }
+
+/* ====== QUOTE ====== */
+.quote-mark { font-size: 100px; line-height: 0.4; color: rgba(124,58,237,0.45); font-family: Georgia, serif; margin-bottom: 24px; display: block; }
+.quote { font-size: clamp(18px,2vw,26px); font-weight: 300; font-style: normal; line-height: 1.7; max-width: 820px; text-align: center; color: var(--lilas-light); }
+
+/* ====== NEON PULSE ====== */
+@keyframes neonPulse { 0%,100% { text-shadow: 0 0 20px rgba(196,181,253,0.6), 0 0 40px rgba(124,58,237,0.4); } 50% { text-shadow: 0 0 30px rgba(196,181,253,1), 0 0 60px rgba(124,58,237,0.7); } }
+
+/* ====== PRICING BADGE ====== */
+.recommended-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, var(--blue), var(--roxo)); padding: 4px 18px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #fff; white-space: nowrap; }
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+  .cols-3 { grid-template-columns: repeat(2, 1fr); }
+  .cols-4 { grid-template-columns: repeat(2, 1fr); }
+  #nav-links { display: none; }
+  #nav-links.open { display: flex; flex-direction: column; position: fixed; top: 59px; left: 0; right: 0; background: rgba(10,10,10,0.97); padding: 16px; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  #mobile-menu-btn { display: block; }
+  section { padding: 90px 20px 60px; }
+}
+@media (max-width: 600px) {
+  .cols-3 { grid-template-columns: 1fr; }
+  .cols-2 { grid-template-columns: 1fr; }
+  .cols-4 { grid-template-columns: 1fr; }
+  .tbl td, .tbl th { padding: 10px 14px; font-size: 12px; }
+  h2 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- TOP NAV -->
+<nav id="top-nav">
+  <a id="nav-logo" href="#hero">
+    <img src="logo-simbolo.png" alt="InvisIA">
+    <span>InvisIA</span>
+  </a>
+  <div id="nav-links">
+    <button class="nav-link" onclick="scrollTo('quem-somos')">Quem Somos</button>
+    <button class="nav-link" onclick="scrollTo('longboard')">Longboard Paradise</button>
+    <button class="nav-link" onclick="scrollTo('auditoria')">Auditoria</button>
+    <button class="nav-link" onclick="scrollTo('momento')">O Momento</button>
+    <button class="nav-link" onclick="scrollTo('pilares')">Pilares</button>
+    <button class="nav-link" onclick="scrollTo('solucoes')">Soluções</button>
+    <button class="nav-link" onclick="scrollTo('match')">Match</button>
+    <button class="nav-link" onclick="scrollTo('antes-depois')">Antes/Depois</button>
+    <button class="nav-link" onclick="scrollTo('economia')">Economia</button>
+    <button class="nav-link" onclick="scrollTo('pacotes')">Pacotes</button>
+    <button class="nav-link" onclick="scrollTo('garantia')">Garantia</button>
+    <button class="nav-link" onclick="scrollTo('proximo-passo')">Início</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <span id="nav-confidential">Confidencial</span>
+    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- AMBIENT PARTICLES -->
+<div id="ambient-particles"></div>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 1: HERO -->
+<!-- ====================================================== -->
+<section id="hero" style="min-height:100vh;">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:500px;height:500px;top:50%;left:50%;"></div>
+  <div class="glow-ring" style="width:320px;height:320px;top:50%;left:50%;animation-delay:-1.5s;"></div>
+
+  <div class="section-content" style="display:flex;flex-direction:column;align-items:center;">
+    <img src="logo-invisia-branca.png" alt="InvisIA" class="reveal" style="width:180px;margin-bottom:28px;filter:drop-shadow(0 0 30px rgba(124,58,237,0.5));">
+    <div class="section-divider reveal reveal-delay-1"></div>
+    <p class="reveal reveal-delay-1" style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.35);font-weight:600;margin-bottom:12px;">Proposta Estratégica</p>
+    <h1 class="chrome-text reveal reveal-delay-2" style="font-size:clamp(36px,5.5vw,68px);margin-bottom:10px;">LONGBOARD PARADISE</h1>
+    <p class="reveal reveal-delay-3" style="font-size:clamp(15px,1.8vw,20px);color:var(--lilas);font-weight:300;margin-bottom:10px;">Surf Club, Hostel &amp; Restaurante</p>
+    <p class="reveal reveal-delay-3" style="font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:32px;">Hamilton Lemos &middot; 31/03/2026 &mdash; Confidencial</p>
+    <span class="tag reveal reveal-delay-4">Confidencial</span>
+    <div class="scroll-arrow reveal reveal-delay-5" style="margin-top:48px;color:rgba(255,255,255,0.3);">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 2: QUEM SOMOS -->
+<!-- ====================================================== -->
+<section id="quem-somos">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="section-content">
+    <span class="tag reveal">A InvisIA</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:8px;">Construímos a estrutura invisível<br><span style="color:var(--lilas);">que escala negócios.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:12px auto 40px;">Diagnóstico completo, implementação sob medida e acompanhamento até autonomia total.<br>Sem contratar mais pessoas. Sem complexidade desnecessária.</p>
+    <div class="card-grid cols-3" style="max-width:960px;margin:0 auto;">
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="card-title">Diagnóstico completo</div>
+          <p class="card-body">Mapeamos cada processo, canal e oportunidade antes de implementar qualquer coisa.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="card-title">Implementação sob medida</div>
+          <p class="card-body">Cada solução calibrada para a realidade do negócio. Resultado em dias, não meses.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="card-title">Acompanhamento até autonomia</div>
+          <p class="card-body">Treinamos a equipe. Permanecemos até o negócio operar sozinho com IA.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 3: A LONGBOARD PARADISE -->
+<!-- ====================================================== -->
+<section id="longboard" class="tall">
+  <div class="mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag reveal">Diagnóstico Inicial</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:32px;">A Longboard Paradise hoje.</h2>
+
+    <div class="tbl-wrap reveal reveal-delay-2" style="max-width:900px;margin:0 auto 48px;">
+      <table class="tbl">
+        <thead><tr><th style="width:28%;">Dimensão</th><th>Dados</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#fff;">Setor</td><td>Turismo / Hospitalidade / Gastronomia / Experiências</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Localização</td><td>2 unidades — Av. Paulo Tapajós, Macumba/Recreio, Rio de Janeiro</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Fundação</td><td>2019 &mdash; Fundador: Hamilton Lemos</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Equipe</td><td>15–30 funcionários</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Capacidade</td><td style="color:var(--lilas);font-weight:600;">80 hóspedes + guardaria para 350 pranchas</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Instagram</td><td style="color:var(--green);font-weight:600;">@longboardparadise &mdash; 73K seguidores &mdash; 1.347 posts</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Booking.com</td><td style="color:var(--green);font-weight:600;">8.6/10 &mdash; 864 avaliações verificadas</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Prêmio</td><td style="color:var(--amber);font-weight:600;">HOSCAR — World's Most Sustainable Hostel</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Verticais</td><td>Surf Club &middot; Hostel &middot; Restaurante &middot; Coworking &middot; Experiências</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="reveal" style="margin-bottom:24px;color:var(--green);">Ativos estratégicos já construídos</h3>
+    <div class="card-grid cols-3" style="max-width:1050px;margin:0 auto 32px;">
+      <div class="holo-card reveal reveal-delay-1" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">73K seguidores orgânicos</div>
+          <p class="card-body">Base pronta para monetizar. Audiência construída sem tráfego pago — ativo raro no setor.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-2" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">864 avaliações verificadas</div>
+          <p class="card-body">8.6/10 no Booking.com. Prova social consolidada que nenhum concorrente no Recreio possui.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">Prêmio HOSCAR</div>
+          <p class="card-body">World's Most Sustainable Hostel. Reconhecimento internacional completamente subexplorado no marketing.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">4 verticais de receita</div>
+          <p class="card-body">Hostel, restaurante, surf club e coworking — cada uma é uma alavanca independente de IA.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-5" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">Localização única</div>
+          <p class="card-body">Beira-mar na Macumba — epicentro do surf carioca, 2 unidades físicas com capacidade de escala real.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-6" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">2 unidades físicas</div>
+          <p class="card-body">Capacidade para 80 hóspedes e guardaria de 350 pranchas. Infraestrutura que suporta crescimento.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal" style="font-size:18px;color:rgba(255,255,255,0.7);font-weight:300;margin-top:8px;">O produto funciona. Os números provam. Falta a <strong style="color:#fff;">camada de execução.</strong></p>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 4: AUDITORIA DIGITAL -->
+<!-- ====================================================== -->
+<section id="auditoria" class="tall">
+  <div class="red-mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag amber reveal">Auditoria Digital</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Onde vocês estão vs<br><span style="color:var(--lilas);">onde deveriam estar.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 36px;font-size:16px;">Canal por canal — o que já existe e o que está sendo deixado na mesa.</p>
+
+    <div class="tbl-wrap reveal reveal-delay-2" style="max-width:1000px;margin:0 auto 56px;">
+      <table class="tbl">
+        <thead><tr><th style="width:22%;">Canal</th><th style="color:var(--green);">O que tem</th><th style="color:var(--red);">Gap identificado</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#fff;">Instagram</td><td style="color:var(--green);font-weight:600;">73K seg., 1.347 posts — forte</td><td>Sem automação, sem captura de leads</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Booking.com</td><td style="color:var(--green);font-weight:600;">8.6/10, 864 reviews</td><td style="color:var(--red);">Dependência alta — 15-20% de comissão</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Site</td><td>Moderno, responsivo</td><td style="color:var(--red);">Sem preços, sem SEO, sem reserva direta</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Blog</td><td>3 posts em 1 ano</td><td style="color:var(--red);">Praticamente inativo — tráfego orgânico zero</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">WhatsApp</td><td>3 números separados</td><td style="color:var(--red);">Manual, sem atendimento 24/7, sem bilíngue</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Email</td><td>Newsletter básica</td><td style="color:var(--red);">Sem funil, sem automação, sem segmentação</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Google Meu Negócio</td><td>Cadastro existente</td><td style="color:var(--red);">Não otimizado — gap crítico de visibilidade local</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">TikTok / YouTube</td><td>Presença básica</td><td style="color:var(--red);">Potencial inexplorado para turistas internacionais</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="reveal" style="margin-bottom:24px;color:var(--red);">Gaps críticos — onde a receita está vazando</h3>
+    <div class="card-grid cols-4" style="max-width:1100px;margin:0 auto;">
+      <div class="holo-card reveal reveal-delay-1">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="card-title">Dependência de OTAs</div>
+          <p class="card-body">15–20% de comissão por reserva cedida ao Booking.com e plataformas equivalentes.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="card-title">WhatsApp manual</div>
+          <p class="card-body">3 números separados, atendimento manual, sem cobertura 24/7 e sem suporte bilíngue.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="card-title">SEO inexistente</div>
+          <p class="card-body">Blog com 3 posts em 12 meses. Tráfego orgânico praticamente zero para quem busca hospedagem no Recreio.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="card-title">Zero email marketing</div>
+          <p class="card-body">73K seguidores orgânicos sem nenhum mecanismo de captura e funil de nutrição por email.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-1">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="card-title">Pricing fixo</div>
+          <p class="card-body">Sem ajuste por demanda, sazonalidade ou antecedência. Receita potencial deixada na mesa toda semana.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="card-title">Experiências sem booking online</div>
+          <p class="card-body">Agendamento de aulas de surf e experiências só por WhatsApp — operação manual que limita escala.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="card-title">Reviews sem gestão</div>
+          <p class="card-body">Resposta manual às avaliações. Sem gestão sistemática que potencialize o 8.6/10 como ativo de conversão.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="card-title">Google Meu Negócio</div>
+          <p class="card-body">Perfil não otimizado — perda crítica de visibilidade para turistas que buscam hostel na Barra e Recreio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 5: O CENÁRIO + O MOMENTO -->
+<!-- ====================================================== -->
+<section id="momento">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:420px;height:420px;top:50%;left:50%;border-color:rgba(245,158,11,0.3);box-shadow:0 0 30px rgba(245,158,11,0.2),inset 0 0 30px rgba(245,158,11,0.06);"></div>
+  <div class="section-content" style="max-width:920px;">
+    <span class="tag amber reveal">Janela Crítica</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">O muro e o<br><span style="color:var(--amber);">momento certo.</span></h2>
+
+    <div style="display:flex;flex-direction:column;gap:14px;text-align:left;max-width:760px;margin:0 auto 48px;" class="reveal reveal-delay-2">
+      <div style="padding:20px 24px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:14px;">
+        <p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px;">O Muro</p>
+        <p style="font-size:16px;color:rgba(255,255,255,0.85);line-height:1.7;margin-bottom:8px;">O produto funciona. Os números provam. Mas a operação depende de <strong style="color:#fff;">pessoas para tudo.</strong></p>
+        <p style="font-size:15px;color:var(--gray);line-height:1.6;">Para crescer, precisa contratar mais. Mas a margem já está no limite. A saída é escalar com IA — não com headcount.</p>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="margin-bottom:24px;color:var(--amber);">O momento &mdash; turismo explodindo no Rio</h3>
+    <div style="display:flex;flex-direction:column;gap:14px;text-align:left;max-width:760px;margin:0 auto;">
+      <div class="reveal reveal-delay-1" style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.18);border-radius:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        <p style="font-size:15px;color:var(--lilas-light);">Rio de Janeiro: <strong style="color:#fff;">+164% em reservas</strong> &mdash; líder mundial em crescimento de turismo em 2025.</p>
+      </div>
+      <div class="reveal reveal-delay-2" style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.18);border-radius:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <p style="font-size:15px;color:var(--lilas-light);">Turismo de experiências: <strong style="color:#fff;">+29,2% em faturamento</strong> &mdash; exatamente o que a Longboard Paradise oferece.</p>
+      </div>
+      <div class="reveal reveal-delay-3" style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.18);border-radius:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <p style="font-size:15px;color:var(--lilas-light);"><strong style="color:#fff;">2,5 milhões de turistas internacionais</strong> projetados para o Rio em 2026 &mdash; 42,2% das experiências para estrangeiros vendidas no RJ.</p>
+      </div>
+      <div class="reveal reveal-delay-4" style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);border-radius:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <p style="font-size:15px;color:var(--lilas-light);"><strong style="color:#fff;">Nenhum concorrente na Macumba/Recreio usa IA.</strong> A demanda está explodindo. A pergunta é: quem captura primeiro?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 6: OS 3 PILARES -->
+<!-- ====================================================== -->
+<section id="pilares" class="tall">
+  <div class="mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag reveal">A Solução InvisIA</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Os 3 pilares da<br><span style="color:var(--lilas);">infraestrutura inteligente.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 40px;">Não são ferramentas isoladas. São camadas que se conectam e evoluem juntas.</p>
+
+    <div class="card-grid cols-3" style="max-width:1100px;margin:0 auto 64px;">
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="padding:32px 28px;">
+          <div class="card-icon" style="margin-bottom:16px;">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="card-title" style="font-size:19px;margin-bottom:6px;">Assistente Orquestrador</div>
+          <p style="font-size:12px;color:var(--lilas);font-weight:600;margin-bottom:12px;">"Seu gestor 24/7 em PT, EN e ES"</p>
+          <p class="card-body">Centraliza os 3 WhatsApps em 1, atende em português, inglês e espanhol 24 horas por dia, gerencia reservas e follow-ups, responde reviews em 3 idiomas. Evolui de gestor a braço direito a CEO operacional. Equivalente a R$4–5K/mês.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="padding:32px 28px;">
+          <div class="card-icon" style="margin-bottom:16px;">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="card-title" style="font-size:19px;margin-bottom:6px;">Squad de Programação</div>
+          <p style="font-size:12px;color:var(--lilas);font-weight:600;margin-bottom:12px;">"Funil, SEO e pricing sem dev"</p>
+          <p class="card-body">Funil de reserva direta, booking de experiências online, pricing dinâmico por demanda, blog SEO com 4 artigos por semana, programa de fidelidade Green Client. Equivalente a R$20K+/mês em desenvolvimento.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="padding:32px 28px;">
+          <div class="card-icon" style="margin-bottom:16px;">
+            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+          </div>
+          <div class="card-title" style="font-size:19px;margin-bottom:6px;">Omnia</div>
+          <p style="font-size:12px;color:var(--lilas);font-weight:600;margin-bottom:12px;">"A inteligência das 4 verticais"</p>
+          <p class="card-body">Cruza dados de hospedagem, gastronomia, experiências e coworking. Gera insights cruzados entre verticais, otimiza operação com base em resultados reais e alimenta Assistente e Squad com contexto acumulado.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Assistente -->
+    <h3 class="reveal" style="margin-bottom:32px;">A evolução do <span class="chrome-text">Assistente Orquestrador</span></h3>
+    <div style="max-width:760px;margin:0 auto;text-align:left;" class="reveal reveal-delay-1">
+      <div class="v-tl-item">
+        <div class="v-tl-left">
+          <div class="v-tl-dot" style="background:var(--lilas);box-shadow:0 0 12px rgba(196,181,253,0.6);"></div>
+          <div class="v-tl-line" style="background:linear-gradient(180deg,var(--lilas),var(--blue));"></div>
+        </div>
+        <div style="flex:1;padding-bottom:4px;">
+          <div class="v-tl-label">Semana 1</div>
+          <div class="v-tl-title">Gestor de atendimento unificado</div>
+          <div class="v-tl-desc">3 WhatsApps em 1 canal. Responde hóspedes e turistas em PT/EN/ES 24/7. Zero lead perdido por falta de resposta.</div>
+          <span class="v-tl-badge">Equivalente a R$4–5K/mês</span>
+        </div>
+      </div>
+      <div class="v-tl-item">
+        <div class="v-tl-left">
+          <div class="v-tl-dot" style="background:var(--blue);box-shadow:0 0 12px rgba(59,130,246,0.6);"></div>
+          <div class="v-tl-line" style="background:linear-gradient(180deg,var(--blue),var(--roxo));"></div>
+        </div>
+        <div style="flex:1;padding-bottom:4px;">
+          <div class="v-tl-label">Mês 1</div>
+          <div class="v-tl-title">Braço direito operacional</div>
+          <div class="v-tl-desc">Gerencia reservas, follow-ups, reviews e experiências. Hamilton sai da operação diária. Equipe opera com autonomia.</div>
+          <span class="v-tl-badge">Equivalente a R$8–12K/mês</span>
+        </div>
+      </div>
+      <div class="v-tl-item">
+        <div class="v-tl-left">
+          <div class="v-tl-dot" style="background:var(--roxo);box-shadow:0 0 14px rgba(124,58,237,0.8);"></div>
+          <div class="v-tl-line" style="background:linear-gradient(180deg,var(--roxo),var(--green));"></div>
+        </div>
+        <div style="flex:1;padding-bottom:4px;">
+          <div class="v-tl-label">Mês 3</div>
+          <div class="v-tl-title">Orquestrador das 4 verticais</div>
+          <div class="v-tl-desc">Opera hostel, restaurante, surf club e coworking em paralelo. Upsell automático entre verticais. Pricing ajustado por demanda em tempo real.</div>
+          <span class="v-tl-badge">Equivalente a R$15–20K/mês</span>
+        </div>
+      </div>
+      <div class="v-tl-item">
+        <div class="v-tl-left">
+          <div class="v-tl-dot" style="background:var(--green);box-shadow:0 0 16px rgba(16,185,129,0.9);animation:neonPulse 2s infinite;"></div>
+        </div>
+        <div style="flex:1;">
+          <div class="v-tl-label">Mês 6+</div>
+          <div class="v-tl-title" style="color:var(--green);">CEO operacional autônomo</div>
+          <div class="v-tl-desc">A Longboard Paradise opera com inteligência 24/7. Hamilton foca em estratégia, expansão e experiência do hóspede.</div>
+          <span class="v-tl-badge" style="font-size:13px;padding:4px 14px;">Negócio escalável sem headcount</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 7: SOLUÇÕES PLUG-AND-PLAY -->
+<!-- ====================================================== -->
+<section id="solucoes">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="section-content">
+    <span class="tag reveal">Catálogo de Soluções</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Soluções <span style="color:var(--lilas);">plug-and-play</span><br>disponíveis imediatamente.</h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 40px;">Cada solução pré-construída, testada e calibrada para hospitalidade e turismo de experiências.</p>
+
+    <div style="max-width:1050px;margin:0 auto;text-align:left;display:grid;grid-template-columns:1fr 1fr;gap:14px;" class="reveal reveal-delay-2">
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px 22px;">
+        <div class="plug-label">Captação e Marketing</div>
+        <div class="plug-row">
+          <span class="plug-chip">Squad Conteúdo IA</span>
+          <span class="plug-chip">Blog SEO Autopilot</span>
+          <span class="plug-chip">Email Marketing Auto</span>
+          <span class="plug-chip">Funil Reserva Direta</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px 22px;">
+        <div class="plug-label">Operacional</div>
+        <div class="plug-row">
+          <span class="plug-chip">Chatbot WhatsApp 24/7</span>
+          <span class="plug-chip">Revenue Management</span>
+          <span class="plug-chip">Check-in Digital</span>
+          <span class="plug-chip">Gestão Reviews Auto</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px 22px;">
+        <div class="plug-label">Receita e Retenção</div>
+        <div class="plug-row">
+          <span class="plug-chip">Booking Online Experiências</span>
+          <span class="plug-chip">Upsell Automatizado</span>
+          <span class="plug-chip">Programa Green Client</span>
+          <span class="plug-chip">Follow-up Pós-Checkout</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px 22px;">
+        <div class="plug-label">Dados e Inteligência</div>
+        <div class="plug-row">
+          <span class="plug-chip">Dashboard 4 Verticais</span>
+          <span class="plug-chip">Pricing Dinâmico</span>
+          <span class="plug-chip">Google Meu Negócio IA</span>
+          <span class="plug-chip">Análise Concorrência</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 8: MATCH COM LONGBOARD PARADISE -->
+<!-- ====================================================== -->
+<section id="match" class="tall">
+  <div class="green-mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag green reveal">Match Estratégico</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Cada solução tem um<br><span style="color:var(--green);">problema real para resolver.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 36px;">As implementações mapeadas para a Longboard Paradise — do urgente ao transformacional.</p>
+    <div class="tbl-wrap reveal reveal-delay-2" style="max-width:1020px;margin:0 auto;">
+      <table class="tbl">
+        <thead><tr><th style="width:36%;">Solução InvisIA</th><th>Impacto na Longboard Paradise</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:var(--lilas);">Chatbot WhatsApp 24/7 bilíngue</td><td>Resolve 3 números manuais — atendimento unificado em PT/EN/ES sem parar.</td></tr>
+          <tr><td style="font-weight:600;color:var(--lilas);">Funil de reserva direta + Blog SEO</td><td>Reduz dependência de OTAs — cada reserva direta é 15–20% a mais no bolso.</td></tr>
+          <tr><td style="font-weight:600;color:var(--lilas);">Squad de Conteúdo IA</td><td>Maximiza os 73K seguidores — posts diários, stories e reels sem esforço manual.</td></tr>
+          <tr><td style="font-weight:600;color:var(--lilas);">Revenue Management</td><td>Pricing inteligente por demanda, sazonalidade e antecedência — margem máxima.</td></tr>
+          <tr><td style="font-weight:600;color:var(--lilas);">Booking Online Experiências</td><td>Aulas de surf e experiências agendadas 24/7 — sem WhatsApp manual.</td></tr>
+          <tr><td style="font-weight:600;color:var(--lilas);">Email Marketing + Follow-up</td><td>Cria recorrência com hóspedes anteriores — programa Green Client ativo.</td></tr>
+          <tr><td style="font-weight:600;color:var(--lilas);">Gestão Reviews automática</td><td>Respostas em 3 idiomas — 8.6/10 potencializado como ativo de conversão.</td></tr>
+          <tr><td style="font-weight:600;color:var(--lilas);">Dashboard 4 Verticais</td><td>Hostel + restaurante + surf + coworking cruzados — decisões com dados reais.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 9: ANTES x DEPOIS -->
+<!-- ====================================================== -->
+<section id="antes-depois" class="tall">
+  <div class="mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag reveal">Transformação</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Antes <span style="color:var(--red);">vs</span> <span style="color:var(--green);">Depois.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 36px;">Processo por processo — da operação manual à inteligência autônoma.</p>
+    <div class="tbl-wrap reveal reveal-delay-2" style="max-width:1020px;margin:0 auto;">
+      <table class="tbl">
+        <thead><tr><th style="width:20%;">Processo</th><th style="color:var(--red);">Hoje (sem IA)</th><th style="color:var(--green);">Com InvisIA</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#fff;">WhatsApp</td><td style="color:#ef9090;">3 números, manual, sem 24/7</td><td style="color:var(--green);">Unificado, 24/7, bilíngue PT/EN/ES</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Reservas</td><td style="color:#ef9090;">100% OTAs — 15–20% de comissão</td><td style="color:var(--green);">Funil direto + OTAs como complemento</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Preços</td><td style="color:#ef9090;">Fixos — sem ajuste por demanda</td><td style="color:var(--green);">Dinâmicos por demanda e sazonalidade</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Conteúdo</td><td style="color:#ef9090;">Manual, blog morto (3 posts/ano)</td><td style="color:var(--green);">1 post/dia + 4 artigos SEO/semana</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Email</td><td style="color:#ef9090;">Newsletter básica, sem funil</td><td style="color:var(--green);">Funil completo automatizado com segmentação</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Experiências</td><td style="color:#ef9090;">Agendamento só por WhatsApp</td><td style="color:var(--green);">Booking online + upsell automático</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Reviews</td><td style="color:#ef9090;">Resposta manual, sem padrão</td><td style="color:var(--green);">Automático em 3 idiomas — 8.6/10 amplificado</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 10: ECONOMIA ESTIMADA -->
+<!-- ====================================================== -->
+<section id="economia" class="tall">
+  <div class="green-mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag green reveal">ROI Estimado</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">O que você <span style="color:var(--green);">economiza</span><br>sem contratar ninguém.</h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 48px;">Dois vetores de retorno: contratações evitadas + economia nas comissões de OTA.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1060px;margin:0 auto 48px;" class="reveal reveal-delay-2">
+      <!-- Contratações evitadas -->
+      <div>
+        <h3 style="margin-bottom:18px;font-size:18px;color:var(--lilas);">Contratações evitadas</h3>
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Profissional</th><th>Custo/mês</th></tr></thead>
+            <tbody>
+              <tr><td style="color:#fff;">Gestor de tarefas</td><td>R$ 4–5K</td></tr>
+              <tr><td style="color:#fff;">Squad de programação</td><td>R$ 20K+</td></tr>
+              <tr><td style="color:#fff;">Social media + designer</td><td>R$ 8–12K</td></tr>
+              <tr><td style="color:#fff;">Redator SEO</td><td>R$ 5–8K</td></tr>
+              <tr><td style="color:#fff;">Atendente bilíngue 24/7</td><td>R$ 4–6K</td></tr>
+              <tr><td style="color:#fff;">Revenue manager</td><td>R$ 6–10K</td></tr>
+              <tr><td style="color:#fff;">Analista CRM</td><td>R$ 3–5K</td></tr>
+            </tbody>
+          </table>
+          <div style="padding:14px 22px;background:rgba(16,185,129,0.1);border-top:2px solid rgba(16,185,129,0.4);display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;font-size:15px;color:#fff;">Total</span>
+            <div style="text-align:right;">
+              <span style="font-size:22px;font-weight:900;color:var(--green);">R$ 52–69K/mês</span>
+              <span style="font-size:12px;color:var(--gray);display:block;">R$ 624–828K por ano</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Economia OTAs + Tempo -->
+      <div>
+        <h3 style="margin-bottom:18px;font-size:18px;color:var(--lilas);">Economia adicional</h3>
+        <div class="tbl-wrap" style="margin-bottom:16px;">
+          <table class="tbl">
+            <thead><tr><th>Fonte</th><th>Valor/ano</th></tr></thead>
+            <tbody>
+              <tr><td style="color:#fff;">Redução comissão OTAs</td><td style="color:var(--green);font-weight:700;">R$ 65–220K</td></tr>
+              <tr><td style="color:#fff;">Upsell automatizado</td><td style="color:var(--green);font-weight:700;">R$ 30–80K</td></tr>
+              <tr><td style="color:#fff;">Revenue management</td><td style="color:var(--green);font-weight:700;">R$ 40–120K</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:16px 20px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:14px;">
+          <p style="font-size:12px;color:var(--lilas);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Tempo devolvido</p>
+          <p style="font-size:28px;font-weight:900;color:#fff;">25–35h/semana</p>
+          <p style="font-size:13px;color:var(--gray);margin-top:4px;">Hamilton e equipe focam no que importa — experiência do hóspede e crescimento.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grande destaque -->
+    <div class="reveal reveal-delay-3" style="padding:36px 48px;background:rgba(16,185,129,0.07);border:2px solid rgba(16,185,129,0.3);border-radius:24px;display:inline-block;text-align:center;">
+      <p style="font-size:13px;color:var(--gray);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:8px;">Economia total — Plano Founder</p>
+      <p class="chrome-text count-up" data-target="69000" style="font-size:clamp(48px,6vw,80px);line-height:1.1;">R$ 69.000/mês</p>
+      <p style="font-size:20px;color:var(--lilas);font-weight:600;margin-top:8px;">R$ 624K–828K por ano</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 11: OS 3 CAMINHOS (PACOTES) -->
+<!-- ====================================================== -->
+<section id="pacotes" class="tall">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="section-content">
+    <span class="tag reveal">Investimento</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:8px;">Os 3 caminhos.</h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 40px;">Escolha até onde quer ir agora. Todos incluem os 3 pilares fundamentais.</p>
+
+    <div class="card-grid cols-3" style="max-width:1100px;margin:0 auto 48px;">
+      <!-- CONNECT -->
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:32px 24px;">
+          <p style="font-size:10px;color:var(--roxo);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Porta de Entrada</p>
+          <h3 style="font-size:26px;margin-bottom:4px;">CONNECT</h3>
+          <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">30 dias</p>
+          <div style="font-size:36px;font-weight:900;color:var(--lilas);">R$ 14.997</div>
+          <div class="section-divider" style="margin:16px auto;"></div>
+          <div style="text-align:left;font-size:14px;color:var(--gray);line-height:2.2;">
+            <div style="color:#fff;">WhatsApp 24/7 bilíngue unificado</div>
+            <div>3 pilares instalados</div>
+            <div style="color:#fff;">Prova de conceito em 30 dias</div>
+            <div>Treinamento 1 pessoa</div>
+            <div>4 semanas de acompanhamento</div>
+          </div>
+          <div style="margin-top:16px;padding:8px 16px;background:rgba(124,58,237,0.1);border-radius:99px;border:1px solid rgba(124,58,237,0.25);">
+            <span style="font-size:12px;font-weight:700;color:var(--lilas);">Economia R$48–60K/ano &middot; Payback ~3 meses</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPRINT — RECOMENDADO -->
+      <div class="holo-card reveal reveal-delay-3" style="position:relative;border-color:rgba(59,130,246,0.45);box-shadow:0 0 50px rgba(59,130,246,0.2),0 0 0 1px rgba(59,130,246,0.15);">
+        <div class="recommended-badge">Recomendado para Longboard Paradise</div>
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:44px 24px 32px;">
+          <p style="font-size:10px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Transformação 90 dias</p>
+          <h3 style="font-size:26px;margin-bottom:4px;color:var(--blue);">SPRINT</h3>
+          <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">90 dias</p>
+          <div style="font-size:36px;font-weight:900;color:var(--blue);">R$ 34.000</div>
+          <div style="font-size:12px;color:var(--gray);margin-top:4px;margin-bottom:0;">&lt; R$12K/mês pela transformação</div>
+          <div class="section-divider" style="margin:16px auto;background:linear-gradient(90deg,var(--blue),var(--lilas));"></div>
+          <div style="text-align:left;font-size:14px;color:var(--gray);line-height:2.2;">
+            <div style="color:#fff;">WhatsApp 24/7 bilíngue — 3 números unificados</div>
+            <div style="color:var(--blue);">Funil de reserva direta — reduz OTAs</div>
+            <div style="color:var(--blue);">Motor de conteúdo + SEO — blog ativo</div>
+            <div>Treinamento 2–3 pessoas</div>
+            <div>12 semanas de acompanhamento</div>
+          </div>
+          <div style="margin-top:16px;padding:8px 16px;background:rgba(59,130,246,0.1);border-radius:99px;border:1px solid rgba(59,130,246,0.3);">
+            <span style="font-size:12px;font-weight:700;color:var(--blue);">Economia R$180–240K/ano &middot; Payback ~2 meses</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOUNDER -->
+      <div class="holo-card reveal reveal-delay-4" style="border-color:rgba(16,185,129,0.35);box-shadow:0 0 40px rgba(16,185,129,0.15);">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:32px 24px;">
+          <p style="font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Transformação Total</p>
+          <h3 style="font-size:26px;margin-bottom:4px;color:var(--green);">FOUNDER</h3>
+          <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">Contínuo</p>
+          <div style="font-size:36px;font-weight:900;color:var(--green);">R$ 100.000</div>
+          <div style="font-size:12px;color:var(--green);margin-top:4px;">ou R$ 70.000 à vista</div>
+          <div class="section-divider" style="margin:16px auto;background:linear-gradient(90deg,var(--green),var(--lilas));"></div>
+          <div style="text-align:left;font-size:14px;color:var(--gray);line-height:2.2;">
+            <div style="color:#fff;">3 pilares completos + catálogo inteiro</div>
+            <div style="color:var(--green);">Revenue management + Email + Fidelidade</div>
+            <div style="color:var(--green);">Booking experiências + Dashboard 4 verticais</div>
+            <div style="color:#fff;">Operação autônoma com IA</div>
+            <div>Treinamento time completo</div>
+          </div>
+          <div style="margin-top:16px;padding:8px 16px;background:rgba(16,185,129,0.1);border-radius:99px;border:1px solid rgba(16,185,129,0.3);">
+            <span style="font-size:12px;font-weight:700;color:var(--green);">Economia R$624–828K/ano &middot; Payback ~1-2 meses</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sprint detalhado -->
+    <div class="reveal reveal-delay-2" style="max-width:1080px;margin:0 auto;background:rgba(59,130,246,0.04);border:1px solid rgba(59,130,246,0.2);border-radius:20px;padding:36px 32px;">
+      <div style="text-align:center;margin-bottom:28px;">
+        <span class="tag blue">O que o Sprint resolve em 90 dias</span>
+        <h3 style="font-size:24px;margin-bottom:6px;">Sprint — R$ 34.000</h3>
+        <p style="font-size:15px;color:var(--blue);font-weight:600;">Reservas diretas crescendo. WhatsApp automático. Conteúdo escalado.</p>
+      </div>
+      <div class="card-grid cols-3">
+        <div class="holo-card" style="border-color:rgba(59,130,246,0.3);">
+          <div class="holo-shine"></div>
+          <div class="card-inner" style="padding:24px;">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="card-title" style="color:var(--blue);font-size:14px;">WhatsApp 24/7 bilíngue</div>
+            </div>
+            <p class="card-body">3 números unificados. Atende hóspedes e turistas em PT/EN/ES dia e noite. Zero lead perdido por falta de resposta fora do horário.</p>
+          </div>
+        </div>
+        <div class="holo-card" style="border-color:rgba(59,130,246,0.3);">
+          <div class="holo-shine"></div>
+          <div class="card-inner" style="padding:24px;">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="card-title" style="color:var(--blue);font-size:14px;">Funil de reserva direta</div>
+            </div>
+            <p class="card-body">Cada reserva sem OTA é 15–20% a mais no bolso. Funil calibrado para converter tráfego orgânico dos 73K seguidores em hóspedes diretos.</p>
+          </div>
+        </div>
+        <div class="holo-card" style="border-color:rgba(59,130,246,0.3);">
+          <div class="holo-shine"></div>
+          <div class="card-inner" style="padding:24px;">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </div>
+              <div class="card-title" style="color:var(--blue);font-size:14px;">Motor de conteúdo + SEO</div>
+            </div>
+            <p class="card-body">Blog com 4 artigos por semana, posts diários nas redes. Tráfego orgânico construído para capturar turistas que buscam surf e hospedagem no RJ.</p>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:20px;font-size:14px;color:var(--lilas);">3 pilares instalados + treinamento de 2–3 pessoas + 12 semanas de acompanhamento dedicado</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 12: GARANTIA -->
+<!-- ====================================================== -->
+<section id="garantia">
+  <div class="green-mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:400px;height:400px;top:50%;left:50%;border-color:rgba(16,185,129,0.35);box-shadow:0 0 40px rgba(16,185,129,0.3),inset 0 0 40px rgba(16,185,129,0.1);"></div>
+  <div class="glow-ring" style="width:260px;height:260px;top:50%;left:50%;animation-delay:-1.8s;border-color:rgba(16,185,129,0.2);"></div>
+  <div class="section-content">
+    <span class="tag green reveal">Garantia de Resultado</span>
+    <h2 class="reveal reveal-delay-1" style="font-size:clamp(28px,4vw,52px);margin-bottom:16px;">Resultado em 30 dias<br>ou devolvemos o mês.</h2>
+    <div class="section-divider reveal reveal-delay-2" style="background:linear-gradient(90deg,var(--green),var(--lilas));"></div>
+    <p class="body-text reveal reveal-delay-3" style="margin:24px auto 0;font-size:clamp(16px,1.8vw,20px);">Você não precisa acreditar na gente.<br>Precisa ver funcionando. <strong style="color:#fff;">E vai ver.</strong></p>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 13: PRÓXIMO PASSO -->
+<!-- ====================================================== -->
+<section id="proximo-passo">
+  <div class="mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag reveal">Próximos Passos</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Da decisão ao<br><span style="color:var(--green);">primeiro resultado.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 40px;">Pré-requisito: 1 pessoa da equipe com aptidão para Vibe Code.</p>
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:700px;margin:0 auto;">
+      <div class="reveal reveal-delay-2" style="display:flex;gap:20px;align-items:center;padding:18px 24px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:14px;text-align:left;">
+        <div style="width:40px;height:40px;background:rgba(124,58,237,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--lilas);flex-shrink:0;">1</div>
+        <div>
+          <p style="font-weight:700;font-size:16px;margin-bottom:3px;">Call de diagnóstico</p>
+          <p style="font-size:13px;color:var(--gray);">30–45 minutos para mapear prioridades reais e alinhar escopo.</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-3" style="display:flex;gap:20px;align-items:center;padding:18px 24px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:14px;text-align:left;">
+        <div style="width:40px;height:40px;background:rgba(124,58,237,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--lilas);flex-shrink:0;">2</div>
+        <div>
+          <p style="font-weight:700;font-size:16px;margin-bottom:3px;">Alinhamento de prioridades</p>
+          <p style="font-size:13px;color:var(--gray);">Escolha do caminho — Connect, Sprint ou Founder. Contrato e condições de pagamento.</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-4" style="display:flex;gap:20px;align-items:center;padding:18px 24px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:14px;text-align:left;">
+        <div style="width:40px;height:40px;background:rgba(16,185,129,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--green);flex-shrink:0;">3</div>
+        <div>
+          <p style="font-weight:700;font-size:16px;margin-bottom:3px;">Kickoff</p>
+          <p style="font-size:13px;color:var(--gray);">Diagnóstico detalhado. Mapeamento completo dos processos, canais e integrações.</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-5" style="display:flex;gap:20px;align-items:center;padding:18px 24px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:14px;text-align:left;">
+        <div style="width:40px;height:40px;background:rgba(16,185,129,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--green);flex-shrink:0;">4</div>
+        <div>
+          <p style="font-weight:700;font-size:16px;margin-bottom:3px;color:var(--green);">Primeiro resultado visível — semana 1–2</p>
+          <p style="font-size:13px;color:var(--gray);">WhatsApp unificado rodando. Hóspedes sendo atendidos 24/7. Hamilton sentindo a diferença.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- FOOTER / CTA FINAL -->
+<!-- ====================================================== -->
+<section id="cta-final" style="min-height:100vh;">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:520px;height:520px;top:50%;left:50%;"></div>
+  <div class="glow-ring" style="width:330px;height:330px;top:50%;left:50%;animation-delay:-1.5s;"></div>
+  <div class="section-content" style="max-width:880px;display:flex;flex-direction:column;align-items:center;">
+    <span class="quote-mark reveal">&ldquo;</span>
+    <p class="quote reveal reveal-delay-1">
+      A Longboard Paradise tem o que o dinheiro não compra:<br>
+      <strong style="color:#fff;">localização única</strong>, <strong style="color:#fff;">prêmio internacional</strong>,<br>
+      <strong style="color:#fff;">73K seguidores orgânicos</strong> e <strong style="color:#fff;">864 avaliações 8.6/10.</strong><br><br>
+      O que falta é a <span class="chrome-text" style="font-size:clamp(20px,2.5vw,30px);">camada invisível</span><br>
+      que transforma esses ativos em máquina de receita.
+    </p>
+    <div class="section-divider reveal reveal-delay-2" style="margin:36px auto;"></div>
+    <img src="logo-invisia-branca.png" alt="InvisIA" class="reveal reveal-delay-3" style="width:150px;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(124,58,237,0.4));">
+    <p class="reveal reveal-delay-3" style="font-size:16px;color:var(--lilas);font-weight:300;margin-bottom:32px;">Onde o invisível ganha escala.</p>
+    <p class="reveal reveal-delay-4" style="font-size:clamp(20px,2.5vw,28px);font-weight:700;color:#fff;animation:neonPulse 2.5s infinite;">Hamilton, vamos começar.</p>
+  </div>
+</section>
+
+<script>
+// ====== SCROLL PROGRESS ======
+const progressBar = document.getElementById('scroll-progress');
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight * 100) : 0;
+  progressBar.style.width = pct + '%';
+}
+
+// ====== NAV ACTIVE STATE ======
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+function updateNav() {
+  const scrollY = window.scrollY + 100;
+  const sectionMap = {
+    'hero': 0, 'quem-somos': 1, 'longboard': 2, 'auditoria': 3,
+    'momento': 4, 'pilares': 5, 'solucoes': 6, 'match': 7,
+    'antes-depois': 8, 'economia': 9, 'pacotes': 10, 'garantia': 11,
+    'proximo-passo': 12, 'cta-final': 12
+  };
+  let current = '';
+  sections.forEach(s => {
+    if (scrollY >= s.offsetTop) current = s.id;
+  });
+  navLinks.forEach((link, i) => {
+    const sectionId = Object.keys(sectionMap).find(k => sectionMap[k] === i);
+    link.classList.toggle('active', sectionId === current || (current === 'cta-final' && i === 12));
+  });
+}
+
+// ====== SCROLL TO ======
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+  const mobileLinks = document.getElementById('nav-links');
+  mobileLinks.classList.remove('open');
+}
+
+// ====== MOBILE MENU ======
+function toggleMobileMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+// ====== INTERSECTION OBSERVER ======
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ====== COUNT-UP ======
+function animateCount(el, target, duration = 1800) {
+  const start = performance.now();
+  const fmt = (n) => 'R$ ' + Math.round(n).toLocaleString('pt-BR') + '/mês';
+  const step = (now) => {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = fmt(target * ease);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = fmt(target);
+  };
+  requestAnimationFrame(step);
+}
+
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.dataset.counted) {
+      e.target.dataset.counted = '1';
+      const target = parseInt(e.target.dataset.target);
+      animateCount(e.target, target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.count-up[data-target]').forEach(el => countObserver.observe(el));
+
+// ====== HOLOGRAPHIC TILT ======
+document.querySelectorAll('.holo-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const tiltX = (y - 0.5) * 8;
+    const tiltY = (x - 0.5) * -8;
+    card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ====== AMBIENT PARTICLES ======
+(function() {
+  const container = document.getElementById('ambient-particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'amb-p';
+    const size = Math.random() * 3 + 1;
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    const dur = Math.random() * 20 + 15;
+    const delay = Math.random() * -20;
+    const opacity = Math.random() * 0.2 + 0.04;
+    const colors = ['rgba(124,58,237,', 'rgba(196,181,253,', 'rgba(255,255,255,'];
+    const color = colors[Math.floor(Math.random() * colors.length)] + opacity + ')';
+    p.style.cssText = `width:${size}px;height:${size}px;left:${x}%;top:${y}%;background:${color};animation:ambFloat${i%3} ${dur}s ease-in-out ${delay}s infinite;`;
+    container.appendChild(p);
+  }
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ambFloat0 { 0%,100%{transform:translate(0,0)} 25%{transform:translate(30px,-40px)} 50%{transform:translate(-20px,-80px)} 75%{transform:translate(40px,-30px)} }
+    @keyframes ambFloat1 { 0%,100%{transform:translate(0,0)} 25%{transform:translate(-40px,30px)} 50%{transform:translate(50px,-20px)} 75%{transform:translate(-30px,50px)} }
+    @keyframes ambFloat2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(25px,-60px)} 66%{transform:translate(-35px,25px)} }
+  `;
+  document.head.appendChild(style);
+})();
+
+// ====== EVENT LISTENERS ======
+window.addEventListener('scroll', () => { updateProgress(); updateNav(); }, { passive: true });
+updateProgress();
+updateNav();
+
+// Trigger reveals already in viewport on load
+setTimeout(() => {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) el.classList.add('visible');
+  });
+}, 100);
+</script>
+</body>
+</html>
