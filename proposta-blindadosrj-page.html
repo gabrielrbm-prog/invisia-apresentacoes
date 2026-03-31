@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvisIA — Proposta Estratégica Blindados RJ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --preto: #0a0a0a;
+  --roxo-deep: #1E1B4B;
+  --roxo: #7C3AED;
+  --roxo-dark: #6D28D9;
+  --lilas: #C4B5FD;
+  --lilas-light: #EDE9FE;
+  --off-white: #F8F7FF;
+  --gray: #94A3B8;
+  --gray-dark: #334155;
+  --green: #10B981;
+  --red: #EF4444;
+  --amber: #F59E0B;
+  --blue: #3B82F6;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--preto); color: #fff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; overflow-x: hidden; }
+
+/* ====== SCROLL PROGRESS ====== */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 300;
+  background: linear-gradient(90deg, var(--roxo-dark), var(--roxo), var(--lilas));
+  box-shadow: 0 0 12px rgba(124,58,237,0.8), 0 0 24px rgba(196,181,253,0.4);
+  transition: width 0.1s linear; width: 0%;
+}
+
+/* ====== TOP NAV ====== */
+#top-nav {
+  position: fixed; top: 3px; left: 0; right: 0; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; z-index: 200;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+#nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+#nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+#nav-logo span { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: rgba(255,255,255,0.45); text-transform: uppercase; }
+#nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,0.45); text-decoration: none; transition: all 0.2s;
+  letter-spacing: 0.5px; white-space: nowrap; border: none; background: none; cursor: pointer;
+}
+.nav-link:hover { color: var(--lilas); background: rgba(124,58,237,0.1); }
+.nav-link.active { color: var(--lilas); background: rgba(124,58,237,0.15); }
+#nav-confidential { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.18); }
+#mobile-menu-btn { display: none; background: none; border: none; color: #fff; cursor: pointer; padding: 4px; }
+
+/* ====== AMBIENT PARTICLES ====== */
+#ambient-particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.amb-p { position: absolute; border-radius: 50%; will-change: transform; }
+
+/* ====== SECTIONS ====== */
+section { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 40px 80px; overflow: hidden; }
+section.tall { min-height: auto; padding: 120px 40px; }
+
+/* ====== BACKGROUNDS ====== */
+.mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(109,40,217,0.38) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 55% at 80% 70%, rgba(124,58,237,0.22) 0%, transparent 65%),
+              radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.7) 0%, transparent 80%), var(--preto);
+  animation: meshMove 14s ease-in-out infinite alternate; }
+.red-mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(220,38,38,0.28) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 55% at 80% 70%, rgba(185,28,28,0.18) 0%, transparent 65%),
+              radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.5) 0%, transparent 80%), var(--preto);
+  animation: meshMove 14s ease-in-out infinite alternate; }
+.green-mesh-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 50% at 20% 30%, rgba(16,185,129,0.2) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 55% at 80% 70%, rgba(124,58,237,0.18) 0%, transparent 65%),
+              radial-gradient(ellipse 35% 35% at 50% 50%, rgba(30,27,75,0.5) 0%, transparent 80%), var(--preto);
+  animation: meshMove 14s ease-in-out infinite alternate; }
+@keyframes meshMove { 0% { background-position: 20% 30%, 80% 70%, 50% 50%; } 50% { background-position: 35% 20%, 65% 80%, 55% 45%; } 100% { background-position: 25% 65%, 75% 30%, 50% 30%; } }
+
+.particle-grid { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(124,58,237,0.15) 1px, transparent 1px);
+  background-size: 52px 52px; animation: gridFloat 22s linear infinite; }
+@keyframes gridFloat { from { transform: translateY(0); } to { transform: translateY(52px); } }
+
+/* ====== GLOW RING ====== */
+.glow-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(124,58,237,0.3);
+  box-shadow: 0 0 30px rgba(124,58,237,0.25), inset 0 0 30px rgba(124,58,237,0.08);
+  pointer-events: none; animation: ringPulse 3.5s ease-in-out infinite; }
+@keyframes ringPulse { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; } 50% { transform: translate(-50%,-50%) scale(1.04); opacity: 0.9; } }
+
+/* ====== CHROME TEXT ====== */
+.chrome-text { font-weight: 900;
+  background: linear-gradient(175deg, #ffffff 0%, #e8d5ff 15%, #C4B5FD 30%, #7C3AED 50%, #4c1d95 65%, #C4B5FD 82%, #ffffff 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(124,58,237,0.55)) drop-shadow(0 0 40px rgba(124,58,237,0.25)); }
+
+/* ====== TAG ====== */
+.tag { display: inline-flex; align-items: center; padding: 7px 20px; border-radius: 100px;
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--lilas);
+  font-weight: 600; border: 1px solid rgba(196,181,253,0.25); background: rgba(124,58,237,0.1); margin-bottom: 22px; }
+.tag.red { color: var(--red); border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.08); }
+.tag.green { color: var(--green); border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.08); }
+.tag.amber { color: var(--amber); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.08); }
+.tag.blue { color: var(--blue); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.08); }
+
+/* ====== TYPOGRAPHY ====== */
+h1 { font-size: clamp(36px, 5vw, 60px); font-weight: 800; line-height: 1.1; }
+h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 700; line-height: 1.2; }
+h3 { font-size: clamp(20px, 2.5vw, 28px); font-weight: 600; line-height: 1.3; }
+.subtitle { font-size: clamp(16px, 2vw, 22px); color: var(--lilas); font-weight: 300; }
+.body-text { font-size: clamp(15px, 1.5vw, 18px); color: var(--gray); line-height: 1.7; max-width: 800px; text-align: center; }
+.section-divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--roxo), var(--lilas)); border-radius: 99px; margin: 16px auto 20px; }
+
+/* ====== CONTENT WRAPPER ====== */
+.section-content { position: relative; z-index: 2; text-align: center; width: 100%; max-width: 1200px; }
+
+/* ====== HOLOGRAPHIC CARDS ====== */
+.holo-card { position: relative; background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; overflow: hidden; transform-style: preserve-3d;
+  will-change: transform; cursor: default; transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease; }
+.holo-card::before { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit;
+  background: linear-gradient(115deg, transparent 0%, rgba(124,58,237,0.08) 20%, rgba(196,181,253,0.15) 35%, rgba(167,139,250,0.1) 50%, rgba(124,58,237,0.08) 65%, transparent 100%);
+  background-size: 300% 300%; pointer-events: none; mix-blend-mode: overlay; }
+.holo-card::after { content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(124,58,237,0.025) 3px, rgba(124,58,237,0.025) 4px);
+  pointer-events: none; animation: scanMove 10s linear infinite; }
+@keyframes scanMove { from { background-position: 0 0; } to { background-position: 0 200px; } }
+.holo-shine { position: absolute; inset: 0; z-index: 3; border-radius: inherit;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.06) 46%, rgba(196,181,253,0.18) 50%, rgba(255,255,255,0.06) 54%, transparent 70%);
+  background-size: 300% 100%; background-position: 200% 0; transition: background-position 0.7s ease; pointer-events: none; }
+.holo-card:hover .holo-shine { background-position: -100% 0; }
+.holo-card:hover { border-color: rgba(124,58,237,0.45); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.25), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 50px rgba(124,58,237,0.1); }
+.card-inner { padding: 26px 28px; position: relative; z-index: 4; }
+.card-icon { width: 44px; height: 44px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.2); box-shadow: 0 0 20px rgba(124,58,237,0.15); }
+.card-icon svg { width: 22px; height: 22px; stroke: var(--lilas); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.card-icon.red { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.25); }
+.card-icon.red svg { stroke: var(--red); }
+.card-icon.green { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.25); }
+.card-icon.green svg { stroke: var(--green); }
+.card-icon.amber { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.25); }
+.card-icon.amber svg { stroke: var(--amber); }
+.card-title { font-size: 17px; font-weight: 700; margin-bottom: 7px; }
+.card-body { font-size: 13px; color: var(--gray); line-height: 1.55; }
+
+/* ====== CARD GRID ====== */
+.card-grid { display: grid; gap: 18px; width: 100%; }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ====== TABLE ====== */
+.tbl-wrap { width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); position: relative; z-index: 2; }
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { background: rgba(124,58,237,0.2); padding: 14px 22px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lilas); border-bottom: 1px solid rgba(124,58,237,0.3); }
+.tbl td { padding: 13px 22px; font-size: 14px; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+/* ====== INTERSECTION OBSERVER ANIMATIONS ====== */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
+
+/* ====== PLUG CHIPS ====== */
+.plug-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--roxo); margin-bottom: 8px; }
+.plug-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.plug-chip { padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); color: var(--lilas); white-space: nowrap; }
+
+/* ====== VERTICAL TIMELINE ====== */
+.v-tl-item { display: flex; gap: 20px; align-items: flex-start; padding-bottom: 28px; position: relative; }
+.v-tl-item:last-child { padding-bottom: 0; }
+.v-tl-left { display: flex; flex-direction: column; align-items: center; min-width: 24px; }
+.v-tl-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.v-tl-line { width: 2px; flex: 1; min-height: 32px; margin-top: 4px; }
+.v-tl-item:last-child .v-tl-line { display: none; }
+.v-tl-label { font-size: 12px; font-weight: 700; color: var(--lilas); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
+.v-tl-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.v-tl-desc { font-size: 13px; color: var(--gray); line-height: 1.5; }
+.v-tl-badge { display: inline-block; margin-top: 6px; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--green); }
+
+/* ====== COUNT-UP NUMBER ====== */
+.count-up { transition: all 0.3s; }
+
+/* ====== SCROLL DOWN ARROW ====== */
+@keyframes bounceDown { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+.scroll-arrow { animation: bounceDown 1.8s ease-in-out infinite; }
+
+/* ====== QUOTE ====== */
+.quote-mark { font-size: 100px; line-height: 0.4; color: rgba(124,58,237,0.45); font-family: Georgia, serif; margin-bottom: 24px; display: block; }
+.quote { font-size: clamp(18px,2vw,26px); font-weight: 300; font-style: normal; line-height: 1.7; max-width: 820px; text-align: center; color: var(--lilas-light); }
+
+/* ====== NEON PULSE ====== */
+@keyframes neonPulse { 0%,100% { text-shadow: 0 0 20px rgba(196,181,253,0.6), 0 0 40px rgba(124,58,237,0.4); } 50% { text-shadow: 0 0 30px rgba(196,181,253,1), 0 0 60px rgba(124,58,237,0.7); } }
+
+/* ====== PRICING BADGE ====== */
+.recommended-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, var(--blue), var(--roxo)); padding: 4px 18px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #fff; white-space: nowrap; }
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+  .cols-3 { grid-template-columns: repeat(2, 1fr); }
+  .cols-4 { grid-template-columns: repeat(2, 1fr); }
+  #nav-links { display: none; }
+  #nav-links.open { display: flex; flex-direction: column; position: fixed; top: 59px; left: 0; right: 0; background: rgba(10,10,10,0.97); padding: 16px; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  #mobile-menu-btn { display: block; }
+  section { padding: 90px 20px 60px; }
+}
+@media (max-width: 600px) {
+  .cols-3 { grid-template-columns: 1fr; }
+  .cols-2 { grid-template-columns: 1fr; }
+  .cols-4 { grid-template-columns: 1fr; }
+  .tbl td, .tbl th { padding: 10px 14px; font-size: 12px; }
+  h2 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- TOP NAV -->
+<nav id="top-nav">
+  <a id="nav-logo" href="#hero">
+    <img src="logo-simbolo.png" alt="InvisIA">
+    <span>InvisIA</span>
+  </a>
+  <div id="nav-links">
+    <button class="nav-link" onclick="scrollTo('quem-somos')">Quem Somos</button>
+    <button class="nav-link" onclick="scrollTo('blindados')">Blindados RJ</button>
+    <button class="nav-link" onclick="scrollTo('auditoria')">Auditoria</button>
+    <button class="nav-link" onclick="scrollTo('momento')">O Momento</button>
+    <button class="nav-link" onclick="scrollTo('pilares')">Pilares</button>
+    <button class="nav-link" onclick="scrollTo('solucoes')">Soluções</button>
+    <button class="nav-link" onclick="scrollTo('match')">Match</button>
+    <button class="nav-link" onclick="scrollTo('antes-depois')">Antes/Depois</button>
+    <button class="nav-link" onclick="scrollTo('economia')">Economia</button>
+    <button class="nav-link" onclick="scrollTo('pacotes')">Pacotes</button>
+    <button class="nav-link" onclick="scrollTo('garantia')">Garantia</button>
+    <button class="nav-link" onclick="scrollTo('proximo-passo')">Início</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <span id="nav-confidential">Confidencial</span>
+    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- AMBIENT PARTICLES -->
+<div id="ambient-particles"></div>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 1: HERO -->
+<!-- ====================================================== -->
+<section id="hero" style="min-height:100vh;">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:500px;height:500px;top:50%;left:50%;"></div>
+  <div class="glow-ring" style="width:320px;height:320px;top:50%;left:50%;animation-delay:-1.5s;"></div>
+
+  <div class="section-content" style="display:flex;flex-direction:column;align-items:center;">
+    <img src="logo-invisia-branca.png" alt="InvisIA" class="reveal" style="width:180px;margin-bottom:28px;filter:drop-shadow(0 0 30px rgba(124,58,237,0.5));">
+    <div class="section-divider reveal reveal-delay-1"></div>
+    <p class="reveal reveal-delay-1" style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.35);font-weight:600;margin-bottom:12px;">Proposta Estratégica</p>
+    <h1 class="chrome-text reveal reveal-delay-2" style="font-size:clamp(40px,6vw,72px);margin-bottom:10px;">Blindados RJ</h1>
+    <p class="reveal reveal-delay-3" style="font-size:clamp(15px,1.8vw,20px);color:var(--gray);font-weight:300;margin-bottom:10px;">Renato Nunes</p>
+    <p class="reveal reveal-delay-3" style="font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:32px;">30/03/2026</p>
+    <span class="tag reveal reveal-delay-4">Confidencial</span>
+    <div class="scroll-arrow reveal reveal-delay-5" style="margin-top:48px;color:rgba(255,255,255,0.3);">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 2: QUEM SOMOS -->
+<!-- ====================================================== -->
+<section id="quem-somos">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="section-content">
+    <span class="tag reveal">Quem Somos</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:8px;">Consultoria de transformação<br><span style="color:var(--lilas);">operacional com IA.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:12px auto 40px;">Implementamos infraestrutura inteligente que opera 24/7.<br>Diagnóstico, implementação e acompanhamento até autonomia total.</p>
+    <div class="card-grid cols-3" style="max-width:960px;margin:0 auto;">
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="card-title">Resultado em dias</div>
+          <p class="card-body">O que consultoria tradicional entrega em 18 meses, nós fazemos em 1–3 meses.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="card-title">ROI 300–500%</div>
+          <p class="card-body">Comprovado em 12 meses. Cada real investido volta multiplicado.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;">
+          <div class="card-icon" style="margin:0 auto 14px;">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="card-title">Squads de IA</div>
+          <p class="card-body">Times inteiros de agentes especializados. Sem contratar ninguém.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 3: A BLINDADOS RJ -->
+<!-- ====================================================== -->
+<section id="blindados" class="tall">
+  <div class="mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag reveal">Diagnóstico Inicial</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:32px;">A Blindados RJ hoje.</h2>
+
+    <div class="tbl-wrap reveal reveal-delay-2" style="max-width:900px;margin:0 auto 48px;">
+      <table class="tbl">
+        <thead><tr><th style="width:28%;">Dimensão</th><th>Dados</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#fff;">Setor</td><td>Veículos blindados — venda, blindagem, locação e mobilidade</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Operação</td><td>8 anos de mercado — ~12 colaboradores — Microempresa</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Capital Social</td><td>R$ 100.000</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Estoque</td><td style="color:var(--lilas);font-weight:600;">159 veículos — ticket médio R$150K–R$300K — R$82K a R$2,15M</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Instagram</td><td style="color:var(--green);font-weight:600;">@blindadosrj — 273K seguidores — Líder do nicho no RJ</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Ads ativos</td><td style="color:var(--amber);font-weight:600;">25+ campanhas no Meta — Maior anunciante do segmento</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">App</td><td>"Vou de Blindados RJ" — locação com motorista</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">CRM</td><td>AutoCerto</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Decisores</td><td style="color:#fff;font-weight:600;">Renato Nunes (CEO) + Alison Nunes (Sócio / Sucessão)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="reveal" style="margin-bottom:24px;color:var(--green);">Ativos estratégicos já construídos</h3>
+    <div class="card-grid cols-3" style="max-width:1050px;margin:0 auto 32px;">
+      <div class="holo-card reveal reveal-delay-1" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">273K seguidores</div>
+          <p class="card-body">Maior audiência do nicho no RJ. Um canal de influência que poucos no segmento possuem.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-2" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">25+ anúncios ativos</div>
+          <p class="card-body">Maior anunciante do segmento. Tráfego já rodando. Falta a automação para converter.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">App próprio</div>
+          <p class="card-body">Raro para o setor. "Vou de Blindados RJ" — diferencial que concorrentes não têm.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">159 veículos em estoque</div>
+          <p class="card-body">R$23M+ em ativos disponíveis. Com precificação inteligente, a margem explode.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-5" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">30 anos de experiência</div>
+          <p class="card-body">Renato carrega o maior ativo intangível: conhecimento profundo do nicho.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-6" style="border-color:rgba(16,185,129,0.25);">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon green" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="card-title" style="color:var(--green);">Marca forte</div>
+          <p class="card-body">Blindados RJ é sinônimo de referência no mercado carioca. Reputação de 8 anos.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal" style="font-size:18px;color:rgba(255,255,255,0.7);font-weight:300;margin-top:8px;">Os ativos estão no lugar. Falta a <strong style="color:#fff;">camada operacional inteligente.</strong></p>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 4: AUDITORIA DIGITAL -->
+<!-- ====================================================== -->
+<section id="auditoria" class="tall">
+  <div class="red-mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag amber reveal">Auditoria Digital</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Onde vocês estão vs<br><span style="color:var(--lilas);">onde deveriam estar.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 36px;font-size:16px;">Comparativo Blindados RJ × mercado esperado para o porte e audiência.</p>
+
+    <div class="tbl-wrap reveal reveal-delay-2" style="max-width:1000px;margin:0 auto 56px;">
+      <table class="tbl">
+        <thead><tr><th style="width:28%;">Canal / Ferramenta</th><th style="color:var(--red);">Atual</th><th style="color:var(--green);">Benchmark</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#fff;">Instagram</td><td style="color:var(--green);font-weight:600;">273K seguidores</td><td>Líder do nicho no RJ</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Ads ativos</td><td style="color:var(--green);font-weight:600;">25+ campanhas</td><td>Maior anunciante do segmento</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Landing pages</td><td style="color:var(--red);">0 (zero)</td><td style="color:var(--green);">1 landing por campanha</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Chatbot WhatsApp</td><td style="color:var(--red);">0 (zero)</td><td style="color:var(--green);">Ativo com qualificação de leads</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">YouTube</td><td style="color:var(--red);">Inexistente</td><td style="color:var(--green);">Canal ativo (top concorrentes)</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">TikTok</td><td style="color:var(--red);">Inexistente</td><td style="color:var(--green);">Canal ativo (top concorrentes)</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">CRM com IA</td><td style="color:var(--red);">Não integrado</td><td style="color:var(--green);">Lead scoring + pipeline automático</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Precificação</td><td style="color:var(--red);">Manual (experiência)</td><td style="color:var(--green);">FIPE + concorrentes + giro de estoque</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="reveal" style="margin-bottom:24px;color:var(--red);">Gaps identificados — onde o dinheiro está vazando</h3>
+    <div class="card-grid cols-3" style="max-width:1050px;margin:0 auto;">
+      <div class="holo-card reveal reveal-delay-1">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="card-title">25+ ads sem automação</div>
+          <p class="card-body">Todas as campanhas apontam para DM ou WhatsApp sem chatbot ou qualificação automática. Leads frios, atendimento manual.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 8 0v2"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg>
+          </div>
+          <div class="card-title">CEO gerencia 25+ campanhas</div>
+          <p class="card-body">Renato opera o painel do Meta sozinho. Tempo de CEO gasto em tarefa operacional que IA resolve com mais precisão.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <div class="card-title">159 veículos precificados na mão</div>
+          <p class="card-body">Sem análise de FIPE, concorrência e giro. Margem deixada na mesa todos os dias.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <div class="card-title">App sem IA — dispatch manual</div>
+          <p class="card-body">"Vou de Blindados RJ" tem potencial enorme, mas despacho de motoristas ainda é manual.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-5">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </div>
+          <div class="card-title">Zero YouTube e TikTok</div>
+          <p class="card-body">Concorrentes como Brazuca Motors já constroem audiência nessas plataformas. Cada mês sem presença é autoridade cedida.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-6">
+        <div class="holo-shine"></div>
+        <div class="card-inner">
+          <div class="card-icon red" style="margin-bottom:12px;">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="card-title">3 WhatsApps sem chatbot</div>
+          <p class="card-body">Três canais manuais, sem qualificação, sem horário estendido. Lead quente virando frio a cada hora sem resposta.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 5: O MOMENTO -->
+<!-- ====================================================== -->
+<section id="momento">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:420px;height:420px;top:50%;left:50%;border-color:rgba(239,68,68,0.3);box-shadow:0 0 30px rgba(239,68,68,0.25),inset 0 0 30px rgba(239,68,68,0.08);"></div>
+  <div class="section-content" style="max-width:860px;">
+    <span class="tag amber reveal">Janela Crítica</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">A janela para pioneirismo<br><span style="color:var(--amber);">é agora.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 36px;">O desafio: crescer exige mais pessoas — mais pessoas aumentam custo — margem diminui. A saída é escalar com IA, não com contratações.</p>
+
+    <div style="display:flex;flex-direction:column;gap:14px;text-align:left;max-width:720px;margin:0 auto;">
+      <div class="reveal reveal-delay-1" style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p style="font-size:15px;color:var(--lilas-light);">Apenas <strong style="color:#fff;">0,1% das empresas</strong> operam com IA estruturada hoje. A janela para se diferenciar fecha rápido.</p>
+      </div>
+      <div class="reveal reveal-delay-2" style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <p style="font-size:15px;color:var(--lilas-light);"><strong style="color:#fff;">Rhino</strong> (mobilidade blindada global) pode chegar ao RJ em 12 meses. Quando chegar, o custo de defesa será 10x maior.</p>
+      </div>
+      <div class="reveal reveal-delay-3" style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);border-radius:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        <p style="font-size:15px;color:var(--lilas-light);"><strong style="color:#fff;">Brazuca Motors</strong> já está no YouTube e TikTok. Cada semana sem presença é audiência que vai para o concorrente.</p>
+      </div>
+      <div class="reveal reveal-delay-4" style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:12px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lilas)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <p style="font-size:15px;color:var(--lilas-light);">Renato quer preparar a <strong style="color:#fff;">sucessão para Alison</strong>. Isso exige uma operação que funcione sem depender do CEO — o que só IA estruturada entrega.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 6: OS 3 PILARES -->
+<!-- ====================================================== -->
+<section id="pilares" class="tall">
+  <div class="mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag reveal">A Solução InvisIA</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Os 3 pilares da<br><span style="color:var(--lilas);">infraestrutura inteligente.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 40px;">Não são ferramentas isoladas. São camadas que se conectam e evoluem juntas.</p>
+
+    <div class="card-grid cols-3" style="max-width:1100px;margin:0 auto 64px;">
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="padding:32px 28px;">
+          <div class="card-icon" style="margin-bottom:16px;">
+            <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div class="card-title" style="font-size:19px;margin-bottom:6px;">Assistente Orquestrador</div>
+          <p style="font-size:12px;color:var(--lilas);font-weight:600;margin-bottom:12px;">"Seu gestor inteligente no WhatsApp"</p>
+          <p class="card-body">Gerencia tarefas, prazos e projetos. Update diário automatizado. Conecta e-mail, agenda e sistemas. Memória persistente — nunca esquece nada.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="padding:32px 28px;">
+          <div class="card-icon" style="margin-bottom:16px;">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="card-title" style="font-size:19px;margin-bottom:6px;">Squad de Programação</div>
+          <p style="font-size:12px;color:var(--lilas);font-weight:600;margin-bottom:12px;">"O gênio da lâmpada"</p>
+          <p class="card-body">Comandos em linguagem natural. Cria sites, apps e automações. Opera 24/7. Memória de projeto. Equivalente a R$20K/mês em desenvolvedores.</p>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="padding:32px 28px;">
+          <div class="card-icon" style="margin-bottom:16px;">
+            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+          </div>
+          <div class="card-title" style="font-size:19px;margin-bottom:6px;">Omnia</div>
+          <p style="font-size:12px;color:var(--lilas);font-weight:600;margin-bottom:12px;">"A IA onipresente"</p>
+          <p class="card-body">Grava reuniões, transcreve e diagnostica. Categoriza contexto. Alimenta o Assistente e o Squad com a inteligência capturada do dia a dia.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Assistente -->
+    <h3 class="reveal" style="margin-bottom:32px;">A evolução do <span class="chrome-text">Assistente Orquestrador</span></h3>
+    <div style="max-width:760px;margin:0 auto;text-align:left;" class="reveal reveal-delay-1">
+      <div class="v-tl-item">
+        <div class="v-tl-left">
+          <div class="v-tl-dot" style="background:var(--lilas);box-shadow:0 0 12px rgba(196,181,253,0.6);"></div>
+          <div class="v-tl-line" style="background:linear-gradient(180deg,var(--lilas),var(--blue));"></div>
+        </div>
+        <div style="flex:1;padding-bottom:4px;">
+          <div class="v-tl-label">Mês 1</div>
+          <div class="v-tl-title">Organizador de tarefas</div>
+          <div class="v-tl-desc">Gerencia o backlog do Renato. Prioriza, agenda e cobra. Liberta do caos operacional diário.</div>
+          <span class="v-tl-badge">Equivalente a R$4–5K/mês</span>
+        </div>
+      </div>
+      <div class="v-tl-item">
+        <div class="v-tl-left">
+          <div class="v-tl-dot" style="background:var(--blue);box-shadow:0 0 12px rgba(59,130,246,0.6);"></div>
+          <div class="v-tl-line" style="background:linear-gradient(180deg,var(--blue),var(--roxo));"></div>
+        </div>
+        <div style="flex:1;padding-bottom:4px;">
+          <div class="v-tl-label">Mês 3</div>
+          <div class="v-tl-title">Gestor de projetos</div>
+          <div class="v-tl-desc">Conecta equipe, fornecedores e sistemas. Relatórios automáticos. Alerta de atrasos antes que virem problema.</div>
+          <span class="v-tl-badge">Equivalente a R$6–8K/mês</span>
+        </div>
+      </div>
+      <div class="v-tl-item">
+        <div class="v-tl-left">
+          <div class="v-tl-dot" style="background:var(--roxo);box-shadow:0 0 14px rgba(124,58,237,0.8);"></div>
+          <div class="v-tl-line" style="background:linear-gradient(180deg,var(--roxo),var(--green));"></div>
+        </div>
+        <div style="flex:1;padding-bottom:4px;">
+          <div class="v-tl-label">Mês 6</div>
+          <div class="v-tl-title">Orquestrador multissetorial</div>
+          <div class="v-tl-desc">Opera vendas, marketing, estoque e app em paralelo. Toma micro-decisões. Escala sem contratar.</div>
+          <span class="v-tl-badge">Equivalente a R$10–15K/mês</span>
+        </div>
+      </div>
+      <div class="v-tl-item">
+        <div class="v-tl-left">
+          <div class="v-tl-dot" style="background:var(--green);box-shadow:0 0 16px rgba(16,185,129,0.9);animation:neonPulse 2s infinite;"></div>
+        </div>
+        <div style="flex:1;">
+          <div class="v-tl-label">Mês 12</div>
+          <div class="v-tl-title" style="color:var(--green);">Clone do Renato</div>
+          <div class="v-tl-desc">Carrega a visão estratégica, os critérios de decisão e o estilo de liderança. Alison herda uma empresa que opera autonomamente.</div>
+          <span class="v-tl-badge" style="font-size:13px;padding:4px 14px;">Inestimável — Sucessão real</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 7: SOLUÇÕES PLUG-AND-PLAY -->
+<!-- ====================================================== -->
+<section id="solucoes">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="section-content">
+    <span class="tag reveal">Catálogo de Soluções</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Soluções <span style="color:var(--lilas);">plug-and-play</span><br>disponíveis imediatamente.</h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 40px;">Cada solução é pré-construída, testada e calibrada para o segmento de veículos premium.</p>
+
+    <div style="max-width:1050px;margin:0 auto;text-align:left;display:grid;grid-template-columns:1fr 1fr;gap:14px;" class="reveal reveal-delay-2">
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px 22px;">
+        <div class="plug-label">Vendas e Comercial</div>
+        <div class="plug-row">
+          <span class="plug-chip">Agente SDR WhatsApp</span>
+          <span class="plug-chip">Funil Digital</span>
+          <span class="plug-chip">CRM Inteligente</span>
+          <span class="plug-chip">Landing Pages</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px 22px;">
+        <div class="plug-label">Marketing e Conteúdo</div>
+        <div class="plug-row">
+          <span class="plug-chip">Squad de Copy</span>
+          <span class="plug-chip">Squad Social Media</span>
+          <span class="plug-chip">SEO Automatizado</span>
+          <span class="plug-chip">Análise Concorrência</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px 22px;">
+        <div class="plug-label">Operações e Gestão</div>
+        <div class="plug-row">
+          <span class="plug-chip">Dashboard Produtividade</span>
+          <span class="plug-chip">Dashboard Rastreamento</span>
+          <span class="plug-chip">Relatórios Auto</span>
+          <span class="plug-chip">Automação de Processos</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px 22px;">
+        <div class="plug-label">Produto e Tecnologia</div>
+        <div class="plug-row">
+          <span class="plug-chip">Gestão de Tráfego IA</span>
+          <span class="plug-chip">Precificação Inteligente</span>
+          <span class="plug-chip">App com IA</span>
+          <span class="plug-chip">APIs e Integrações</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 8: MATCH COM BLINDADOS RJ -->
+<!-- ====================================================== -->
+<section id="match" class="tall">
+  <div class="green-mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag green reveal">Match Estratégico</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Cada solução tem um<br><span style="color:var(--green);">problema real para resolver.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 36px;">As 10 implementações mapeadas para a Blindados RJ — da urgência à transformação.</p>
+    <div class="tbl-wrap reveal reveal-delay-2" style="max-width:1020px;margin:0 auto;">
+      <table class="tbl">
+        <thead><tr><th style="width:5%;">#</th><th style="width:36%;">Solução InvisIA</th><th>Impacto na Blindados RJ</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--lilas);font-weight:700;">1</td><td style="font-weight:600;color:#fff;">Assistente Orquestrador</td><td>Liberta Renato da operação diária. Base para a sucessão de Alison.</td></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">2</td><td style="font-weight:600;color:#fff;">Squad de Programação</td><td>Tira qualquer implementação do papel. App, landing, dashboard — sem contratar dev.</td></tr>
+          <tr><td style="color:var(--lilas);font-weight:700;">3</td><td style="font-weight:600;color:#fff;">Omnia</td><td>Capta o conhecimento do Renato. Potencializa Assistente e Squad com contexto real.</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">4</td><td style="font-weight:600;color:var(--green);">Agente SDR WhatsApp + DM</td><td>25+ ads respondidos 24/7. Zero lead frio por falta de atendimento.</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">5</td><td style="font-weight:600;color:var(--green);">Gestão de Tráfego IA</td><td>CEO livre do painel do Meta. IA otimiza 25+ campanhas em tempo real.</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">6</td><td style="font-weight:600;color:var(--green);">Precificação + Gestão Estoque</td><td>159 veículos com FIPE + concorrência + giro. Margem máxima em cada venda.</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">7</td><td style="font-weight:600;color:var(--green);">Landing Pages</td><td>Cada ad com página dedicada. Conversão das 25+ campanhas existentes.</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">8</td><td style="font-weight:600;color:var(--green);">Squad Social Media</td><td>YouTube + TikTok escalados. Presença nos canais onde concorrentes já estão.</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">9</td><td style="font-weight:600;color:var(--green);">Dashboard Performance</td><td>Visibilidade total de vendas, estoque e campanhas em tempo real.</td></tr>
+          <tr><td style="color:var(--green);font-weight:700;">10</td><td style="font-weight:600;color:var(--green);">App com IA</td><td>"Vou de Blindados RJ" potencializado. Dispatch automático, rotas otimizadas.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 9: ANTES x DEPOIS -->
+<!-- ====================================================== -->
+<section id="antes-depois" class="tall">
+  <div class="mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag reveal">Transformação</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Antes <span style="color:var(--red);">vs</span> <span style="color:var(--green);">Depois.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 36px;">Cada processo mapeado — da operação manual à inteligência autônoma.</p>
+    <div class="tbl-wrap reveal reveal-delay-2" style="max-width:1020px;margin:0 auto;">
+      <table class="tbl">
+        <thead><tr><th style="width:22%;">Processo</th><th style="color:var(--red);">Hoje (sem IA)</th><th style="color:var(--green);">Com InvisIA</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:#fff;">Atendimento DMs/WhatsApp</td><td style="color:#ef9090;">Manual, horário comercial. Leads perdidos à noite.</td><td style="color:var(--green);">Agente IA 24/7. Qualificação automática. Zero lead frio.</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Gestão de tráfego</td><td style="color:#ef9090;">Renato sozinho no Meta. 25+ campanhas manuais.</td><td style="color:var(--green);">IA otimiza 25+ campanhas. Orçamento redistribuído em tempo real.</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Precificação de estoque</td><td style="color:#ef9090;">Manual, baseado em experiência. Margem incerta.</td><td style="color:var(--green);">IA + FIPE + concorrentes + giro. Margem máxima garantida.</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Cadastro multi-plataforma</td><td style="color:#ef9090;">Manual, 1 a 1. Cada veículo postado individualmente.</td><td style="color:var(--green);">Publicação automatizada em todos os canais simultaneamente.</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">Gestão de tarefas</td><td style="color:#ef9090;">Depende do Renato para tudo. Operação travada.</td><td style="color:var(--green);">Orquestrador 24/7. Times operam sem depender do CEO.</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">YouTube e TikTok</td><td style="color:#ef9090;">Inexistentes. Audiência cedida ao concorrente.</td><td style="color:var(--green);">Produção de conteúdo escalada com Squad IA.</td></tr>
+          <tr><td style="font-weight:600;color:#fff;">App de mobilidade</td><td style="color:#ef9090;">Dispatch manual. Operação limitada ao horário da equipe.</td><td style="color:var(--green);">IA otimizando rotas e dispatch automático 24/7.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 10: ECONOMIA ESTIMADA -->
+<!-- ====================================================== -->
+<section id="economia" class="tall">
+  <div class="green-mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag green reveal">ROI Estimado</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">O que você <span style="color:var(--green);">economiza</span><br>sem contratar ninguém.</h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 48px;">Dois vetores de retorno: contratações evitadas + tempo do CEO recuperado.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1060px;margin:0 auto 48px;" class="reveal reveal-delay-2">
+      <!-- Contratações evitadas -->
+      <div>
+        <h3 style="margin-bottom:18px;font-size:18px;color:var(--lilas);">Contratações evitadas</h3>
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Profissional</th><th>Custo/mês</th><th>Custo/ano</th></tr></thead>
+            <tbody>
+              <tr><td style="color:#fff;">Gestor de tarefas</td><td>R$ 4.500</td><td>R$ 54.000</td></tr>
+              <tr><td style="color:#fff;">Squad de programação</td><td>R$ 20.000</td><td>R$ 240.000</td></tr>
+              <tr><td style="color:#fff;">Atendentes DM/WhatsApp (2×)</td><td>R$ 7.000</td><td>R$ 84.000</td></tr>
+              <tr><td style="color:#fff;">Gestor de tráfego</td><td>R$ 5.000</td><td>R$ 60.000</td></tr>
+              <tr><td style="color:#fff;">Analista de precificação</td><td>R$ 5.000</td><td>R$ 60.000</td></tr>
+              <tr><td style="color:#fff;">Analista de dados</td><td>R$ 5.500</td><td>R$ 66.000</td></tr>
+            </tbody>
+          </table>
+          <div style="padding:14px 22px;background:rgba(16,185,129,0.1);border-top:2px solid rgba(16,185,129,0.4);display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;font-size:15px;color:#fff;">Total</span>
+            <div style="text-align:right;">
+              <span style="font-size:22px;font-weight:900;color:var(--green);">R$ 52.000/mês</span>
+              <span style="font-size:12px;color:var(--gray);display:block;">R$ 564.000 por ano</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tempo recuperado -->
+      <div>
+        <h3 style="margin-bottom:18px;font-size:18px;color:var(--lilas);">Tempo do CEO recuperado</h3>
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Processo</th><th>Hoje</th><th>Economia/mês</th></tr></thead>
+            <tbody>
+              <tr><td style="color:#fff;">Resposta DMs/WhatsApp</td><td style="color:var(--red);">25h/sem</td><td style="color:var(--green);font-weight:700;">R$ 5.000</td></tr>
+              <tr><td style="color:#fff;">Gestão de tráfego</td><td style="color:var(--red);">10h/sem</td><td style="color:var(--green);font-weight:700;">R$ 4.000</td></tr>
+              <tr><td style="color:#fff;">Precificação do estoque</td><td style="color:var(--red);">10h/sem</td><td style="color:var(--green);font-weight:700;">R$ 3.500</td></tr>
+              <tr><td style="color:#fff;">Cadastro multi-plataforma</td><td style="color:var(--red);">5h/sem</td><td style="color:var(--green);font-weight:700;">R$ 2.000</td></tr>
+              <tr><td style="color:#fff;">Atas e follow-up</td><td style="color:var(--red);">3h/sem</td><td style="color:var(--green);font-weight:700;">R$ 1.200</td></tr>
+            </tbody>
+          </table>
+          <div style="padding:14px 22px;background:rgba(16,185,129,0.1);border-top:2px solid rgba(16,185,129,0.4);display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;font-size:15px;color:#fff;">Total</span>
+            <div style="text-align:right;">
+              <span style="font-size:22px;font-weight:900;color:var(--green);">R$ 15.700/mês</span>
+              <span style="font-size:12px;color:var(--gray);display:block;">R$ 188.400 por ano</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grande destaque -->
+    <div class="reveal reveal-delay-3" style="padding:36px 48px;background:rgba(16,185,129,0.07);border:2px solid rgba(16,185,129,0.3);border-radius:24px;display:inline-block;text-align:center;">
+      <p style="font-size:13px;color:var(--gray);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:8px;">Economia total combinada</p>
+      <p class="chrome-text count-up" data-target="67700" style="font-size:clamp(48px,6vw,80px);line-height:1.1;">R$ 67.700/mês</p>
+      <p style="font-size:20px;color:var(--lilas);font-weight:600;margin-top:8px;">R$ 752.400 por ano</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 11: OS 3 CAMINHOS (PACOTES) -->
+<!-- ====================================================== -->
+<section id="pacotes" class="tall">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="section-content">
+    <span class="tag reveal">Investimento</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:8px;">Os 3 caminhos.</h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 40px;">Escolha até onde quer ir agora. Todos incluem os 3 pilares fundamentais.</p>
+
+    <div class="card-grid cols-3" style="max-width:1100px;margin:0 auto 48px;">
+      <!-- CONNECT -->
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:32px 24px;">
+          <p style="font-size:10px;color:var(--roxo);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Porta de Entrada</p>
+          <h3 style="font-size:26px;margin-bottom:4px;">CONNECT</h3>
+          <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">30 dias</p>
+          <div style="font-size:36px;font-weight:900;color:var(--lilas);">R$ 14.997</div>
+          <div class="section-divider" style="margin:16px auto;"></div>
+          <div style="text-align:left;font-size:14px;color:var(--gray);line-height:2.2;">
+            <div style="color:#fff;">3 pilares instalados</div>
+            <div>1 solução plug-and-play</div>
+            <div style="color:#fff;">Prova de conceito em 30 dias</div>
+            <div>Treinamento 1 pessoa</div>
+            <div>4 semanas de acompanhamento</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPRINT — RECOMENDADO -->
+      <div class="holo-card reveal reveal-delay-3" style="position:relative;border-color:rgba(59,130,246,0.45);box-shadow:0 0 50px rgba(59,130,246,0.2),0 0 0 1px rgba(59,130,246,0.15);">
+        <div class="recommended-badge">Recomendado para Blindados RJ</div>
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:44px 24px 32px;">
+          <p style="font-size:10px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Transformação 90 dias</p>
+          <h3 style="font-size:26px;margin-bottom:4px;color:var(--blue);">SPRINT</h3>
+          <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">90 dias</p>
+          <div style="font-size:36px;font-weight:900;color:var(--blue);">R$ 34.000</div>
+          <div style="font-size:12px;color:var(--gray);margin-top:4px;margin-bottom:0;">&lt; R$12K/mês pela transformação</div>
+          <div class="section-divider" style="margin:16px auto;background:linear-gradient(90deg,var(--blue),var(--lilas));"></div>
+          <div style="text-align:left;font-size:14px;color:var(--gray);line-height:2.2;">
+            <div style="color:#fff;">3 pilares otimizados</div>
+            <div style="color:var(--blue);">Agente SDR WhatsApp + DM — 25 ads 24/7</div>
+            <div style="color:var(--blue);">Gestão de Tráfego IA — Renato livre do Meta</div>
+            <div style="color:var(--blue);">Precificação + Estoque — 159 veículos com IA</div>
+            <div>Treinamento 2–3 pessoas</div>
+            <div>12 semanas de acompanhamento</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOUNDER -->
+      <div class="holo-card reveal reveal-delay-4" style="border-color:rgba(16,185,129,0.35);box-shadow:0 0 40px rgba(16,185,129,0.15);">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:32px 24px;">
+          <p style="font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Transformação Total</p>
+          <h3 style="font-size:26px;margin-bottom:4px;color:var(--green);">FOUNDER</h3>
+          <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">12 meses</p>
+          <div style="font-size:36px;font-weight:900;color:var(--green);">R$ 100.000</div>
+          <div style="font-size:12px;color:var(--green);margin-top:4px;">ou R$ 70.000 à vista</div>
+          <div class="section-divider" style="margin:16px auto;background:linear-gradient(90deg,var(--green),var(--lilas));"></div>
+          <div style="text-align:left;font-size:14px;color:var(--gray);line-height:2.2;">
+            <div style="color:#fff;">3 pilares completos + catálogo inteiro</div>
+            <div style="color:var(--green);">App com IA + YouTube/TikTok + Dashboard</div>
+            <div style="color:var(--green);">Orquestrador evolui para clone do Renato</div>
+            <div style="color:#fff;">Sucessão real para Alison</div>
+            <div>Treinamento time completo</div>
+            <div>12 meses de acompanhamento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payback -->
+    <h3 class="reveal" style="margin-bottom:28px;">Investimento × economia gerada</h3>
+    <div class="card-grid cols-3" style="max-width:1050px;margin:0 auto 48px;">
+      <div class="holo-card reveal reveal-delay-2">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:28px 24px;">
+          <h3 style="font-size:18px;color:var(--lilas);margin-bottom:14px;">CONNECT</h3>
+          <div style="font-size:13px;color:var(--gray);margin-bottom:6px;">Investimento</div>
+          <div style="font-size:26px;font-weight:900;color:var(--lilas);margin-bottom:14px;">R$ 14.997</div>
+          <div class="section-divider" style="margin:12px auto;"></div>
+          <div style="font-size:13px;color:var(--gray);margin-bottom:6px;">Economia gerada</div>
+          <div style="font-size:24px;font-weight:900;color:var(--green);margin-bottom:10px;">R$ 200K+/ano</div>
+          <div style="padding:6px 14px;background:rgba(16,185,129,0.1);border-radius:99px;border:1px solid rgba(16,185,129,0.3);display:inline-block;">
+            <span style="font-size:13px;font-weight:700;color:var(--green);">Payback &lt; 1 mês</span>
+          </div>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-3" style="border-color:rgba(59,130,246,0.35);box-shadow:0 0 40px rgba(59,130,246,0.15);">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:28px 24px;">
+          <h3 style="font-size:18px;color:var(--blue);margin-bottom:14px;">SPRINT</h3>
+          <div style="font-size:13px;color:var(--gray);margin-bottom:6px;">Investimento</div>
+          <div style="font-size:26px;font-weight:900;color:var(--blue);margin-bottom:14px;">R$ 34.000</div>
+          <div class="section-divider" style="margin:12px auto;background:linear-gradient(90deg,var(--blue),var(--lilas));"></div>
+          <div style="font-size:13px;color:var(--gray);margin-bottom:6px;">Economia gerada</div>
+          <div style="font-size:24px;font-weight:900;color:var(--green);margin-bottom:10px;">R$ 500K+/ano</div>
+          <div style="padding:6px 14px;background:rgba(16,185,129,0.1);border-radius:99px;border:1px solid rgba(16,185,129,0.3);display:inline-block;">
+            <span style="font-size:13px;font-weight:700;color:var(--green);">Payback &lt; 1 mês</span>
+          </div>
+        </div>
+      </div>
+      <div class="holo-card reveal reveal-delay-4" style="border-color:rgba(16,185,129,0.3);">
+        <div class="holo-shine"></div>
+        <div class="card-inner" style="text-align:center;padding:28px 24px;">
+          <h3 style="font-size:18px;color:var(--green);margin-bottom:14px;">FOUNDER</h3>
+          <div style="font-size:13px;color:var(--gray);margin-bottom:6px;">Investimento</div>
+          <div style="font-size:26px;font-weight:900;color:var(--green);margin-bottom:4px;">R$ 70K–100K</div>
+          <div style="font-size:11px;color:var(--gray);margin-bottom:10px;">(R$70K à vista)</div>
+          <div class="section-divider" style="margin:12px auto;background:linear-gradient(90deg,var(--green),var(--lilas));"></div>
+          <div style="font-size:13px;color:var(--gray);margin-bottom:6px;">Economia gerada</div>
+          <div style="font-size:24px;font-weight:900;color:var(--green);margin-bottom:10px;">R$ 752K+/ano</div>
+          <div style="padding:6px 14px;background:rgba(16,185,129,0.1);border-radius:99px;border:1px solid rgba(16,185,129,0.3);display:inline-block;">
+            <span style="font-size:13px;font-weight:700;color:var(--green);">Payback &lt; 2 meses</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sprint detalhado -->
+    <div class="reveal reveal-delay-2" style="max-width:1080px;margin:0 auto;background:rgba(59,130,246,0.04);border:1px solid rgba(59,130,246,0.2);border-radius:20px;padding:36px 32px;">
+      <div style="text-align:center;margin-bottom:28px;">
+        <span class="tag blue">Recomendação InvisIA</span>
+        <h3 style="font-size:24px;margin-bottom:6px;">Sprint — R$ 34.000</h3>
+        <p style="font-size:15px;color:var(--blue);font-weight:600;">Transformação visível em 90 dias.</p>
+      </div>
+      <div class="card-grid cols-3">
+        <div class="holo-card" style="border-color:rgba(59,130,246,0.3);">
+          <div class="holo-shine"></div>
+          <div class="card-inner" style="padding:24px;">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="card-title" style="color:var(--blue);font-size:14px;">Agente SDR WhatsApp + DM</div>
+            </div>
+            <p class="card-body">25 ads respondidos automaticamente, 24h por dia. Qualifica leads com perguntas calibradas para o perfil do comprador de blindados.</p>
+          </div>
+        </div>
+        <div class="holo-card" style="border-color:rgba(59,130,246,0.3);">
+          <div class="holo-shine"></div>
+          <div class="card-inner" style="padding:24px;">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <div class="card-title" style="color:var(--blue);font-size:14px;">Gestão de Tráfego com IA</div>
+            </div>
+            <p class="card-body">Renato sai completamente do painel do Meta. IA monitora e otimiza 25+ campanhas em tempo real, redistribuindo orçamento automaticamente.</p>
+          </div>
+        </div>
+        <div class="holo-card" style="border-color:rgba(59,130,246,0.3);">
+          <div class="holo-shine"></div>
+          <div class="card-inner" style="padding:24px;">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+              <div style="width:32px;height:32px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+              <div class="card-title" style="color:var(--blue);font-size:14px;">Precificação + Gestão de Estoque</div>
+            </div>
+            <p class="card-body">159 veículos analisados continuamente. FIPE + varredura de concorrentes + velocidade de giro. Precificação dinâmica que maximiza margem e giro.</p>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:20px;font-size:14px;color:var(--lilas);">3 pilares instalados + treinamento de 2–3 pessoas + 12 semanas de acompanhamento dedicado</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 12: GARANTIA -->
+<!-- ====================================================== -->
+<section id="garantia">
+  <div class="green-mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:400px;height:400px;top:50%;left:50%;border-color:rgba(16,185,129,0.35);box-shadow:0 0 40px rgba(16,185,129,0.3),inset 0 0 40px rgba(16,185,129,0.1);"></div>
+  <div class="glow-ring" style="width:260px;height:260px;top:50%;left:50%;animation-delay:-1.8s;border-color:rgba(16,185,129,0.2);"></div>
+  <div class="section-content">
+    <span class="tag green reveal">Garantia de Resultado</span>
+    <h2 class="reveal reveal-delay-1" style="font-size:clamp(28px,4vw,52px);margin-bottom:16px;">Resultado em 30 dias<br>ou devolvemos o mês.</h2>
+    <div class="section-divider reveal reveal-delay-2" style="background:linear-gradient(90deg,var(--green),var(--lilas));"></div>
+    <p class="body-text reveal reveal-delay-3" style="margin:24px auto 0;font-size:clamp(16px,1.8vw,20px);">Você não precisa acreditar na gente.<br>Precisa ver funcionando. <strong style="color:#fff;">E vai ver.</strong></p>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 13: PRÓXIMO PASSO -->
+<!-- ====================================================== -->
+<section id="proximo-passo">
+  <div class="mesh-bg"></div>
+  <div class="section-content">
+    <span class="tag reveal">Próximos Passos</span>
+    <h2 class="reveal reveal-delay-1" style="margin-bottom:10px;">Da decisão ao<br><span style="color:var(--green);">primeiro resultado.</span></h2>
+    <p class="body-text reveal reveal-delay-2" style="margin:0 auto 40px;">À vista ou em até 3× (Founder: R$30K de desconto à vista).</p>
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:700px;margin:0 auto;">
+      <div class="reveal reveal-delay-2" style="display:flex;gap:20px;align-items:center;padding:18px 24px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:14px;text-align:left;">
+        <div style="width:40px;height:40px;background:rgba(124,58,237,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--lilas);flex-shrink:0;">1</div>
+        <div>
+          <p style="font-weight:700;font-size:16px;margin-bottom:3px;">Decisão do pacote</p>
+          <p style="font-size:13px;color:var(--gray);">Connect, Sprint ou Founder — a escolha define o escopo e o ritmo.</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-3" style="display:flex;gap:20px;align-items:center;padding:18px 24px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);border-radius:14px;text-align:left;">
+        <div style="width:40px;height:40px;background:rgba(124,58,237,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--lilas);flex-shrink:0;">2</div>
+        <div>
+          <p style="font-weight:700;font-size:16px;margin-bottom:3px;">Contrato assinado</p>
+          <p style="font-size:13px;color:var(--gray);">À vista ou em até 3×. Founder tem R$30K de desconto à vista.</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-4" style="display:flex;gap:20px;align-items:center;padding:18px 24px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:14px;text-align:left;">
+        <div style="width:40px;height:40px;background:rgba(16,185,129,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--green);flex-shrink:0;">3</div>
+        <div>
+          <p style="font-weight:700;font-size:16px;margin-bottom:3px;">Kickoff em 7 dias</p>
+          <p style="font-size:13px;color:var(--gray);">Diagnóstico detalhado. Mapeamento completo de processos e prioridades.</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-5" style="display:flex;gap:20px;align-items:center;padding:18px 24px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:14px;text-align:left;">
+        <div style="width:40px;height:40px;background:rgba(16,185,129,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--green);flex-shrink:0;">4</div>
+        <div>
+          <p style="font-weight:700;font-size:16px;margin-bottom:3px;color:var(--green);">Primeiro resultado visível: semana 2–3</p>
+          <p style="font-size:13px;color:var(--gray);">Agente rodando. Tráfego sendo otimizado. Renato sentindo a diferença.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- FOOTER / CTA FINAL -->
+<!-- ====================================================== -->
+<section id="cta-final" style="min-height:100vh;">
+  <div class="mesh-bg"></div>
+  <div class="particle-grid"></div>
+  <div class="glow-ring" style="width:520px;height:520px;top:50%;left:50%;"></div>
+  <div class="glow-ring" style="width:330px;height:330px;top:50%;left:50%;animation-delay:-1.5s;"></div>
+  <div class="section-content" style="max-width:880px;display:flex;flex-direction:column;align-items:center;">
+    <span class="quote-mark reveal">&ldquo;</span>
+    <p class="quote reveal reveal-delay-1">
+      A Blindados RJ tem os ativos mais difíceis de construir:<br>
+      <strong style="color:#fff;">30 anos de reputação</strong>, <strong style="color:#fff;">273K seguidores</strong> e <strong style="color:#fff;">159 veículos.</strong><br><br>
+      O que falta é a <span class="chrome-text" style="font-size:clamp(20px,2.5vw,30px);">camada invisível</span><br>
+      que transforma esses ativos em máquina.
+    </p>
+    <div class="section-divider reveal reveal-delay-2" style="margin:36px auto;"></div>
+    <img src="logo-invisia-branca.png" alt="InvisIA" class="reveal reveal-delay-3" style="width:150px;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(124,58,237,0.4));">
+    <p class="reveal reveal-delay-3" style="font-size:16px;color:var(--lilas);font-weight:300;margin-bottom:32px;">Onde o invisível ganha escala.</p>
+    <p class="reveal reveal-delay-4" style="font-size:clamp(20px,2.5vw,28px);font-weight:700;color:#fff;animation:neonPulse 2.5s infinite;">Renato, vamos começar.</p>
+  </div>
+</section>
+
+<script>
+// ====== SCROLL PROGRESS ======
+const progressBar = document.getElementById('scroll-progress');
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight * 100) : 0;
+  progressBar.style.width = pct + '%';
+}
+
+// ====== NAV ACTIVE STATE ======
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+function updateNav() {
+  const scrollY = window.scrollY + 100;
+  const sectionMap = {
+    'hero': 0, 'quem-somos': 1, 'blindados': 2, 'auditoria': 3,
+    'momento': 4, 'pilares': 5, 'solucoes': 6, 'match': 7,
+    'antes-depois': 8, 'economia': 9, 'pacotes': 10, 'garantia': 11,
+    'proximo-passo': 12, 'cta-final': 12
+  };
+  let current = '';
+  sections.forEach(s => {
+    if (scrollY >= s.offsetTop) current = s.id;
+  });
+  navLinks.forEach((link, i) => {
+    const sectionId = Object.keys(sectionMap).find(k => sectionMap[k] === i);
+    link.classList.toggle('active', sectionId === current || (current === 'cta-final' && i === 12));
+  });
+}
+
+// ====== SCROLL TO ======
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+  const mobileLinks = document.getElementById('nav-links');
+  mobileLinks.classList.remove('open');
+}
+
+// ====== MOBILE MENU ======
+function toggleMobileMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+// ====== INTERSECTION OBSERVER ======
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ====== COUNT-UP ======
+function animateCount(el, target, duration = 1800) {
+  const start = performance.now();
+  const fmt = (n) => 'R$ ' + Math.round(n).toLocaleString('pt-BR') + '/mês';
+  const step = (now) => {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = fmt(target * ease);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = fmt(target);
+  };
+  requestAnimationFrame(step);
+}
+
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.dataset.counted) {
+      e.target.dataset.counted = '1';
+      const target = parseInt(e.target.dataset.target);
+      animateCount(e.target, target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.count-up[data-target]').forEach(el => countObserver.observe(el));
+
+// ====== HOLOGRAPHIC TILT ======
+document.querySelectorAll('.holo-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const tiltX = (y - 0.5) * 8;
+    const tiltY = (x - 0.5) * -8;
+    card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ====== AMBIENT PARTICLES ======
+(function() {
+  const container = document.getElementById('ambient-particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'amb-p';
+    const size = Math.random() * 3 + 1;
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    const dur = Math.random() * 20 + 15;
+    const delay = Math.random() * -20;
+    const opacity = Math.random() * 0.2 + 0.04;
+    const colors = ['rgba(124,58,237,', 'rgba(196,181,253,', 'rgba(255,255,255,'];
+    const color = colors[Math.floor(Math.random() * colors.length)] + opacity + ')';
+    p.style.cssText = `width:${size}px;height:${size}px;left:${x}%;top:${y}%;background:${color};animation:ambFloat${i%3} ${dur}s ease-in-out ${delay}s infinite;`;
+    container.appendChild(p);
+  }
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ambFloat0 { 0%,100%{transform:translate(0,0)} 25%{transform:translate(30px,-40px)} 50%{transform:translate(-20px,-80px)} 75%{transform:translate(40px,-30px)} }
+    @keyframes ambFloat1 { 0%,100%{transform:translate(0,0)} 25%{transform:translate(-40px,30px)} 50%{transform:translate(50px,-20px)} 75%{transform:translate(-30px,50px)} }
+    @keyframes ambFloat2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(25px,-60px)} 66%{transform:translate(-35px,25px)} }
+  `;
+  document.head.appendChild(style);
+})();
+
+// ====== EVENT LISTENERS ======
+window.addEventListener('scroll', () => { updateProgress(); updateNav(); }, { passive: true });
+updateProgress();
+updateNav();
+
+// Trigger reveals already in viewport on load
+setTimeout(() => {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) el.classList.add('visible');
+  });
+}, 100);
+</script>
+</body>
+</html>
